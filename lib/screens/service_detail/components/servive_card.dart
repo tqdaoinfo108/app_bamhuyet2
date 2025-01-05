@@ -1,3 +1,4 @@
+import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../components/network_image_with_loader.dart';
@@ -5,8 +6,8 @@ import '../../../theme/app_theme.dart';
 import '../../../utils/constants.dart';
 
 class ServiceCard extends StatelessWidget {
-  const ServiceCard({super.key});
-
+  const ServiceCard(this.data, {super.key});
+  final ServiceModel data;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +25,7 @@ class ServiceCard extends StatelessWidget {
             width: MediaQuery.of(context).size.width * .25,
             height: MediaQuery.of(context).size.width * .25,
             child: NetworkImageWithLoaderAndRadiusBorder(
-              "https://cdn.pixabay.com/photo/2022/04/06/11/30/girl-7115394_1280.jpg",
+              data.imagePath,
               radius: BorderRadius.only(
                   topLeft: Radius.circular(defaultBorderRadious - 2),
                   bottomLeft: Radius.circular(defaultBorderRadious - 2)),
@@ -32,9 +33,12 @@ class ServiceCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text("Dịch vụ bấm huyệt",
-                style: AppTheme.getTextStyle(context,
-                    fontSize: 14, fontWeight: FontWeight.bold)),
+            child: ConstrainedBox(
+              constraints: BoxConstraints (maxWidth:MediaQuery.of(context).size.width * .4 ),
+              child: Text(data.serviceName,
+                  style: AppTheme.getTextStyle(context,
+                      fontSize: 14, fontWeight: FontWeight.bold)),
+            ),
           ),
           Spacer(),
           ClipOval(

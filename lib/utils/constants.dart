@@ -72,7 +72,7 @@ final passwordValidator = MultiValidator([
 
 final phonedValidator = MultiValidator([
   RequiredValidator(errorText: 'Nhập số điện thoại'),
-  RangeValidator(max: 10, min: 10, errorText: "Nhập 10 ký tự số"),
+
 ]);
 
 const pasNotMatchErrorText = "mật khẩu không khớp";

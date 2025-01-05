@@ -1,4 +1,4 @@
-import 'package:app_bamnguyet_2/model/service_model.dart';
+import 'package:app_bamnguyet_2/model/type_service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -7,7 +7,7 @@ import '../../../utils/constants.dart';
 
 class HomeCard extends StatelessWidget {
   const HomeCard(this.data, {super.key});
-  final ServiceModel data;
+  final TypeServiceModel data;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -28,8 +28,8 @@ class HomeCard extends StatelessWidget {
               child: ClipRRect(
                   borderRadius: const BorderRadius.all(
                       Radius.circular(defaultBorderRadious)),
-                  child: Image.asset(
-                    data.image,
+                  child: Image.network(
+                    data.imagePath,
                     fit: BoxFit.cover,
                   )),
             ),
@@ -53,7 +53,7 @@ class HomeCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    data.title,
+                    data.typeServiceName,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),

@@ -7,10 +7,11 @@ class SignUpForm extends StatelessWidget {
   const SignUpForm({
     super.key,
     required this.formKey,
+    required this.phoneController
   });
 
   final GlobalKey<FormState> formKey;
-
+  final TextEditingController phoneController;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -22,7 +23,8 @@ class SignUpForm extends StatelessWidget {
               // Email
             },
             validator: phonedValidator.call,
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
+            controller: phoneController,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
               hintText: "Số điện thoại",

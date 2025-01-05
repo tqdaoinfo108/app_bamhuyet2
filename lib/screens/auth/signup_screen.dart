@@ -1,6 +1,8 @@
-import 'package:flutter/gestures.dart';
+import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
+import '../../model/user_model.dart';
 import '../../route/route_constants.dart';
 import '../../utils/constants.dart';
 import 'components/sign_up_form.dart';
@@ -14,6 +16,17 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController phoneController = TextEditingController();
+   UserModel userModel = UserModel();
+  
+  Future<bool> onRegister() async {
+    var temp = await AppServices.instance.letRegister(phoneController.text);
+    if(temp != null){
+      userModel = temp.data!;
+      GetStorage().write(userUserID, userModel.userID);
+    }
+    return temp != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,44 +54,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     "Điền thông tin bên dưới để tiếp tục",
                   ),
                   const SizedBox(height: defaultPadding),
-                  SignUpForm(formKey: _formKey),
+                  SignUpForm(
+                      formKey: _formKey, phoneController: phoneController),
                   const SizedBox(height: defaultPadding),
-                  Row(
-                    children: [
-                      Checkbox(
-                        onChanged: (value) {},
-                        value: false,
-                      ),
-                      Expanded(
-                        child: Text.rich(
-                          TextSpan(
-                            text: "Tôi đồng ý với",
-                            children: [
-                              TextSpan(
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    // Navigator.pushNamed(
-                                    //     context, termsOfServicesScreenRoute);
-                                  },
-                                text: " điều khoản và dịch vụ ",
-                                style: const TextStyle(
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const TextSpan(
-                                text: "& chính sách bảo mật.",
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Checkbox(
+                  //       onChanged: (value) {},
+                  //       value: false,
+                  //     ),
+                  //     Expanded(
+                  //       child: Text.rich(
+                  //         TextSpan(
+                  //           text: "Tôi đồng ý với",
+                  //           children: [
+                  //             TextSpan(
+                  //               recognizer: TapGestureRecognizer()
+                  //                 ..onTap = () {
+                  //                   // Navigator.pushNamed(
+                  //                   //     context, termsOfServicesScreenRoute);
+                  //                 },
+                  //               text: " điều khoản và dịch vụ ",
+                  //               style: const TextStyle(
+                  //                 color: primaryColor,
+                  //                 fontWeight: FontWeight.w500,
+                  //               ),
+                  //             ),
+                  //             const TextSpan(
+                  //               text: "& chính sách bảo mật.",
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
                   const SizedBox(height: defaultPadding * 2),
                   ElevatedButton(
-                    onPressed: () {
-                      // Navigator.pushNamed(context, entryPointScreenRoute);
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        var result = await onRegister();
+                        if (result) {
+                          Navigator.pushNamed(context, verificationMethodScreenRoute, arguments: userModel);
+                        } else {}
+                      }
                     },
                     child: const Text("Tiếp tục"),
                   ),

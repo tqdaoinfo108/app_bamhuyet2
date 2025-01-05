@@ -1,15 +1,17 @@
 import 'dart:convert';
+import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/base_response.dart';
+import '../model/type_service_model.dart';
 import '../model/user_model.dart';
 import 'http_auth_basic.dart';
 
 class AppServices {
   late http.Client _api;
-  static const String _baseURL = "http://apichatwiththeo.gvbsoft.vn/";
+  static const String _baseURL = "http://apihoanglambamhuyet.gvbsoft.com/";
   AppServices._privateConstructor() {
     _api =
         BasicAuthClient("UserAPIOtoTrackingStore", "PassAPIOtoTrackingStore");
@@ -52,21 +54,11 @@ class AppServices {
     return null;
   }
 
-  Future<ResponseBase<UserModel>?> letRegister(String email, String passWord,
-      String phone, String fullName, int positionID) async {
+  Future<ResponseBase<UserModel>?> letRegister(
+      String phone) async {
     try {
       var data = json.encode({
-        "ImagePath": "",
-        "PositionID": positionID,
-        "UserName": email,
-        "PassWord": passWord,
-        "FullName": fullName,
-        "Email": email,
-        "Address": "",
-        "Phone": phone,
-        "StatusID": 1,
-        "NumberLogin": 0,
-        "LastLogin": DateTime.now().toString()
+        "UserName": phone
       });
       var rawResponse = await _api
           .post(Uri.parse("${_baseURL}api/user/register"), body: data);
@@ -87,6 +79,48 @@ class AppServices {
           body: jsonEncode(data));
       if (rawResponse.statusCode == 200 &&
           json.decode(rawResponse.body)["message"] == null) {
+        return UserModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<List<TypeServiceModel>>?> getTypeServices() async {
+    try {
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/typeservice/get-list?page=1&limit=100"));
+      if (rawResponse.statusCode == 200) {
+        return TypeServiceModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<List<ServiceModel>>?> getServices(int typeServiceID) async {
+    try {
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/service/get-list-services?typeServiceID=$typeServiceID&page=1&limit=100"));
+      if (rawResponse.statusCode == 200) {
+        return ServiceModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<UserModel>?> postVerifyOTP(String otp) async {
+    try {
+      var data = json.encode({
+        "OTP": otp
+      });
+      var rawResponse = await _api.post(Uri.parse(
+          "${_baseURL}api/user/verify-otp"), body: data);
+      if (rawResponse.statusCode == 200) {
         return UserModel.getFromJson(json.decode(rawResponse.body));
       }
     } catch (e) {

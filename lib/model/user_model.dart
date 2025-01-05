@@ -1,70 +1,70 @@
-import '../services/app_services.dart';
 import 'base_response.dart';
 
 class UserModel {
-  int? userID;
-  String? imagesPaths;
-  int? typeUserID;
-  int? positionID;
-  String? userName;
-  String? fullName;
-  String? email;
+  int userID = 0;
+  String? codeInvite;
+  String? codePersonInvite;
+  String? imagePath;
+  // int? branchID;
+  // int? typeUserID;
+  String userName = "";
+  String fullName = "";
+  bool? genderID;
   String? address;
-  String? phone;
-  int? statusID;
-  int? numberLogin;
-  String? lastLogin;
-
-  UserModel(
-      {this.userID,
-      this.imagesPaths,
-      this.typeUserID,
-      this.positionID,
-      this.userName,
-      this.fullName,
-      this.email,
-      this.address,
-      this.phone,
-      this.statusID,
-      this.numberLogin,
-      this.lastLogin});
-
-  Map<String, dynamic> toJsonUpdate(String _fullName,
-      String _address, String _phone, String _email, int _positionID) {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["UserID"] = userID;
-    _data["ImagePath"] = imagesPaths;
-    _data["TypeUserID"] = typeUserID;
-    _data["PositionID"] = _positionID;
-    _data["UserName"] = userName;
-    _data["FullName"] = _fullName;
-    _data["Email"] = _email;
-    _data["Address"] = _address;
-    _data["Phone"] = _phone;
-    _data["StatusID"] = 1;
-    _data["NumberLogin"] = numberLogin;
-    _data["LastLogin"] = lastLogin;
-
-    final Map<String, dynamic> _data2 = <String, dynamic>{};
-    _data2["auth"] = AppServices.getAuth;
-    _data2["data"] = _data;
-
-    return _data2;
-  }
-
+  // int? ingUser;
+  // int? latUser;
+  // bool? isActive;
+  bool? confirmPhone;
+  bool? confirmPartner;
+  // String? lastLogin;
+  String? oTP = "1234";
+  String? timeOTP;
+  // bool? isDeleted;
+  UserModel();
   UserModel.fromJson(Map<String, dynamic> json) {
     userID = json['UserID'];
-    imagesPaths = json['ImagesPaths'];
-    typeUserID = json['TypeUserID'];
-    positionID = json['PositionID'];
+    codeInvite = json['CodeInvite'];
+    codePersonInvite = json['CodePersonInvite'];
+    imagePath = json['ImagePath'];
+    // branchID = json['BranchID'];
+    // typeUserID = json['TypeUserID'];
     userName = json['UserName'];
     fullName = json['FullName'];
-    email = json['Email'];
+    genderID = json['GenderID'];
     address = json['Address'];
-    phone = json['Phone'];
-    statusID = json['StatusID'];
-    numberLogin = json['NumberLogin'];
-    lastLogin = json['LastLogin'];
+    // ingUser = json['IngUser'];
+    // latUser = json['LatUser'];
+    // isActive = json['IsActive'];
+    confirmPhone = json['ConfirmPhone'];
+    confirmPartner = json['ConfirmPartner'];
+    // lastLogin = json['LastLogin'];
+    oTP = json['OTP'];
+    timeOTP = json['TimeOTP'];
+    // isDeleted = json['IsDeleted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['UserID'] = this.userID;
+    // data['CodeInvite'] = this.codeInvite;
+    data['CodePersonInvite'] = this.codePersonInvite;
+    data['ImagePath'] = this.imagePath;
+    // data['BranchID'] = this.branchID;
+    // data['TypeUserID'] = this.typeUserID;
+    data['UserName'] = this.userName;
+    data['FullName'] = this.fullName;
+    data['GenderID'] = this.genderID;
+    data['Address'] = this.address;
+    // data['IngUser'] = this.ingUser;
+    // data['LatUser'] = this.latUser;
+    // data['IsActive'] = this.isActive;
+    data['ConfirmPhone'] = this.confirmPhone;
+    data['ConfirmPartner'] = this.confirmPartner;
+    // data['LastLogin'] = this.lastLogin;
+    data['OTP'] = this.oTP;
+    data['TimeOTP'] = this.timeOTP;
+    // data['IsDeleted'] = this.isDeleted;
+    return data;
   }
 
   static ResponseBase<UserModel> getFromJson(Map<String, dynamic> json) {

@@ -1,5 +1,6 @@
+import 'package:app_bamnguyet_2/model/user_model.dart';
 import 'package:app_bamnguyet_2/screens/auth/signup_screen.dart';
-import 'package:app_bamnguyet_2/screens/home/home_screen.dart';
+import 'package:app_bamnguyet_2/screens/auth/verification_code_screen.dart';
 import 'package:app_bamnguyet_2/screens/service_detail/service_detail_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case serviceDetailScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const ServiceDetailScreen(),
+      );
+    case verificationMethodScreenRoute:
+      final args = settings.arguments as UserModel;
+      return MaterialPageRoute(
+        builder: (context) => VerificationCodeScreen(args),
       );
     default:
       return MaterialPageRoute(

@@ -1,4 +1,5 @@
-import 'package:app_bamnguyet_2/components/network_image_with_loader.dart';
+import 'package:app_bamnguyet_2/model/service_model.dart';
+import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/rating.dart';
@@ -8,8 +9,28 @@ import 'components/employee_card.dart';
 import 'components/rating_card.dart';
 import 'components/servive_card.dart';
 
-class ServiceDetailScreen extends StatelessWidget {
+class ServiceDetailScreen extends StatefulWidget {
   const ServiceDetailScreen({super.key});
+
+  @override
+  State<ServiceDetailScreen> createState() => _ServiceDetailScreenState();
+}
+
+class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
+  List<ServiceModel> listServiceModel = [];
+
+  @override
+  void initState() {
+    super.initState();
+    initData();
+  }
+
+  initData() async {
+    var temp = await AppServices.instance.getServices(1);
+    setState(() {
+      listServiceModel = temp?.data ?? [];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,15 +103,8 @@ class ServiceDetailScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10),
-              ServiceCard(),
-              ServiceCard(),
-              ServiceCard(),
-              ServiceCard(),
-              ServiceCard(),
-              ServiceCard(),
-              ServiceCard(),
-              ServiceCard(),
-              ServiceCard(),
+              for (var item in listServiceModel) ServiceCard(item),
+              SizedBox(height: 40)
             ],
           ),
         ),

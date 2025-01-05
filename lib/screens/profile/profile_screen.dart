@@ -1,3 +1,4 @@
+import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -72,7 +73,9 @@ class ProfileScreen extends StatelessWidget {
 
           // Log Out
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.popAndPushNamed(context, logInScreenRoute);
+            },
             minLeadingWidth: 24,
             leading: SvgPicture.asset(
               "assets/icons/Logout.svg",

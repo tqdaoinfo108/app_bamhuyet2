@@ -1,4 +1,6 @@
+import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../route/route_constants.dart';
 import '../../utils/constants.dart';
@@ -13,6 +15,21 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  onLogin() async {
+    var temp = await AppServices.instance
+        .letLogin(phoneController.text, passwordController.text);
+    if (temp != null) {
+      GetStorage box = new GetStorage();
+      box.write(userUserName, temp.data!.userName);
+      box.write(userImagePath, temp.data!.imagePath);
+      box.write(userUserID, temp.data!.userID);
+      return true;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +57,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Đăng nhập với thông tin bạn đã đăng ký",
                   ),
                   const SizedBox(height: defaultPadding),
-                  LogInForm(formKey: _formKey),
+                  LogInForm(
+                    formKey: _formKey,
+                    phoneController: phoneController,
+                    passwordController: passwordController,
+                  ),
                   Align(
                     child: TextButton(
                       child: const Text("Quên mật khẩu"),
@@ -55,17 +76,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         size.height > 700 ? size.height * 0.1 : defaultPadding,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          homeScreenRoute,
-                          ModalRoute.withName(logInScreenRoute));
-                      // if (_formKey.currentState!.validate()) {
-                      //   Navigator.pushNamedAndRemoveUntil(
-                      //       context,
-                      //       homeScreenRoute,
-                      //       ModalRoute.withName(logInScreenRoute));
-                      // }
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        var temp = await onLogin();
+                        if (temp) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              homeScreenRoute,
+                              ModalRoute.withName(logInScreenRoute));
+                        }
+                      }
                     },
                     child: const Text("Đăng nhập"),
                   ),
