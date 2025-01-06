@@ -9,7 +9,6 @@ class LogInForm extends StatelessWidget {
     required this.formKey,
     required this.phoneController,
     required this.passwordController,
-
   });
 
   final GlobalKey<FormState> formKey;
@@ -31,7 +30,7 @@ class LogInForm extends StatelessWidget {
             controller: phoneController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              hintText: "Thư điện tử",
+              hintText: "Số điện thoại",
               prefixIcon: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: defaultPadding * 0.75),

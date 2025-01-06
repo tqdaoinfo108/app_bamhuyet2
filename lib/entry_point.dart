@@ -2,6 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'components/custom_modal_bottom_sheet.dart';
+import 'components/entry_point_popup.dart';
 import 'screens/find_job/find_job_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/profile/profile_screen.dart';
@@ -47,39 +49,45 @@ class _EntryPointState extends State<EntryPoint> {
         centerTitle: false,
         title: _currentIndex == 2
             ? null
-            : SizedBox(
-                height: kToolbarHeight,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Chào Nguyễn Tuấn Vũ",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : blackColor,
+            : InkWell(
+                onTap: () {
+                  customModalBottomSheet(context,
+                      child: EntryPointPopupWidget());
+                },
+                child: SizedBox(
+                  height: kToolbarHeight,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Chào Nguyễn Tuấn Vũ",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : blackColor,
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.location_on_sharp, size: 18),
-                        const SizedBox(width: 4),
-                        Text(
-                          "Bình Tân, Hồ Chí Minh",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : blackColor,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
+                      Row(
+                        children: [
+                          const Icon(Icons.groups_3_outlined, size: 18),
+                          const SizedBox(width: 4),
+                          Text(
+                            "Trở thành cộng tác viên",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white
+                                  : blackColor,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
         // title: SvgPicture.asset(

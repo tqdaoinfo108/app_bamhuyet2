@@ -6,3 +6,5 @@ const String signUpVerificationScreenRoute = "signup_verification";
 const String passwordRecoveryScreenRoute = "password_recovery";
 const String verificationMethodScreenRoute = "verification_method";
 const String serviceDetailScreenRoute = "serviceDetail";
+const String requestOrganizationScreen = "request_organization_screen";
+const String requestPartnerScreen = "request_partner_screen";
