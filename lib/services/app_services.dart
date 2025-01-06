@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:app_bamnguyet_2/model/city_model.dart';
+import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:get_storage/get_storage.dart';
@@ -122,6 +124,32 @@ class AppServices {
           "${_baseURL}api/user/verify-otp"), body: data);
       if (rawResponse.statusCode == 200) {
         return UserModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<List<CityModel>>?> getListCity() async {
+    try {
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/city/get-list-all"));
+      if (rawResponse.statusCode == 200) {
+        return CityModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<List<ProvinceModel>>?> getListProvice(int cityID) async {
+    try {
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/provice/get-list?cityID=$cityID"));
+      if (rawResponse.statusCode == 200) {
+        return ProvinceModel.getFromJson(json.decode(rawResponse.body));
       }
     } catch (e) {
       return null;

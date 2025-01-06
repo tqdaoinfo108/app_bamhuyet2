@@ -8,8 +8,6 @@ const productDemoImg1 =
 
 // End For demo
 
-const grandisExtendedFont = "Grandis Extended";
-
 // On color 80, 60.... those means opacity
 
 const Color primaryColor = Color(0xFFEA2027);
