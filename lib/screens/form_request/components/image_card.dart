@@ -9,11 +9,13 @@ class ImageCard extends StatefulWidget {
       required this.onImage2,
       required this.onImage3,
       required this.onImage4,
+      this.isPartner = true,
       super.key});
   final Function() onImage1;
   final Function() onImage2;
   final Function() onImage3;
   final Function() onImage4;
+  final bool isPartner;
 
   @override
   State<ImageCard> createState() => _ImageCardState();
@@ -22,6 +24,9 @@ class ImageCard extends StatefulWidget {
 class _ImageCardState extends State<ImageCard> {
   @override
   Widget build(BuildContext context) {
+    var note = widget.isPartner
+        ? "<html> <body> Lưu ý <ul> <li>Không đăng ảnh ảo, hở hang. Ảnh cần rõ mặt, rõ nét, nghiêm túc</li> <li>Nếu bạn là chủ Spa, phòng khám, thẩm mỹ viện, tiệm hớt tóc, hãy liên hệ chúng tôi để hỗ trợ chuyên sâu</li> </ul> </body> </html>"
+        : "<html> <body> Lưu ý <ul> <li>Hãy thêm cơ sở vật chất, không gian của bạn</li></ul> </body> </html>";
     return Column(
       children: [
         SingleChildScrollView(
@@ -69,7 +74,7 @@ class _ImageCardState extends State<ImageCard> {
         ),
         SizedBox(height: 10),
         HtmlWidget(
-          "<html> <body> Lưu ý <ul> <li>Không đăng ảnh ảo, hở hang. Ảnh cần rõ mặt, rõ nét, nghiêm túc</li> <li>Nếu bạn là chủ Spa, phòng khám, thẩm mỹ viện, tiệm hớt tóc, hãy liên hệ chúng tôi để hỗ trợ chuyên sâu</li> </ul> </body> </html>",
+          note,
           textStyle: TextStyle(fontSize: 12, color: Colors.grey),
         ),
         SizedBox(height: 5),

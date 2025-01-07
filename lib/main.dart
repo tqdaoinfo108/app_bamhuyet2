@@ -1,12 +1,16 @@
+import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import './route/router.dart' as router;
 
 import 'route/route_constants.dart';
 import 'theme/app_theme.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -18,7 +22,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme(context),
       themeMode: ThemeMode.light,
       onGenerateRoute: router.generateRoute,
-      initialRoute: logInScreenRoute,
+      initialRoute: GetStorage().read(userUserID) != null
+          ? homeScreenRoute
+          : logInScreenRoute,
     );
   }
 }

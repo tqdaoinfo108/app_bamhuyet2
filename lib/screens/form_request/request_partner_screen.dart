@@ -1,3 +1,5 @@
+import 'package:app_bamnguyet_2/model/city_model.dart';
+import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/app_dropdownlist.dart';
@@ -13,7 +15,16 @@ class RequestPartnerScreen extends StatefulWidget {
 }
 
 class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
+  final GlobalKey<ProvinceDropdownlistState> provinceDropdownKey =
+      GlobalKey<ProvinceDropdownlistState>();
+
   final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController yearBirthController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  bool gender = true;
+  CityModel? city;
+  ProvinceModel? province;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +34,7 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start  ,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ImageCard(
                 onImage1: () {},
@@ -32,7 +43,7 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                 onImage4: () {},
               ),
               SizedBox(height: 10),
-              AppTextField(fullNameController, "Họ và tên"),
+              AppTextField(fullNameController, "Nguyen Van A", "Họ và tên"),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -43,36 +54,39 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text.rich(
-                          TextSpan(
-                            text: "Giới tính",
-                            children: <InlineSpan>[
-                              TextSpan(
-                                text: ' *',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            ],
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                        TextFieldLabel("Giới tính"),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Radio(
                                 value: true,
-                                groupValue: true,
+                                groupValue: gender,
                                 activeColor: primaryColor,
-                                onChanged: (e) {}),
-                            Text("Nam", style: TextStyle(fontSize: 14, color: Colors.grey),),
+                                onChanged: (e) {
+                                  setState(() {
+                                    gender = e!;
+                                  });
+                                }),
+                            Text(
+                              "Nam",
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.grey),
+                            ),
                             Radio(
                                 value: false,
-                                groupValue: true,
+                                groupValue: gender,
                                 activeColor: primaryColor,
-                                onChanged: (e) {}),
-                            Text("Nữ",style: TextStyle(fontSize: 14, color: Colors.grey),),
+                                onChanged: (e) {
+                                  setState(() {
+                                    gender = e!;
+                                  });
+                                }),
+                            Text(
+                              "Nữ",
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.grey),
+                            ),
                           ],
                         ),
                       ],
@@ -80,17 +94,33 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                   ),
                   Flexible(
                       flex: 1,
-                      child: AppTextField(fullNameController, "Năm sinh")),
+                      child: AppTextField(
+                          yearBirthController, "1970", "Năm sinh",
+                          textInputType: TextInputType.number)),
                 ],
               ),
               SizedBox(height: 10),
               TextFieldLabel("Thành phố làm việc"),
-              CityDropdownlist((e) {}),
+              CityDropdownlist((e) {
+                setState(() {
+                  city = e;
+                  provinceDropdownKey.currentState?.oninit(e?.cityId ?? 0);
+                });
+              }),
               SizedBox(height: 10),
               TextFieldLabel("Quận/ Huyện làm việc"),
-              ProvinceDropdownlist((e) {}, 0),
+              ProvinceDropdownlist((e) {}, city?.cityId ?? 0,
+                  key: provinceDropdownKey),
               SizedBox(height: 10),
-              AppTextField(fullNameController, "Mô tả cá nhân", maxLines: 3),
+              AppTextField(
+                  descriptionController, "Mô tả cá nhân", "Mô tả cá nhân",
+                  maxLines: 3),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () async {},
+                child: const Text("Tiếp tục"),
+              ),
+              SizedBox(height: 80),
             ],
           ),
         ),

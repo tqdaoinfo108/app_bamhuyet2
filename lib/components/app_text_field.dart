@@ -21,11 +21,14 @@ class TextFieldLabel extends StatelessWidget {
 }
 
 class AppTextField extends StatelessWidget {
-  const AppTextField(this.controller, this.hintText,
-      {super.key, this.maxLines = 1});
+  const AppTextField(this.controller, this.hintText, this.labelText,
+      {super.key, this.maxLines = 1, this.textInputType = TextInputType.text});
   final TextEditingController controller;
+  final String labelText;
   final String hintText;
   final int maxLines;
+  final TextInputType? textInputType;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,7 +36,7 @@ class AppTextField extends StatelessWidget {
       children: [
         Text.rich(
           TextSpan(
-            text: hintText,
+            text: labelText,
             children: <InlineSpan>[
               TextSpan(
                 text: ' *',
@@ -53,9 +56,9 @@ class AppTextField extends StatelessWidget {
           textInputAction: TextInputAction.done,
           controller: controller,
           maxLines: maxLines,
-          keyboardType: TextInputType.text,
+          keyboardType: textInputType,
           decoration: InputDecoration(
-            hintText: "...",
+            hintText: hintText,
             labelStyle: TextStyle(),
             hintStyle: TextStyle(color: Colors.grey),
             // prefixIcon: Padding(

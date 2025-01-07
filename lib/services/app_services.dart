@@ -156,4 +156,17 @@ class AppServices {
     }
     return null;
   }
+
+  Future<ResponseBase<dynamic>?> updateParther() async{
+    try {
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/provice/get-list?cityID=$cityID"));
+      if (rawResponse.statusCode == 200) {
+        return ProvinceModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
 }
