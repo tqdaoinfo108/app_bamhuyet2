@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:hl_image_picker/hl_image_picker.dart';
+import 'package:toastification/toastification.dart';
 
+import '../../../components/app_snackbar.dart';
+import '../../../components/network_image_with_loader.dart';
+import '../../../services/app_services.dart';
 import '../../../utils/constants.dart';
 
 class ImageCard extends StatefulWidget {
@@ -11,10 +16,10 @@ class ImageCard extends StatefulWidget {
       required this.onImage4,
       this.isPartner = true,
       super.key});
-  final Function() onImage1;
-  final Function() onImage2;
-  final Function() onImage3;
-  final Function() onImage4;
+  final Function(String) onImage1;
+  final Function(String) onImage2;
+  final Function(String) onImage3;
+  final Function(String) onImage4;
   final bool isPartner;
 
   @override
@@ -22,6 +27,20 @@ class ImageCard extends StatefulWidget {
 }
 
 class _ImageCardState extends State<ImageCard> {
+  final _picker = HLImagePicker();
+
+  Future<String?> onPickFile() async {
+    final images = await _picker.openPicker();
+    var response = await AppServices.instance.uploadFile(images.first.path);
+    if (response != null) {
+      SnackbarHelper.showSnackBar("Thành công", ToastificationType.success);
+      return response.data;
+    } else {
+      SnackbarHelper.showSnackBar("Huỷ chọn file", ToastificationType.warning);
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var note = widget.isPartner
@@ -33,42 +52,13 @@ class _ImageCardState extends State<ImageCard> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(defaultBorderRadious)),
-                  color: Colors.grey.shade200,
-                ),
-                height: 120,
-                width: 120,
-                child: Stack(
-                  alignment: Alignment.bottomLeft,
-                  children: [
-                    Center(
-                      child: Icon(Icons.add, size: 36, color: Colors.grey),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 5, left: 5),
-                      padding: const EdgeInsets.symmetric(horizontal: 7),
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                            Radius.circular(defaultBorderRadious)),
-                        color: Colors.grey,
-                      ),
-                      child: Text(
-                        "Ảnh đại diện",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              PickerCardItem(func: widget.onImage1, isMain: true),
               SizedBox(width: 10),
-              PickerCardItem(func: widget.onImage2),
+              PickerCardItem(func: widget.onImage2, isMain: false),
               SizedBox(width: 10),
-              PickerCardItem(func: widget.onImage3),
+              PickerCardItem(func: widget.onImage3, isMain: false),
               SizedBox(width: 10),
-              PickerCardItem(func: widget.onImage4),
+              PickerCardItem(func: widget.onImage4, isMain: false),
             ],
           ),
         ),
@@ -97,29 +87,96 @@ class _ImageCardState extends State<ImageCard> {
   }
 }
 
-class PickerCardItem extends StatelessWidget {
-  const PickerCardItem({
-    super.key,
-    required this.func,
-  });
+class PickerCardItem extends StatefulWidget {
+  const PickerCardItem({super.key, required this.func, required this.isMain});
 
-  final Function() func;
+  final Function(String) func;
+  final bool isMain;
+  @override
+  State<PickerCardItem> createState() => _PickerCardItemState();
+}
+
+class _PickerCardItemState extends State<PickerCardItem> {
+  final _picker = HLImagePicker();
+  String? urlImage = null;
+  bool isLoading = false;
+
+  Future<String?> onPickFile() async {
+    final images = await _picker.openPicker();
+    var response = await AppServices.instance.uploadFile(images.first.path);
+    if (response != null) {
+      SnackbarHelper.showSnackBar("Thành công", ToastificationType.success);
+      return response.data;
+    } else {
+      SnackbarHelper.showSnackBar("Huỷ chọn file", ToastificationType.warning);
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: func,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius:
-              const BorderRadius.all(Radius.circular(defaultBorderRadious)),
-          color: Colors.grey.shade200,
-        ),
-        height: 120,
-        width: 120,
-        child: Center(
-          child: Icon(Icons.add, size: 36, color: Colors.grey),
-        ),
+      onTap: () async {
+        try {
+          setState(() {
+            isLoading = false;
+          });
+          var image = await onPickFile();
+          if (image != null) {
+            setState(() {
+              urlImage = image;
+            });
+            widget.func(image);
+          }
+        } finally {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      },
+      child: Stack(
+        alignment: Alignment.bottomLeft,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius:
+                  const BorderRadius.all(Radius.circular(defaultBorderRadious)),
+              color: Colors.grey.shade200,
+            ),
+            height: 120,
+            width: 120,
+            child: urlImage != null
+                ? ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                        Radius.circular(defaultBorderRadious)),
+                    child: NetworkImageWithLoader(
+                      urlImage!,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Center(
+                        child: Icon(Icons.add, size: 36, color: Colors.grey),
+                      ),
+          ),
+          if (widget.isMain)
+            Container(
+              margin: const EdgeInsets.only(bottom: 5, left: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 7),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(defaultBorderRadious)),
+                color: Colors.grey,
+              ),
+              child: Text(
+                "Ảnh đại diện",
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ),
+        ],
       ),
     );
   }

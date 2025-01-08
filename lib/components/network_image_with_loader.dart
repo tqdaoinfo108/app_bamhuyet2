@@ -1,6 +1,7 @@
 import 'package:app_bamnguyet_2/components/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../utils/constants.dart';
 
@@ -32,7 +33,13 @@ class NetworkImageWithLoader extends StatelessWidget {
             ),
           ),
         ),
-        placeholder: (context, url) => const Skeleton(),
+        placeholder: (context, url) => Center(
+          child: SizedBox(
+              width: 30,
+              height: 30,
+              child: LoadingAnimationWidget.staggeredDotsWave(
+                  color: primaryColor, size: 20)),
+        ),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );

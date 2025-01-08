@@ -22,18 +22,20 @@ class TextFieldLabel extends StatelessWidget {
 
 class AppTextField extends StatelessWidget {
   const AppTextField(this.controller, this.hintText, this.labelText,
-      {super.key, this.maxLines = 1, this.textInputType = TextInputType.text});
+      {super.key, this.maxLines = 1, this.textInputType = TextInputType.text, this.isShowTitle = true});
   final TextEditingController controller;
   final String labelText;
   final String hintText;
   final int maxLines;
   final TextInputType? textInputType;
+  final bool? isShowTitle;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if(isShowTitle!)
         Text.rich(
           TextSpan(
             text: labelText,

@@ -1,8 +1,12 @@
 import 'package:app_bamnguyet_2/model/city_model.dart';
 import 'package:app_bamnguyet_2/model/province_model.dart';
+import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../components/app_dropdownlist.dart';
+import '../../components/app_snackbar.dart';
 import '../../components/app_text_field.dart';
 import '../../utils/constants.dart';
 import 'components/image_card.dart';
@@ -18,6 +22,9 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
   final GlobalKey<ProvinceDropdownlistState> provinceDropdownKey =
       GlobalKey<ProvinceDropdownlistState>();
 
+  final GlobalKey<_RequestPartnerScreenState> myKey =
+      GlobalKey<_RequestPartnerScreenState>();
+
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController yearBirthController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -25,6 +32,10 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
   bool gender = true;
   CityModel? city;
   ProvinceModel? province;
+  String? imageMain;
+  String? image2;
+  String? image3;
+  String? image4;
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +48,18 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ImageCard(
-                onImage1: () {},
-                onImage2: () {},
-                onImage3: () {},
-                onImage4: () {},
+                onImage1: (image) {
+                  imageMain = image;
+                },
+                onImage2: (image) {
+                  image2 = image;
+                },
+                onImage3: (image) {
+                  image3 = image;
+                },
+                onImage4: (image) {
+                  image4 = image;
+                },
               ),
               SizedBox(height: 10),
               AppTextField(fullNameController, "Nguyen Van A", "Họ và tên"),
@@ -109,15 +128,75 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
               }),
               SizedBox(height: 10),
               TextFieldLabel("Quận/ Huyện làm việc"),
-              ProvinceDropdownlist((e) {}, city?.cityId ?? 0,
-                  key: provinceDropdownKey),
+              ProvinceDropdownlist((e) {
+                province = e;
+              }, city?.cityId ?? 0, key: provinceDropdownKey),
               SizedBox(height: 10),
               AppTextField(
                   descriptionController, "Mô tả cá nhân", "Mô tả cá nhân",
                   maxLines: 3),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {},
+                onPressed: () async {
+                  if (fullNameController.text.isEmpty) {
+                    SnackbarHelper.showSnackBar(
+                        "Chưa nhập họ và tên", ToastificationType.error);
+                    return;
+                  }
+
+                  if (yearBirthController.text.isEmpty) {
+                    SnackbarHelper.showSnackBar(
+                        "Chưa nhập năm sinh", ToastificationType.error);
+                    return;
+                  }
+
+                  if (descriptionController.text.isEmpty) {
+                    SnackbarHelper.showSnackBar(
+                        "Chưa nhập mô tả cá nhân", ToastificationType.error);
+                    return;
+                  }
+
+                  if (province == null) {
+                    SnackbarHelper.showSnackBar(
+                        "Chưa chọn vùng hoạt động", ToastificationType.error);
+                    return;
+                  }
+
+                  if (imageMain == null &&
+                      [image2, image3, image4]
+                              .where((image) => image == null || image.isEmpty)
+                              .length <
+                          2) {
+                    SnackbarHelper.showSnackBar(
+                        "Chọn ít nhất 1 ảnh đại diện và 2 ảnh khác",
+                        ToastificationType.error);
+                    return;
+                  }
+
+                  var response = await AppServices.instance.updateParther(
+                      cityID: city!.cityId!,
+                      description: descriptionController.text,
+                      fullName: fullNameController.text,
+                      genderID: gender,
+                      image2: image2 ?? "",
+                      image3: image3 ?? "",
+                      image4: image4 ?? "",
+                      imageRoot: imageMain!,
+                      yearBirthday: int.tryParse(yearBirthController.text) ?? 0,
+                      provinceID: province!.proviceId!);
+
+                  if (response != null) {
+                    SnackbarHelper.showSnackBar(
+                        "Thành công", ToastificationType.success);
+                    GetStorage().write(userImagePath, imageMain);
+                    GetStorage().write(userTypeUser, response.data!.typeUserID);
+
+                    Navigator.pop(context);
+                  } else {
+                    SnackbarHelper.showSnackBar(
+                        "Thất bại, vui lòng liên hệ ban quản trị.", ToastificationType.warning);
+                  }
+                },
                 child: const Text("Tiếp tục"),
               ),
               SizedBox(height: 80),

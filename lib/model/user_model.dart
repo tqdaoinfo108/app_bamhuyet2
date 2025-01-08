@@ -6,7 +6,7 @@ class UserModel {
   String? codePersonInvite;
   String? imagePath;
   // int? branchID;
-  // int? typeUserID;
+  int typeUserID = 0;
   String userName = "";
   String fullName = "";
   bool? genderID;
@@ -27,7 +27,7 @@ class UserModel {
     codePersonInvite = json['CodePersonInvite'];
     imagePath = json['ImagePath'];
     // branchID = json['BranchID'];
-    // typeUserID = json['TypeUserID'];
+    typeUserID = json['TypeUserID'];
     userName = json['UserName'];
     fullName = json['FullName'];
     genderID = json['GenderID'];
@@ -50,7 +50,7 @@ class UserModel {
     data['CodePersonInvite'] = this.codePersonInvite;
     data['ImagePath'] = this.imagePath;
     // data['BranchID'] = this.branchID;
-    // data['TypeUserID'] = this.typeUserID;
+    data['TypeUserID'] = this.typeUserID;
     data['UserName'] = this.userName;
     data['FullName'] = this.fullName;
     data['GenderID'] = this.genderID;

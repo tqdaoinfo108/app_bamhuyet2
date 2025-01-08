@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
+import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'components/custom_modal_bottom_sheet.dart';
 import 'components/entry_point_popup.dart';
@@ -23,6 +25,37 @@ class _EntryPointState extends State<EntryPoint> {
     ProfileScreen(),
   ];
   int _currentIndex = 0;
+
+  String fullName = "";
+  String phone = "";
+  String type = "Trở thành cộng tác viên";
+  int typeID = 4;
+  @override
+  void initState() {
+    initProfile();
+    super.initState();
+  }
+
+  initProfile() async {
+    var temp = await AppServices.instance.getProfile();
+    if (temp != null) {
+      GetStorage box = new GetStorage();
+      box.write(userUserName, temp.data!.userName);
+      box.write(userFullName, temp.data!.fullName);
+      box.write(userImagePath, temp.data!.imagePath);
+      box.write(userUserID, temp.data!.userID);
+      box.write(userTypeUser, temp.data!.typeUserID);
+
+      setState(() {
+        fullName = temp.data!.fullName;
+        phone = temp.data!.userName;
+        if(temp.data!.typeUserID != 4){
+          type = temp.data!.typeUserID  == 2 ? "Cộng tác viên" : "Tổ chức";
+        }
+        typeID = temp.data!.typeUserID;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +83,8 @@ class _EntryPointState extends State<EntryPoint> {
         title: _currentIndex == 2
             ? null
             : InkWell(
-                onTap: () {
+              
+                onTap: typeID != 4 ? null : () {
                   customModalBottomSheet(context,
                       child: EntryPointPopupWidget());
                 },
@@ -61,7 +95,7 @@ class _EntryPointState extends State<EntryPoint> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Chào Nguyễn Tuấn Vũ",
+                        "Chào " + (fullName.isEmpty ? phone : fullName),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -75,7 +109,7 @@ class _EntryPointState extends State<EntryPoint> {
                           const Icon(Icons.groups_3_outlined, size: 18),
                           const SizedBox(width: 4),
                           Text(
-                            "Trở thành cộng tác viên",
+                            type,
                             style: TextStyle(
                               fontSize: 12,
                               color: Theme.of(context).brightness ==

@@ -29,6 +29,7 @@ class CityDropdownlistState extends State<CityDropdownlist> {
       setState(() {
         list = temp.data ?? [];
         valueSelected = list.first;
+        widget.onSelected(valueSelected);
       });
     }
   }
@@ -76,6 +77,7 @@ class ProvinceDropdownlistState extends State<ProvinceDropdownlist> {
       setState(() {
         list = temp.data ?? [];
         valueSelected = list.isEmpty ? null : list.first;
+        widget.onSelected(valueSelected);
       });
     }
   }

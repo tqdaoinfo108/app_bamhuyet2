@@ -1,6 +1,7 @@
 import 'package:app_bamnguyet_2/model/user_model.dart';
 import 'package:app_bamnguyet_2/screens/auth/signup_screen.dart';
 import 'package:app_bamnguyet_2/screens/auth/verification_code_screen.dart';
+import 'package:app_bamnguyet_2/screens/form_request/add_service_screen.dart';
 import 'package:app_bamnguyet_2/screens/form_request/request_organization_screen.dart';
 import 'package:app_bamnguyet_2/screens/form_request/request_partner_screen.dart';
 import 'package:app_bamnguyet_2/screens/service_detail/service_detail_screen.dart';
@@ -40,6 +41,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case requestPartnerScreen:
       return MaterialPageRoute(
         builder: (context) => RequestPartnerScreen(),
+      );
+    case addServiceScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => AddServiceScreen(),
       );
     default:
       return MaterialPageRoute(

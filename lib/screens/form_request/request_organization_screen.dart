@@ -3,11 +3,16 @@ import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../components/app_dropdownlist.dart';
+import '../../components/app_snackbar.dart';
 import '../../components/app_text_field.dart';
+import '../../services/app_services.dart';
 import '../../utils/constants.dart';
 import 'components/image_card.dart';
+import 'components/time_picker.dart';
 
 class RequestOrganizationScreen extends StatefulWidget {
   const RequestOrganizationScreen({super.key});
@@ -21,17 +26,33 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
   final GlobalKey<ProvinceDropdownlistState> provinceDropdownKey =
       GlobalKey<ProvinceDropdownlistState>();
 
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-  final TextEditingController yearBirthController = TextEditingController();
+  final TextEditingController fullNameController =
+      TextEditingController(text: "");
+  final TextEditingController addressController =
+      TextEditingController(text: "");
 
-  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController descriptionController =
+      TextEditingController(text: "");
+  final TextEditingController fbController = TextEditingController(text: "");
+  final TextEditingController tiktokController =
+      TextEditingController(text: "");
+  final TextEditingController websiteController =
+      TextEditingController(text: "");
+  final TextEditingController youtubeController =
+      TextEditingController(text: "");
+  final TextEditingController instagramController =
+      TextEditingController(text: "");
 
-  bool gender = true;
-
+  TimeOfDay t2t6start = TimeOfDay(hour: 8, minute: 0);
+  TimeOfDay t2t6end = TimeOfDay(hour: 22, minute: 0);
+  TimeOfDay t7cnstart = TimeOfDay(hour: 8, minute: 0);
+  TimeOfDay t7cnend = TimeOfDay(hour: 22, minute: 0);
   CityModel? city;
-
   ProvinceModel? province;
+  String? imageMain;
+  String? image2;
+  String? image3;
+  String? image4;
 
   @override
   void initState() {
@@ -90,17 +111,24 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ImageCard(
-                onImage1: () {},
-                onImage2: () {},
-                onImage3: () {},
-                onImage4: () {},
+                onImage1: (image) {
+                  imageMain = image;
+                },
+                onImage2: (image) {
+                  image2 = image;
+                },
+                onImage3: (image) {
+                  image3 = image;
+                },
+                onImage4: (image) {
+                  image4 = image;
+                },
                 isPartner: false,
               ),
               SizedBox(height: 10),
               AppTextField(fullNameController, "Chi nhánh A", "Tên tổ chức"),
               SizedBox(height: 10),
-              AppTextField(
-                  addressController, "Địa chỉ", "1 Đường 1, Quận Thủ Đức"),
+              AppTextField(addressController, "Địa chỉ", "Nhập địa chỉ"),
               SizedBox(height: 10),
               TextFieldLabel("Thành phố làm việc"),
               CityDropdownlist((e) {
@@ -111,14 +139,132 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
               }),
               SizedBox(height: 10),
               TextFieldLabel("Quận/ Huyện làm việc"),
-              ProvinceDropdownlist((e) {}, city?.cityId ?? 0,
-                  key: provinceDropdownKey),
+              ProvinceDropdownlist((e) {
+                province = e;
+              }, city?.cityId ?? 0, key: provinceDropdownKey),
+              SizedBox(height: 10),
+              TextFieldLabel("Thời gian làm việc"),
+              TimePickerWidget(
+                title: "Thứ 2 - Thứ 6",
+                time26s: (e) {
+                  t2t6start = e;
+                },
+                time26e: (e) {
+                  t2t6end = e;
+                },
+                time7cna: (e) {
+                  t7cnstart = e;
+                },
+                time7cne: (e) {
+                  t7cnend = e;
+                },
+                timeofday26s: t2t6start,
+                timeofday26e: t2t6end,
+                timeofday7cna: t7cnstart,
+                timeofday7cne: t7cnend,
+              ),
               SizedBox(height: 10),
               AppTextField(descriptionController, "Mô tả", "Mô tả chi nhánh",
                   maxLines: 3),
               SizedBox(height: 10),
+              AppTextField(
+                websiteController,
+                "Nhập địa chỉ website (nếu có)",
+                "Nhập địa chỉ website (nếu có)",
+                isShowTitle: false,
+              ),
+              SizedBox(height: 10),
+              AppTextField(
+                fbController,
+                "Nhập địa chỉ facebook (nếu có)",
+                "Nhập địa chỉ facebook (nếu có)",
+                isShowTitle: false,
+              ),
+              SizedBox(height: 10),
+              AppTextField(
+                youtubeController,
+                "Nhập địa chỉ youtube (nếu có)",
+                "Nhập địa chỉ youtube (nếu có)",
+                isShowTitle: false,
+              ),
+              SizedBox(height: 10),
+              AppTextField(
+                tiktokController,
+                "Nhập địa chỉ tiktok (nếu có)",
+                "Nhập địa chỉ tiktok (nếu có)",
+                isShowTitle: false,
+              ),
+              SizedBox(height: 10),
+              AppTextField(
+                instagramController,
+                "Nhập địa chỉ instagram (nếu có)",
+                "Nhập địa chỉ instagram (nếu có)",
+                isShowTitle: false,
+              ),
+              SizedBox(height: 30),
               ElevatedButton(
-                onPressed: () async {},
+                onPressed: () async {
+                  if (fullNameController.text.isEmpty) {
+                    SnackbarHelper.showSnackBar(
+                        "Chưa nhập tên chi nhánh", ToastificationType.error);
+                    return;
+                  }
+
+                  if (descriptionController.text.isEmpty) {
+                    SnackbarHelper.showSnackBar(
+                        "Chưa nhập mô tả cá nhân", ToastificationType.error);
+                    return;
+                  }
+
+                  if (province == null) {
+                    SnackbarHelper.showSnackBar(
+                        "Chưa chọn vùng hoạt động", ToastificationType.error);
+                    return;
+                  }
+
+                  if (imageMain == null &&
+                      [image2, image3, image4]
+                              .where((image) => image == null || image.isEmpty)
+                              .length <
+                          2) {
+                    SnackbarHelper.showSnackBar(
+                        "Chọn ít nhất 1 ảnh đại diện và 2 ảnh khác",
+                        ToastificationType.error);
+                    return;
+                  }
+
+                  var response = await AppServices.instance.updateBranch(
+                      cityID: city!.cityId!,
+                      description: descriptionController.text,
+                      fullName: fullNameController.text,
+                      address: addressController.text,
+                      image2: image2 ?? "",
+                      image3: image3 ?? "",
+                      image4: image4 ?? "",
+                      imageRoot: imageMain!,
+                      provinceID: province!.proviceId!,
+                      timeOfDay1: t2t6start,
+                      timeOfDay2: t2t6end,
+                      timeOfDay3: t7cnstart,
+                      timeOfDay4: t7cnend,
+                      fb: fbController.text,
+                      instagram: instagramController.text,
+                      youtube: youtubeController.text,
+                      tiktok: tiktokController.text,
+                      ws: websiteController.text);
+
+                  if (response != null) {
+                    SnackbarHelper.showSnackBar(
+                        "Thành công", ToastificationType.success);
+                    GetStorage().write(userImagePath, imageMain);
+
+                    Navigator.pop(context);
+                  } else {
+                    SnackbarHelper.showSnackBar(
+                        "Thất bại, vui lòng liên hệ ban quản trị.",
+                        ToastificationType.warning);
+                  }
+                },
                 child: const Text("Tiếp tục"),
               ),
               SizedBox(height: 80),

@@ -1,6 +1,7 @@
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:toastification/toastification.dart';
 import './route/router.dart' as router;
 
 import 'route/route_constants.dart';
@@ -16,15 +17,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Bấm huyệt Hoàng Lâm',
-      theme: AppTheme.lightTheme(context),
-      themeMode: ThemeMode.light,
-      onGenerateRoute: router.generateRoute,
-      initialRoute: GetStorage().read(userUserID) != null
-          ? homeScreenRoute
-          : logInScreenRoute,
+    return ToastificationWrapper(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Bấm huyệt Hoàng Lâm',
+        theme: AppTheme.lightTheme(context),
+        locale: Locale("vi","VN"),
+        themeMode: ThemeMode.light,
+        onGenerateRoute: router.generateRoute,
+        initialRoute: addServiceScreenRoute
+        //  GetStorage().read(userUserID) != null
+        //     ? homeScreenRoute
+        //     : logInScreenRoute,
+      ),
     );
   }
 }

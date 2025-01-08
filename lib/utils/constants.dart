@@ -78,5 +78,6 @@ const isRemember = "IS_REMEMBER";
 const userUserName = "USER_USERNAME";
 const userFullName = "USER_FULLNAME";
 const userImagePath = "USER_IMAGEPATH";
+const userTypeUser = "USER_TYPEUSER";
 const userUserID = "USER_ID";
 const isIntro = "IS_INTRO";
