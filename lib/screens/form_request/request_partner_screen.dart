@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:toastification/toastification.dart';
 
-import '../../components/app_dropdownlist.dart';
+import 'components/app_dropdownlist.dart';
 import '../../components/app_snackbar.dart';
 import '../../components/app_text_field.dart';
 import '../../model/service_branch_partner.dart';
@@ -23,6 +23,8 @@ class RequestPartnerScreen extends StatefulWidget {
 class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
   final GlobalKey<ProvinceDropdownlistState> provinceDropdownKey =
       GlobalKey<ProvinceDropdownlistState>();
+  final GlobalKey<CityDropdownlistState> cityDropdownKey =
+      GlobalKey<CityDropdownlistState>();
 
   final GlobalKey<_RequestPartnerScreenState> myKey =
       GlobalKey<_RequestPartnerScreenState>();
@@ -65,6 +67,8 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
 
         yearBirthController.text = profile.yearBirthday.toString();
         descriptionController.text = profile.description ?? "";
+        cityDropdownKey.currentState?.onPickCity(profile.cityId);
+        provinceDropdownKey.currentState?.onPickCity(profile.proviceId);
       });
     }
   }
@@ -156,7 +160,7 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
               ),
               SizedBox(height: 10),
               TextFieldLabel("Thành phố làm việc"),
-              CityDropdownlist((e) {
+              CityDropdownlist(key: cityDropdownKey, (e) {
                 setState(() {
                   city = e;
                   provinceDropdownKey.currentState?.oninit(e?.cityId ?? 0);

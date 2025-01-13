@@ -209,6 +209,7 @@ class AppServices {
   }
 
   Future<ResponseBase<BranchModel>?> updateBranch({
+    required int? branch,
     required String imageRoot,
     required String fullName,
     required int cityID,
@@ -229,7 +230,7 @@ class AppServices {
     required String youtube,
   }) async {
     try {
-      var data = json.encode({
+      var _data = {
         "ImagePath": imageRoot,
         "Phone": "000000",
         "BranchName": fullName,
@@ -254,9 +255,18 @@ class AppServices {
         "Instagram": instagram,
         "LatMap": 0,
         "IngMap": 0,
-      });
-      var rawResponse = await _api
-          .post(Uri.parse("${_baseURL}api/branch/branch-create"), body: data);
+      };
+      if (branch != null) {
+        _data["BranchID"] = branch;
+      }
+      http.Response rawResponse;
+
+      var data = json.encode(_data);
+      rawResponse = branch != null
+          ? await _api.post(Uri.parse("${_baseURL}api/branch/branch-update"),
+              body: data)
+          : await _api.post(Uri.parse("${_baseURL}api/branch/branch-create"),
+              body: data);
       if (rawResponse.statusCode == 200) {
         return BranchModel.getFromJson(json.decode(rawResponse.body));
       }
@@ -279,13 +289,26 @@ class AppServices {
     return null;
   }
 
+  Future<ResponseBase<BranchModel>?> getBranchByID(int branchID) async {
+    try {
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/branch/get-branch-by-id?branchID=$branchID"));
+      if (rawResponse.statusCode == 200) {
+        return BranchModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
   Future<ResponseBase<BranchModel>?> addService(
       int branchID, List<LstServiceDetails> listPrice) async {
     try {
       var data = json
           .encode({"BranchID": branchID, "lstServiceBranchAmount": listPrice});
       var rawResponse = await _api.post(
-          Uri.parse("${_baseURL}api/branch/add-service-to-branch"),
+          Uri.parse("${_baseURL}api/branch/add-update-service-to-branch"),
           body: data.replaceAll('\"', '"'));
       if (rawResponse.statusCode == 200) {
         return BranchModel.getFromJson(json.decode(rawResponse.body));

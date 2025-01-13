@@ -24,10 +24,10 @@ class TimePickerWidget extends StatefulWidget {
   final TimeOfDay timeofday7cne;
 
   @override
-  State<TimePickerWidget> createState() => _TimePickerWidgetState();
+  State<TimePickerWidget> createState() => TimePickerWidgetState();
 }
 
-class _TimePickerWidgetState extends State<TimePickerWidget> {
+class TimePickerWidgetState extends State<TimePickerWidget> {
   String time26ss = "08:00";
   String time26es = "22:00";
   String time7cnas = "08:00";

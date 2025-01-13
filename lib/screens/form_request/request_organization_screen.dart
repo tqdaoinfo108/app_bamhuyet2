@@ -7,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:toastification/toastification.dart';
 
-import '../../components/app_dropdownlist.dart';
+import 'components/app_dropdownlist.dart';
 import '../../components/app_snackbar.dart';
 import '../../components/app_text_field.dart';
 import '../../model/service_branch_partner.dart';
@@ -27,12 +27,15 @@ class RequestOrganizationScreen extends StatefulWidget {
 class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
   final GlobalKey<ProvinceDropdownlistState> provinceDropdownKey =
       GlobalKey<ProvinceDropdownlistState>();
+  final GlobalKey<CityDropdownlistState> cityDropdownKey =
+      GlobalKey<CityDropdownlistState>();
+  final GlobalKey<TimePickerWidgetState> timePickerKey =
+      GlobalKey<TimePickerWidgetState>();
 
   final TextEditingController fullNameController =
       TextEditingController(text: "");
   final TextEditingController addressController =
       TextEditingController(text: "");
-
   final TextEditingController descriptionController =
       TextEditingController(text: "");
   final TextEditingController fbController = TextEditingController(text: "");
@@ -56,6 +59,9 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
   String? image3;
   String? image4;
 
+  bool isLoading = false;
+  int? branchID;
+
   @override
   void initState() {
     super.initState();
@@ -63,25 +69,96 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
   }
 
   onInit() async {
-    var position = await _determinePosition();
-    var temp =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    if (temp.isNotEmpty) {
-      var place = temp.first;
-      String formattedAddress = [
-        place.street, // Đường
-        place.subLocality, // Phường/Xã
-        place.locality, // Quận/Huyện
-        place.administrativeArea, // Tỉnh/Thành phố
-      ].where((element) => element != null && element.isNotEmpty).join(', ');
-      addressController.text = formattedAddress;
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      var profile = await AppServices.instance.getProfile();
+      if (profile!.data!.typeUserID == 3 &&
+          profile.data!.lstBranchId.isNotEmpty) {
+        branchID = profile.data!.lstBranchId[0];
+        var branchInfo = await AppServices.instance.getBranchByID(branchID!);
+        if (branchInfo != null) {
+          var listImage = branchInfo.data?.lstBranchImages ?? [];
+          var branch = branchInfo.data!;
+          branchID = branch.branchId!;
+          setState(() {
+            imageMain = branch.imagePath ?? null;
+            image2 = listImage.isNotEmpty ? listImage[0].imagePath : null;
+            image3 = listImage.length > 1 ? listImage[1].imagePath : null;
+            image4 = listImage.length > 2 ? listImage[2].imagePath : null;
+            fullNameController.text = branch.branchName ?? "";
+            descriptionController.text = branch.description ?? "";
+            tiktokController.text = branch.tiktox ?? "";
+            fbController.text = branch.faceBook ?? "";
+            websiteController.text = branch.website ?? "";
+            youtubeController.text = branch.youtube ?? "";
+            instagramController.text = branch.instagram ?? "";
+            addressController.text = branch.address ?? "";
+
+            cityDropdownKey.currentState?.onPickCity(branch.cityId!);
+            provinceDropdownKey.currentState?.onPickCity(branch.proviceId!);
+            // ----
+            var dayDefault = DateTime.parse(branch.timeStart26!);
+            timePickerKey.currentState?.time26ss =
+                TimeOfDay(hour: dayDefault.hour, minute: dayDefault.minute)
+                    .format(context);
+            t2t6start =
+                TimeOfDay(hour: dayDefault.hour, minute: dayDefault.minute);
+
+            // ----
+            dayDefault = DateTime.parse(branch.timeEnd26!);
+            timePickerKey.currentState?.time26es =
+                TimeOfDay(hour: dayDefault.hour, minute: dayDefault.minute)
+                    .format(context);
+            t2t6end =
+                TimeOfDay(hour: dayDefault.hour, minute: dayDefault.minute);
+
+            // ----
+            dayDefault = DateTime.parse(branch.timeStart7Cn!);
+            timePickerKey.currentState?.time7cnas =
+                TimeOfDay(hour: dayDefault.hour, minute: dayDefault.minute)
+                    .format(context);
+            t7cnstart =
+                TimeOfDay(hour: dayDefault.hour, minute: dayDefault.minute);
+
+            // ----
+            dayDefault = DateTime.parse(branch.timeEnd7Cn!);
+            timePickerKey.currentState?.time7cnes =
+                TimeOfDay(hour: dayDefault.hour, minute: dayDefault.minute)
+                    .format(context);
+            t7cnend =
+                TimeOfDay(hour: dayDefault.hour, minute: dayDefault.minute);
+          });
+        }
+      } else {
+        var position = await _determinePosition();
+        var temp = await placemarkFromCoordinates(
+            position.latitude, position.longitude);
+        if (temp.isNotEmpty) {
+          var place = temp.first;
+          String formattedAddress = [
+            place.street, // Đường
+            place.subLocality, // Phường/Xã
+            place.locality, // Quận/Huyện
+            place.administrativeArea, // Tỉnh/Thành phố
+          ]
+              .where((element) => element != null && element.isNotEmpty)
+              .join(', ');
+          addressController.text = formattedAddress;
+        }
+      }
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
-
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
@@ -113,6 +190,10 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ImageCard(
+                image1: imageMain,
+                image2: image2,
+                image3: image3,
+                image4: image4,
                 onImage1: (image) {
                   imageMain = image;
                 },
@@ -133,7 +214,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
               AppTextField(addressController, "Địa chỉ", "Nhập địa chỉ"),
               SizedBox(height: 10),
               TextFieldLabel("Thành phố làm việc"),
-              CityDropdownlist((e) {
+              CityDropdownlist(key: cityDropdownKey, (e) {
                 setState(() {
                   city = e;
                   provinceDropdownKey.currentState?.oninit(e?.cityId ?? 0);
@@ -147,6 +228,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
               SizedBox(height: 10),
               TextFieldLabel("Thời gian làm việc"),
               TimePickerWidget(
+                key: timePickerKey,
                 title: "Thứ 2 - Thứ 6",
                 time26s: (e) {
                   t2t6start = e;
@@ -236,6 +318,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
                   }
 
                   var response = await AppServices.instance.updateBranch(
+                      branch: branchID,
                       cityID: city!.cityId!,
                       description: descriptionController.text,
                       fullName: fullNameController.text,

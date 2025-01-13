@@ -5,6 +5,6 @@ loadingWidget() {
   return Center(
       child: LoadingAnimationWidget.staggeredDotsWave(
     color: Colors.black,
-    size: 100,
+    size: 50,
   ));
 }
