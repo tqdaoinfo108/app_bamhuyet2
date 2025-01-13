@@ -18,15 +18,30 @@ class ProfileScreen extends StatelessWidget {
           ProfileCard(
             name: GetStorage().read(userFullName),
             email: GetStorage().read(userUserName),
-            imageSrc:
-                 GetStorage().read(userImagePath),
+            imageSrc: GetStorage().read(userImagePath),
             // proLableText: "Sliver",
             // isPro: true, if the user is pro
             press: () {
               // Navigator.pushNamed(context, userInfoScreenRoute);
             },
           ),
-
+          GetStorage().read(userTypeUser) == 4
+              ? SizedBox()
+              : ProfileMenuListTile(
+                  text: "Đối tác của Hoàng Lâm",
+                  svgSrc: "assets/icons/Fingerprint.svg",
+                  isShowDivider: false,
+                  press: () {
+                    var typeUser = GetStorage().read(userTypeUser);
+                    if (typeUser == 2) {
+                      Navigator.pushNamed(context, requestPartnerScreen);
+                    }
+                    if (typeUser == 3) {
+                      Navigator.pushNamed(context, requestOrganizationScreen);
+                    }
+                  },
+                ),
+          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
             child: Text(

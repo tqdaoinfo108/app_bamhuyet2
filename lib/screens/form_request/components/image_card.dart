@@ -15,7 +15,16 @@ class ImageCard extends StatefulWidget {
       required this.onImage3,
       required this.onImage4,
       this.isPartner = true,
+      this.image1,
+      this.image2,
+      this.image3,
+      this.image4,
       super.key});
+  final String? image1;
+  final String? image2;
+  final String? image3;
+  final String? image4;
+
   final Function(String) onImage1;
   final Function(String) onImage2;
   final Function(String) onImage3;
@@ -52,13 +61,23 @@ class _ImageCardState extends State<ImageCard> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              PickerCardItem(func: widget.onImage1, isMain: true),
+              PickerCardItem(
+                func: widget.onImage1,
+                isMain: true,
+                image: widget.image1,
+              ),
               SizedBox(width: 10),
-              PickerCardItem(func: widget.onImage2, isMain: false),
+              PickerCardItem(
+                func: widget.onImage2,
+                isMain: false,
+                image: widget.image2,
+              ),
               SizedBox(width: 10),
-              PickerCardItem(func: widget.onImage3, isMain: false),
+              PickerCardItem(
+                  func: widget.onImage3, isMain: false, image: widget.image3),
               SizedBox(width: 10),
-              PickerCardItem(func: widget.onImage4, isMain: false),
+              PickerCardItem(
+                  func: widget.onImage4, isMain: false, image: widget.image4),
             ],
           ),
         ),
@@ -88,10 +107,12 @@ class _ImageCardState extends State<ImageCard> {
 }
 
 class PickerCardItem extends StatefulWidget {
-  const PickerCardItem({super.key, required this.func, required this.isMain});
+  const PickerCardItem(
+      {super.key, required this.func, required this.isMain, this.image});
 
   final Function(String) func;
   final bool isMain;
+  final String? image;
   @override
   State<PickerCardItem> createState() => _PickerCardItemState();
 }
@@ -146,21 +167,25 @@ class _PickerCardItemState extends State<PickerCardItem> {
             height: 120,
             width: 120,
             child: urlImage != null
-                ? ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(defaultBorderRadious)),
-                    child: NetworkImageWithLoader(
-                      urlImage!,
-                      fit: BoxFit.cover,
-                    ),
+                ? NetworkImageWithLoader(
+                    urlImage!,
+                    fit: BoxFit.cover,
+                    radius: defaultBorderRadious,
                   )
-                : isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(),
+                : widget.image != null
+                    ? NetworkImageWithLoader(
+                        widget.image!,
+                        fit: BoxFit.cover,
+                        radius: defaultBorderRadious,
                       )
-                    : Center(
-                        child: Icon(Icons.add, size: 36, color: Colors.grey),
-                      ),
+                    : isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Center(
+                            child:
+                                Icon(Icons.add, size: 36, color: Colors.grey),
+                          ),
           ),
           if (widget.isMain)
             Container(

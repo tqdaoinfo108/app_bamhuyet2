@@ -39,18 +39,11 @@ class _EntryPointState extends State<EntryPoint> {
   initProfile() async {
     var temp = await AppServices.instance.getProfile();
     if (temp != null) {
-      GetStorage box = new GetStorage();
-      box.write(userUserName, temp.data!.userName);
-      box.write(userFullName, temp.data!.fullName);
-      box.write(userImagePath, temp.data!.imagePath);
-      box.write(userUserID, temp.data!.userID);
-      box.write(userTypeUser, temp.data!.typeUserID);
-
       setState(() {
         fullName = temp.data!.fullName;
         phone = temp.data!.userName;
-        if(temp.data!.typeUserID != 4){
-          type = temp.data!.typeUserID  == 2 ? "Cộng tác viên" : "Tổ chức";
+        if (temp.data!.typeUserID != 4) {
+          type = temp.data!.typeUserID == 2 ? "Cộng tác viên" : "Tổ chức";
         }
         typeID = temp.data!.typeUserID;
       });
@@ -83,11 +76,12 @@ class _EntryPointState extends State<EntryPoint> {
         title: _currentIndex == 2
             ? null
             : InkWell(
-              
-                onTap: typeID != 4 ? null : () {
-                  customModalBottomSheet(context,
-                      child: EntryPointPopupWidget());
-                },
+                onTap: typeID != 4
+                    ? null
+                    : () {
+                        customModalBottomSheet(context,
+                            child: EntryPointPopupWidget());
+                      },
                 child: SizedBox(
                   height: kToolbarHeight,
                   child: Column(

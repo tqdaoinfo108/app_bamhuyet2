@@ -1,6 +1,5 @@
 
 import 'base_response.dart';
-import 'user_model.dart';
 
 class BranchModel {
     int? branchId;

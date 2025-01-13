@@ -1,5 +1,6 @@
 import 'package:app_bamnguyet_2/model/city_model.dart';
 import 'package:app_bamnguyet_2/model/province_model.dart';
+import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,6 +10,7 @@ import 'package:toastification/toastification.dart';
 import '../../components/app_dropdownlist.dart';
 import '../../components/app_snackbar.dart';
 import '../../components/app_text_field.dart';
+import '../../model/service_branch_partner.dart';
 import '../../services/app_services.dart';
 import '../../utils/constants.dart';
 import 'components/image_card.dart';
@@ -258,7 +260,9 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
                         "Thành công", ToastificationType.success);
                     GetStorage().write(userImagePath, imageMain);
 
-                    Navigator.pop(context);
+                    Navigator.popAndPushNamed(context, addServiceScreenRoute,
+                        arguments: ServiceBranchPartner(
+                            branchID: response.data!.branchId!, partnerID: 0));
                   } else {
                     SnackbarHelper.showSnackBar(
                         "Thất bại, vui lòng liên hệ ban quản trị.",

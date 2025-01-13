@@ -24,7 +24,7 @@ class NetworkImageWithLoader extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(radius)),
       child: CachedNetworkImage(
         fit: fit,
-        imageUrl: src,
+        imageUrl: "http://hoanglambamhuyet.gvbsoft.com/$src",
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
             image: DecorationImage(

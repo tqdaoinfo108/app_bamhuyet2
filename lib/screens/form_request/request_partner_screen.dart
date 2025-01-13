@@ -8,6 +8,8 @@ import 'package:toastification/toastification.dart';
 import '../../components/app_dropdownlist.dart';
 import '../../components/app_snackbar.dart';
 import '../../components/app_text_field.dart';
+import '../../model/service_branch_partner.dart';
+import '../../route/route_constants.dart';
 import '../../utils/constants.dart';
 import 'components/image_card.dart';
 
@@ -38,6 +40,36 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
   String? image4;
 
   @override
+  void initState() {
+    super.initState();
+    initData();
+  }
+
+  initData() async {
+    var response = await AppServices.instance.getProfile();
+    if (response != null) {
+      var profile = response.data!;
+      setState(() {
+        gender = profile.genderID ?? false;
+        imageMain = profile.imagePath;
+        image2 = profile.lstImageUsers.isNotEmpty
+            ? profile.lstImageUsers[0].imagePath
+            : null;
+        image3 = profile.lstImageUsers.length > 1
+            ? profile.lstImageUsers[1].imagePath
+            : null;
+        image4 = profile.lstImageUsers.length > 2
+            ? profile.lstImageUsers[2].imagePath
+            : null;
+        fullNameController.text = profile.fullName;
+
+        yearBirthController.text = profile.yearBirthday.toString();
+        descriptionController.text = profile.description ?? "";
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Cá nhân")),
@@ -48,6 +80,10 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ImageCard(
+                image1: imageMain,
+                image2: image2,
+                image3: image3,
+                image4: image4,
                 onImage1: (image) {
                   imageMain = image;
                 },
@@ -191,10 +227,13 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                     GetStorage().write(userImagePath, imageMain);
                     GetStorage().write(userTypeUser, response.data!.typeUserID);
 
-                    Navigator.pop(context);
+                    Navigator.popAndPushNamed(context, addServiceScreenRoute,
+                        arguments: ServiceBranchPartner(
+                            branchID: 0, partnerID: response.data!.userID!));
                   } else {
                     SnackbarHelper.showSnackBar(
-                        "Thất bại, vui lòng liên hệ ban quản trị.", ToastificationType.warning);
+                        "Thất bại, vui lòng liên hệ ban quản trị.",
+                        ToastificationType.warning);
                   }
                 },
                 child: const Text("Tiếp tục"),

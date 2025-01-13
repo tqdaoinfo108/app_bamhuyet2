@@ -50,7 +50,15 @@ class AppServices {
       var rawResponse = await _api.get(Uri.parse(
           "${_baseURL}api/user/profile?userID=${GetStorage().read(userUserID)}"));
       if (rawResponse.statusCode == 200) {
-        return UserModel.getFromJson(json.decode(rawResponse.body));
+        var result = UserModel.getFromJson(json.decode(rawResponse.body));
+        GetStorage box = new GetStorage();
+        box.write(userUserName, result.data!.userName);
+        box.write(userFullName, result.data!.fullName);
+        box.write(userImagePath, result.data!.imagePath);
+        box.write(userUserID, result.data!.userID);
+        box.write(userTypeUser, result.data!.typeUserID);
+
+        return result;
       }
     } catch (e) {
       return null;
@@ -258,7 +266,6 @@ class AppServices {
     return null;
   }
 
-  
   Future<ResponseBase<List<ServiceModel>>?> getServicesAll() async {
     try {
       var rawResponse = await _api.get(Uri.parse(
@@ -272,6 +279,38 @@ class AppServices {
     return null;
   }
 
+  Future<ResponseBase<BranchModel>?> addService(
+      int branchID, List<LstServiceDetails> listPrice) async {
+    try {
+      var data = json
+          .encode({"BranchID": branchID, "lstServiceBranchAmount": listPrice});
+      var rawResponse = await _api.post(
+          Uri.parse("${_baseURL}api/branch/add-service-to-branch"),
+          body: data.replaceAll('\"', '"'));
+      if (rawResponse.statusCode == 200) {
+        return BranchModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<UserModel>?> addServicetoPartner(
+      List<int> listPrice) async {
+    try {
+      var data = json.encode({"lstServiceID": listPrice});
+      var rawResponse = await _api.post(
+          Uri.parse("${_baseURL}api/user/add-service-to-parner"),
+          body: data);
+      if (rawResponse.statusCode == 200) {
+        return UserModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
 
   Future<ResponseBase<String>?> uploadFile(String imagePath) async {
     try {

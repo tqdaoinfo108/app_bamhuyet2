@@ -12,7 +12,8 @@ class ServiceModel {
   // String? description;
   List<LstServiceDetails> lstServiceDetails = [];
 
-  ServiceModel(this.serviceID, this.serviceName, this.imagePath, this.amount, this.lstServiceDetails
+  ServiceModel(this.serviceID, this.serviceName, this.imagePath, this.amount,
+      this.lstServiceDetails
       // this.isActive,
       // this.shortDescription,
       // this.description
@@ -68,7 +69,7 @@ class ServiceModel {
 
 class LstServiceDetails {
   int? serviceDetailId;
-  // int? serviceId;
+  int? serviceId;
   int? minute;
   double? amount;
   // int? amountDiscount;
@@ -76,14 +77,14 @@ class LstServiceDetails {
 
   LstServiceDetails(
       {this.serviceDetailId,
-      // this.serviceId,
+      this.serviceId,
       this.minute,
       this.amount,
       this.description});
 
   LstServiceDetails.fromJson(Map<String, dynamic> json) {
-    serviceDetailId = json["ServiceDetailID"];
-    // serviceId = json["ServiceID"];
+    // serviceDetailId = json["ServiceDetailID"];
+    serviceId = json["ServiceID"];
     minute = json["Minute"];
     amount = json["Amount"];
     description = json["Description"];
@@ -91,8 +92,8 @@ class LstServiceDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["ServiceDetailID"] = serviceDetailId;
-    // _data["ServiceID"] = serviceId;
+    // _data["ServiceDetailID"] = serviceDetailId;
+    _data["ServiceID"] = serviceId;
     _data["Minute"] = minute;
     _data["Amount"] = amount;
     _data["Description"] = description;

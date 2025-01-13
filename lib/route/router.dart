@@ -8,6 +8,7 @@ import 'package:app_bamnguyet_2/screens/service_detail/service_detail_screen.dar
 import 'package:flutter/material.dart';
 
 import '../entry_point.dart';
+import '../model/service_branch_partner.dart';
 import 'route_constants.dart';
 import 'screen_export.dart';
 
@@ -43,8 +44,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => RequestPartnerScreen(),
       );
     case addServiceScreenRoute:
+      final args = settings.arguments as ServiceBranchPartner;
+
       return MaterialPageRoute(
-        builder: (context) => AddServiceScreen(),
+        builder: (context) => AddServiceScreen(args),
       );
     default:
       return MaterialPageRoute(

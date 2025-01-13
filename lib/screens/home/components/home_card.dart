@@ -2,6 +2,7 @@ import 'package:app_bamnguyet_2/model/type_service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../components/network_image_with_loader.dart';
 import '../../../route/route_constants.dart';
 import '../../../utils/constants.dart';
 
@@ -25,13 +26,8 @@ class HomeCard extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           children: [
             SizedBox.expand(
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(defaultBorderRadious)),
-                  child: Image.network(
-                    data.imagePath,
-                    fit: BoxFit.cover,
-                  )),
+              child: NetworkImageWithLoader(data.imagePath,
+                  radius: defaultBorderRadious),
             ),
             ClipRRect(
               borderRadius:

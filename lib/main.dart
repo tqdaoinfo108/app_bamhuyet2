@@ -22,13 +22,12 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Bấm huyệt Hoàng Lâm',
         theme: AppTheme.lightTheme(context),
-        locale: Locale("vi","VN"),
+        locale: Locale("vi", "VN"),
         themeMode: ThemeMode.light,
         onGenerateRoute: router.generateRoute,
-        initialRoute: addServiceScreenRoute
-        //  GetStorage().read(userUserID) != null
-        //     ? homeScreenRoute
-        //     : logInScreenRoute,
+        initialRoute: GetStorage().read(userUserID) != null
+            ? homeScreenRoute
+            : logInScreenRoute,
       ),
     );
   }

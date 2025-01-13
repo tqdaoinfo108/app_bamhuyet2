@@ -1,12 +1,13 @@
-import 'package:app_bamnguyet_2/components/app_text_field.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/service_branch_partner.dart';
 import '../../../utils/constants.dart';
 
 class ServiceItem extends StatefulWidget {
-  const ServiceItem(this.data, {super.key});
+  const ServiceItem(this.data, this.isPartner, {super.key});
   final ServiceModel data;
+  final ServiceBranchPartner isPartner;
   @override
   State<ServiceItem> createState() => _ServiceItemState();
 }
@@ -16,10 +17,10 @@ class _ServiceItemState extends State<ServiceItem> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(
-                vertical: defaultPadding, horizontal: defaultPadding),
-       decoration: BoxDecoration(
-                color: lightGreyColor,
-                borderRadius: BorderRadius.circular(defaultBorderRadious)),
+          vertical: defaultPadding / 2, horizontal: defaultPadding),
+      decoration: BoxDecoration(
+          color: lightGreyColor,
+          borderRadius: BorderRadius.circular(defaultBorderRadious)),
       child: Column(
         children: [
           Container(
@@ -49,36 +50,42 @@ class _ServiceItemState extends State<ServiceItem> {
             ),
           ),
           if (widget.data.isExpand)
-            Column(children: widget.data.lstServiceDetails.map((z){
+            Column(
+                children: widget.data.lstServiceDetails.map((z) {
               return Container(
-              margin: const EdgeInsets.only(left: defaultPadding, top: 4),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: defaultPadding),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(defaultBorderRadious),border: Border.all(color: Colors.black12)),
-              child: Row(
-                children: [
-                  Text(
-                    z.description!,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: purpleColor),
-                  ),
-                  Spacer(),
-                  SizedBox(
-                    width: 160,
-                    child: TextField(
-                      controller: TextEditingController(text: "${z.amount}"),
-                      onChanged: (value) => z.amount = (double.tryParse(value) ?? 0),
-                      textInputAction: TextInputAction.done,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelStyle: TextStyle(),
-                        hintStyle: TextStyle(color: Colors.grey),
+                margin: const EdgeInsets.only(left: defaultPadding, top: 4),
+                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(defaultBorderRadious),
+                    border: Border.all(color: Colors.black12)),
+                child: Row(
+                  children: [
+                    Text(
+                      z.description!,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: purpleColor),
+                    ),
+                    Spacer(),
+                    SizedBox(
+                      width: 160,
+                      child: TextField(
+                        controller: TextEditingController(text: "${z.amount}"),
+                        onChanged: (value) =>
+                            z.amount = (double.tryParse(value) ?? 0),
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            labelStyle: TextStyle(),
+                            enabled: widget.isPartner.branchID != 0,
+                            hintStyle: TextStyle(color: Colors.grey),
+                            suffix: Text("đ")),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            );
+                  ],
+                ),
+              );
             }).toList())
         ],
       ),
