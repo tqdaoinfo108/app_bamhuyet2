@@ -1,7 +1,6 @@
-import 'package:app_bamnguyet_2/model/address_model.dart';
 import 'package:flutter/material.dart';
-import '../model/service_model.dart';
 import '../model/type_service_model.dart';
+import '../screens/booking_confirm/booking_confirm_screen.dart';
 import 'screen_export.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -45,6 +44,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case addressScreenRoute:
       return MaterialPageRoute(
         builder: (context) => AddressScreen(),
+      );
+    case bookingconfirmscreen:
+      return MaterialPageRoute(
+        builder: (context) => BookingConfirmScreen(),
       );
     default:
       return MaterialPageRoute(

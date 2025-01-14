@@ -74,7 +74,8 @@ class LstServiceDetails {
   double? amount;
   // int? amountDiscount;
   String? description;
-
+  bool isChoose = false;
+  
   LstServiceDetails(
       {this.serviceDetailId,
       this.serviceId,
