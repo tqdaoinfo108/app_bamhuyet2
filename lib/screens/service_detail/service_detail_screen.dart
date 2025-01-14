@@ -3,6 +3,8 @@ import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/rating.dart';
+import '../../model/type_service_model.dart';
+import '../../model/user_model.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/constants.dart';
 import 'components/employee_card.dart';
@@ -10,14 +12,15 @@ import 'components/rating_card.dart';
 import 'components/servive_card.dart';
 
 class ServiceDetailScreen extends StatefulWidget {
-  const ServiceDetailScreen({super.key});
-
+  const ServiceDetailScreen(this.data, {super.key});
+  final TypeServiceModel data;
   @override
   State<ServiceDetailScreen> createState() => _ServiceDetailScreenState();
 }
 
 class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
   List<ServiceModel> listServiceModel = [];
+  List<UserModel> listPartner = [];
 
   @override
   void initState() {
@@ -26,9 +29,16 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
   }
 
   initData() async {
-    var temp = await AppServices.instance.getServices(1);
+    var temp =
+        await AppServices.instance.getServices(widget.data.typeServiceID);
     setState(() {
       listServiceModel = temp?.data ?? [];
+    });
+
+    var parner = (await AppServices.instance.getListPartner())?.data ?? [];
+
+    setState(() {
+      listPartner = parner;
     });
   }
 
@@ -36,7 +46,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Bấm huyệt tại nhà"),
+        title: Text(widget.data.typeServiceName),
       ),
       body: SafeArea(
           child: SingleChildScrollView(
@@ -84,14 +94,14 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               ),
               SizedBox(height: 10),
               SizedBox(
-                height: MediaQuery.of(context).size.width * .42,
+                height: MediaQuery.of(context).size.width * .48,
                 child: ListView.builder(
                     padding:
                         const EdgeInsets.symmetric(horizontal: defaultPadding),
                     itemBuilder: (c, x) {
-                      return EmployeeCard();
+                      return EmployeeCard(listPartner[x]);
                     },
-                    itemCount: 6,
+                    itemCount: listPartner.length,
                     scrollDirection: Axis.horizontal),
               ),
               SizedBox(height: 10),

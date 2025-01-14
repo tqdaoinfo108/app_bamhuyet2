@@ -1,15 +1,7 @@
-import 'package:app_bamnguyet_2/model/user_model.dart';
-import 'package:app_bamnguyet_2/screens/auth/signup_screen.dart';
-import 'package:app_bamnguyet_2/screens/auth/verification_code_screen.dart';
-import 'package:app_bamnguyet_2/screens/form_request/add_service_screen.dart';
-import 'package:app_bamnguyet_2/screens/form_request/request_organization_screen.dart';
-import 'package:app_bamnguyet_2/screens/form_request/request_partner_screen.dart';
-import 'package:app_bamnguyet_2/screens/service_detail/service_detail_screen.dart';
+import 'package:app_bamnguyet_2/model/address_model.dart';
 import 'package:flutter/material.dart';
-
-import '../entry_point.dart';
-import '../model/service_branch_partner.dart';
-import 'route_constants.dart';
+import '../model/service_model.dart';
+import '../model/type_service_model.dart';
 import 'screen_export.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -27,8 +19,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => const EntryPoint(),
       );
     case serviceDetailScreenRoute:
+      final args = settings.arguments as TypeServiceModel;
+
       return MaterialPageRoute(
-        builder: (context) => const ServiceDetailScreen(),
+        builder: (context) => ServiceDetailScreen(args),
       );
     case verificationMethodScreenRoute:
       final args = settings.arguments as UserModel;
@@ -45,9 +39,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case addServiceScreenRoute:
       final args = settings.arguments as ServiceBranchPartner;
-
       return MaterialPageRoute(
         builder: (context) => AddServiceScreen(args),
+      );
+    case addressScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => AddressScreen(),
       );
     default:
       return MaterialPageRoute(

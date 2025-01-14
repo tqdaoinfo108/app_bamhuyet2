@@ -1,7 +1,8 @@
 class ResponseBase<T> {
   int? totals;
   T? data;
-
+  String? message;
+  
   ResponseBase({this.totals, this.data});
 
   ResponseBase.fromJson(Map<String, dynamic> json,

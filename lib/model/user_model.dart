@@ -80,6 +80,24 @@ class UserModel {
       return ResponseBase();
     }
   }
+
+  static ResponseBase<List<UserModel>>? getFromJsonList(
+      Map<String, dynamic> json) {
+    if (json["message"] == null) {
+      var list = <UserModel>[];
+      if (json['data'] != null) {
+        json['data'].forEach((v) {
+          list.add(UserModel.fromJson(v));
+        });
+      }
+      return ResponseBase<List<UserModel>>(
+        totals: json['totals'] ?? json['total'],
+        data: list,
+      );
+    } else {
+      return ResponseBase();
+    }
+  }
 }
 
 class LstServiceUsers {

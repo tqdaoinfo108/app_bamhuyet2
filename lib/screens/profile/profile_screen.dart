@@ -91,7 +91,7 @@ class ProfileScreen extends StatelessWidget {
             text: "Địa chỉ",
             svgSrc: "assets/icons/Address.svg",
             press: () {
-              // Navigator.pushNamed(context, addressesScreenRoute);
+              Navigator.pushNamed(context, addressScreenRoute);
             },
           ),
 

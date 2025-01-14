@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_bamnguyet_2/model/address_model.dart';
 import 'package:app_bamnguyet_2/model/city_model.dart';
 import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
@@ -328,6 +329,77 @@ class AppServices {
           body: data);
       if (rawResponse.statusCode == 200) {
         return UserModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<List<AddressModel>>?> getListAddress() async {
+    try {
+      var rawResponse = await _api.get(
+          Uri.parse("${_baseURL}api/useraddress/get-list?page=1&limit=100"));
+      if (rawResponse.statusCode == 200) {
+        return AddressModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<AddressModel>?> saveAddress(
+      String name, String phone, String address, String description,
+      {int? addressID}) async {
+    try {
+      var data = {
+        "NameContact": name,
+        "Phone": phone,
+        "Address": address,
+        "IngMap": 0,
+        "LatMap": 0,
+        "Description": description
+      };
+      var path = "api/useraddress/created";
+      if (addressID != null) {
+        data["UserAddressID"] = addressID;
+        path = "api/useraddress/update";
+      }
+
+      var rawResponse = await _api.post(Uri.parse("${_baseURL}$path"),
+          body: json.encode(data));
+      if (rawResponse.statusCode == 200) {
+        return AddressModel.getFromJsonObject(jsonDecode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<bool>?> deleteAddress(int addressID) async {
+    try {
+      var data = json.encode({"UserAddressID": addressID});
+
+      var rawResponse = await _api
+          .post(Uri.parse("${_baseURL}api/useraddress/delete"), body: data);
+      if (rawResponse.statusCode == 200) {
+        return ResponseBase.fromJson(jsonDecode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<List<UserModel>>?> getListPartner() async {
+    try {
+      // var data = json.encode({"lstServiceID": listPrice});
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/user/get-list-user-partners?page=1&limit=30"));
+      if (rawResponse.statusCode == 200) {
+        return UserModel.getFromJsonList(json.decode(rawResponse.body));
       }
     } catch (e) {
       return null;

@@ -9,3 +9,4 @@ const String serviceDetailScreenRoute = "serviceDetail";
 const String requestOrganizationScreen = "request_organization_screen";
 const String requestPartnerScreen = "request_partner_screen";
 const String addServiceScreenRoute = "addservicescreen";
+const String addressScreenRoute = "addressScreenRoute";
