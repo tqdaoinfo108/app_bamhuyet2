@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import 'base_response.dart';
 
 class ServiceModel {
@@ -75,7 +77,7 @@ class LstServiceDetails {
   // int? amountDiscount;
   String? description;
   bool isChoose = false;
-  
+  String get getAmount => NumberFormat.decimalPattern('vi').format(amount);
   LstServiceDetails(
       {this.serviceDetailId,
       this.serviceId,

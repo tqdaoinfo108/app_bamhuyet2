@@ -407,6 +407,39 @@ class AppServices {
     return null;
   }
 
+  Future<ResponseBase<AddressModel>?> createBooking({
+    required int serviceID,
+    required int addressID,
+    required int minute,
+    required double amount,
+    required TimeOfDay time,
+  }) async {
+    try {
+      var data = {
+        "TypeBookingID": 1,
+        "UserID_Booking": GetStorage().read(userUserID),
+        "UserID_Proccess": 0,
+        "UserAddressID": addressID,
+        "ServiceID": serviceID,
+        "Minute": minute,
+        "Amount": amount,
+        "AmountDiscount": amount,
+        "DateStart":
+            timeOfDayToDateTime(time, DateTime.now()).toIso8601String(),
+        "Description": ""
+      };
+      var path = "api/booking/create";
+      var rawResponse = await _api.post(Uri.parse("${_baseURL}$path"),
+          body: json.encode(data));
+      if (rawResponse.statusCode == 200) {
+        return AddressModel.getFromJsonObject(jsonDecode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
   Future<ResponseBase<String>?> uploadFile(String imagePath) async {
     try {
       final url = Uri.parse('$_baseURL/api/fileupload/upload');

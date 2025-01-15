@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../model/service_model.dart';
 import '../model/type_service_model.dart';
 import '../screens/booking_confirm/booking_confirm_screen.dart';
 import 'screen_export.dart';
@@ -46,8 +47,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => AddressScreen(),
       );
     case bookingconfirmscreen:
+      final args = settings.arguments as ServiceModel;
       return MaterialPageRoute(
-        builder: (context) => BookingConfirmScreen(),
+        builder: (context) => BookingConfirmScreen(args),
       );
     default:
       return MaterialPageRoute(

@@ -6,6 +6,7 @@ import '../../components/custom_modal_bottom_sheet.dart';
 import '../../components/rating.dart';
 import '../../model/type_service_model.dart';
 import '../../model/user_model.dart';
+import '../../route/route_constants.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/constants.dart';
 import 'components/employee_card.dart';
@@ -116,11 +117,13 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               ),
               SizedBox(height: 10),
               for (var item in listServiceModel)
-                ServiceCard(item, () async  {
+                ServiceCard(item, () async {
                   await customModalBottomSheet(context,
-                      child: ServiceDetailPopup(item.lstServiceDetails, () async {
-                         Navigator.of(context).pop();
-                         
+                      child:
+                          ServiceDetailPopup(item.lstServiceDetails, () async {
+                        Navigator.of(context).pop();
+                        Navigator.pushNamed(context, bookingconfirmscreen,
+                            arguments: item);
                       }),
                       height: MediaQuery.of(context).size.height / 2.6);
                 }),

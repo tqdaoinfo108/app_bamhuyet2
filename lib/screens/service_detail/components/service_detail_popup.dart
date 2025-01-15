@@ -66,7 +66,7 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text("Thanh toán"),
+                  const Text("Tiếp tục"),
                   if (amount != "") Text("$amount vnd")
                 ],
               ),

@@ -48,7 +48,7 @@ flutter:
           weight: 700
 
 icons_launcher:
-  image_path: "assets/logoapp.png"
+  image_path: "assets/logo.png"
   platforms:
     android:
       enable: true
