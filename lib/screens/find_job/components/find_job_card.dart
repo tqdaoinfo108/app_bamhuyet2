@@ -2,18 +2,28 @@ import 'package:app_bamnguyet_2/theme/app_theme.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../theme/button_theme.dart';
+import 'package:slide_countdown/slide_countdown.dart';
+import 'package:toastification/toastification.dart';
+import '../../../components/app_snackbar.dart';
+import '../../../model/booking_model.dart';
 
 class FindJobCard extends StatelessWidget {
-  const FindJobCard({super.key});
-
+  const FindJobCard(this.data, this.dateTime, {super.key});
+  final BookingModel data;
+  final DateTime dateTime;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(
+          horizontal: defaultPadding, vertical: defaultPadding / 2),
       child: OutlinedButton(
-        onPressed: () {},
+        onPressed: () {
+          if(!data.isValidDuration(dateTime)){
+            SnackbarHelper.showSnackBar(
+                        "Tin đã quá hạn !",
+                        ToastificationType.warning);
+          }
+        },
         style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(8)),
         child: Column(
           children: [
@@ -22,7 +32,7 @@ class FindJobCard extends StatelessWidget {
               children: [
                 Text("Massage đầu",
                     style: AppTheme.getTextStyle(context, fontSize: 14)),
-                Text("90 phút",
+                Text(data.getMinute,
                     style: AppTheme.getTextStyle(context, fontSize: 14))
               ],
             ),
@@ -35,10 +45,16 @@ class FindJobCard extends StatelessWidget {
                       "Việc mới",
                       style: AppTheme.getTextStyle(context, fontSize: 14),
                     ),
+                    SizedBox(width: 5),
+                    data.isValidDuration(dateTime) ? SlideCountdownSeparated(
+                      duration: data.getDurationDown(dateTime),
+                      shouldShowDays: (duration) => duration.inDays == 0,
+                      padding: const EdgeInsets.all(3),
+                    ) : Text("Đã quá hạn")
                   ],
                 ),
                 Text(
-                  "400.000d",
+                  data.getAmount,
                   style: AppTheme.getTextStyle(context,
                       fontWeight: FontWeight.bold),
                 )
@@ -49,7 +65,7 @@ class FindJobCard extends StatelessWidget {
                 SvgPicture.asset("assets/icons/Clock.svg", height: 20),
                 SizedBox(width: 4),
                 Text(
-                  "Giờ làm việc: Cần ngay 2/1",
+                  "Giờ làm việc: ${data.dateStart}",
                   style: TextStyle(fontSize: 14, color: primaryColor),
                 )
               ],

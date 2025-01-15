@@ -28,7 +28,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
   @override
   void initState() {
     super.initState();
-    initData();
+    if (mounted) {
+      initData();
+    }
   }
 
   initData() async {

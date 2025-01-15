@@ -27,11 +27,11 @@ class _EntryPointState extends State<EntryPoint> {
 
   String fullName = "";
   String phone = "";
-  String type = "Trở thành cộng tác viên";
+  String type = "Trở thành cộng tác viên, chi nhánh";
   int typeID = 4;
+
   @override
   void initState() {
-    initProfile();
     super.initState();
   }
 
@@ -43,6 +43,8 @@ class _EntryPointState extends State<EntryPoint> {
         phone = temp.data!.userName;
         if (temp.data!.typeUserID != 4) {
           type = temp.data!.typeUserID == 2 ? "Cộng tác viên" : "Tổ chức";
+        }else{
+          type = "Trở thành cộng tác viên, chi nhánh";
         }
         typeID = temp.data!.typeUserID;
       });
@@ -163,6 +165,9 @@ class _EntryPointState extends State<EntryPoint> {
               setState(() {
                 _currentIndex = index;
               });
+              if(index == 0){
+                initProfile();
+              }
             }
           },
           backgroundColor: Colors.white,

@@ -22,32 +22,38 @@ class TextFieldLabel extends StatelessWidget {
 
 class AppTextField extends StatelessWidget {
   const AppTextField(this.controller, this.hintText, this.labelText,
-      {super.key, this.maxLines = 1, this.textInputType = TextInputType.text, this.isShowTitle = true});
+      {super.key,
+      this.maxLines = 1,
+      this.textInputType = TextInputType.text,
+      this.isShowTitle = true,
+      this.isShowRequired = true});
   final TextEditingController controller;
   final String labelText;
   final String hintText;
   final int maxLines;
   final TextInputType? textInputType;
   final bool? isShowTitle;
-
+  final bool? isShowRequired;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if(isShowTitle!)
-        Text.rich(
-          TextSpan(
-            text: labelText,
-            children: <InlineSpan>[
-              TextSpan(
-                text: ' *',
-                style: TextStyle(color: Colors.red),
-              ),
-            ],
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        if (isShowTitle!)
+          Text.rich(
+            TextSpan(
+              text: labelText,
+              children: <InlineSpan>[
+                if (isShowRequired!)
+                  TextSpan(
+                    text: ' *',
+                    style: TextStyle(color: Colors.red),
+                  ),
+              ],
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
         TextFormField(
           validator: (e) {
             if (e?.isEmpty ?? true) {

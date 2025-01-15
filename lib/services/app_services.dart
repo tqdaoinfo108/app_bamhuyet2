@@ -9,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/base_response.dart';
+import '../model/booking_model.dart';
 import '../model/branch_model.dart';
 import '../model/type_service_model.dart';
 import '../model/user_model.dart';
@@ -407,13 +408,13 @@ class AppServices {
     return null;
   }
 
-  Future<ResponseBase<AddressModel>?> createBooking({
-    required int serviceID,
-    required int addressID,
-    required int minute,
-    required double amount,
-    required TimeOfDay time,
-  }) async {
+  Future<ResponseBase<BookingModel>?> createBooking(
+      {required int serviceID,
+      required int addressID,
+      required int minute,
+      required double amount,
+      required TimeOfDay time,
+      String? description}) async {
     try {
       var data = {
         "TypeBookingID": 1,
@@ -426,13 +427,31 @@ class AppServices {
         "AmountDiscount": amount,
         "DateStart":
             timeOfDayToDateTime(time, DateTime.now()).toIso8601String(),
-        "Description": ""
+        "Description": description ?? ""
       };
       var path = "api/booking/create";
       var rawResponse = await _api.post(Uri.parse("${_baseURL}$path"),
           body: json.encode(data));
       if (rawResponse.statusCode == 200) {
-        return AddressModel.getFromJsonObject(jsonDecode(rawResponse.body));
+        return BookingModel.getFromJsonObject(jsonDecode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<List<BookingModel>>?> getListBooking(
+      {required double lat,
+      required double lng,
+      required DateTime dateTime,
+      required int page}) async {
+    try {
+      var path =
+          "api/booking/get-booking-by-date?dateGet=${dateTime.toIso8601String()}&Latitude=$lat&Longitude=$lng&page=$page&limit=20";
+      var rawResponse = await _api.get(Uri.parse("${_baseURL}$path"));
+      if (rawResponse.statusCode == 200) {
+        return BookingModel.getFromJsonList(jsonDecode(rawResponse.body));
       }
     } catch (e) {
       return null;

@@ -26,6 +26,7 @@ dependencies:
   geolocator: ^13.0.2
   hl_image_picker: ^1.2.16
   toastification: ^2.3.0
+  slide_countdown: ^2.0.2
   
 dev_dependencies:
   flutter_test:

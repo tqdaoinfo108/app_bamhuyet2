@@ -1,7 +1,10 @@
 import 'package:app_bamnguyet_2/model/type_service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:toastification/toastification.dart';
 
+import '../../../components/app_snackbar.dart';
 import '../../../components/network_image_with_loader.dart';
 import '../../../route/route_constants.dart';
 import '../../../utils/constants.dart';
@@ -13,6 +16,12 @@ class HomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        if(GetStorage().read(userTypeUser) != 4){
+          SnackbarHelper.showSnackBar(
+                        "CTV và chi nhánh không thể đặt lịch",
+                        ToastificationType.warning);
+          return;
+        }
         Navigator.pushNamed(context, serviceDetailScreenRoute, arguments: data);
       },
       child: Container(
