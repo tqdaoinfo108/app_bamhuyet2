@@ -41,7 +41,6 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
     setState(() {
       isLoading = true;
     });
-    timeOfDay = TimeOfDay.now();
     var respone = await AppServices.instance.createBooking(
         serviceID: widget.data.serviceID,
         addressID: list.first.userAddressId,

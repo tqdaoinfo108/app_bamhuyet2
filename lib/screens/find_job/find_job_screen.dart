@@ -1,3 +1,4 @@
+import 'package:app_bamnguyet_2/components/loading.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -16,20 +17,24 @@ class FindJobScreen extends StatefulWidget {
 class _FindJobScreenState extends State<FindJobScreen> {
   DateTime dateTime = DateTime.now();
   List<BookingModel> list = [];
-
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
     if (mounted) {
-      loadList();
+      loadList(dateTime);
     }
   }
 
-  loadList() async {
+  loadList(DateTime dateTime) async {
+    setState(() {
+      isLoading = true;
+    });
     var respose = await AppServices.instance
         .getListBooking(lat: 0, lng: 0, dateTime: dateTime, page: 1);
     setState(() {
       list = respose?.data ?? [];
+      isLoading = false;
     });
   }
 
@@ -39,6 +44,9 @@ class _FindJobScreenState extends State<FindJobScreen> {
       body: Column(
         children: [
           WeeklyCalendar(
+            onChangedSelectedDate: (p0) async {
+              await loadList(p0);
+            },
             calendarStyle: CalendarStyle(
               locale: "vi",
               isShowFooterDateText: false,
@@ -50,12 +58,14 @@ class _FindJobScreenState extends State<FindJobScreen> {
           ),
           Expanded(
             flex: 10,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return FindJobCard(list[index],dateTime);
-              },
-              itemCount: list.length,
-            ),
+            child: isLoading
+                ? loadingWidget()
+                : ListView.builder(
+                    itemBuilder: (context, index) {
+                      return FindJobCard(list[index], dateTime);
+                    },
+                    itemCount: list.length,
+                  ),
           )
         ],
       ),

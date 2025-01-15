@@ -2,6 +2,7 @@ import 'package:app_bamnguyet_2/theme/app_theme.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:toastification/toastification.dart';
 import '../../../components/app_snackbar.dart';
@@ -24,7 +25,7 @@ class FindJobCard extends StatelessWidget {
                         ToastificationType.warning);
           }
         },
-        style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(8)),
+        style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(8), backgroundColor: !data.isValidDuration(dateTime) ? Colors.grey.shade300 : null),
         child: Column(
           children: [
             Row(
@@ -65,7 +66,8 @@ class FindJobCard extends StatelessWidget {
                 SvgPicture.asset("assets/icons/Clock.svg", height: 20),
                 SizedBox(width: 4),
                 Text(
-                  "Giờ làm việc: ${data.dateStart}",
+                  "Giờ làm việc: ${DateFormat('HH:mm dd-MM-yyyy')
+                                            .format(data.dateStart!)}",
                   style: TextStyle(fontSize: 14, color: primaryColor),
                 )
               ],
