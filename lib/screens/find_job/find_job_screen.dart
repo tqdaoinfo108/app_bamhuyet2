@@ -2,8 +2,10 @@ import 'package:app_bamnguyet_2/components/loading.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 import 'package:weekly_calendar/weekly_calendar.dart';
 
+import '../../components/app_snackbar.dart';
 import '../../model/booking_model.dart';
 import 'components/find_job_card.dart';
 
@@ -18,6 +20,18 @@ class _FindJobScreenState extends State<FindJobScreen> {
   DateTime dateTime = DateTime.now();
   List<BookingModel> list = [];
   bool isLoading = false;
+
+  onBooking(int bookingID) async {
+    var response = await AppServices.instance
+        .postPartnerReciveBooking(bookingID: bookingID);
+    if (response != null) {
+      SnackbarHelper.showSnackBar(
+          "Ứng tuyển thành công", ToastificationType.error);
+    } else {
+      SnackbarHelper.showSnackBar("Thất bại", ToastificationType.error);
+    }
+  }
+
   @override
   void initState() {
     super.initState();

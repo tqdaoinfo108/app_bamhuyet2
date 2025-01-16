@@ -19,20 +19,23 @@ class FindJobCard extends StatelessWidget {
           horizontal: defaultPadding, vertical: defaultPadding / 2),
       child: OutlinedButton(
         onPressed: () {
-          if(!data.isValidDuration(dateTime)){
+          if (!data.isValidDuration(dateTime)) {
             SnackbarHelper.showSnackBar(
-                        "Tin đã quá hạn !",
-                        ToastificationType.warning);
+                "Tin đã quá hạn !", ToastificationType.warning);
           }
         },
-        style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(8), backgroundColor: !data.isValidDuration(dateTime) ? Colors.grey.shade300 : null),
+        style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.all(8),
+            backgroundColor:
+                !data.isValidDuration(dateTime) ? Colors.grey.shade300 : null),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Massage đầu",
-                    style: AppTheme.getTextStyle(context, fontSize: 14)),
+                Text(data.serviceName ?? "",
+                    style: AppTheme.getTextStyle(context,
+                        fontSize: 16, fontWeight: FontWeight.bold)),
                 Text(data.getMinute,
                     style: AppTheme.getTextStyle(context, fontSize: 14))
               ],
@@ -47,11 +50,13 @@ class FindJobCard extends StatelessWidget {
                       style: AppTheme.getTextStyle(context, fontSize: 14),
                     ),
                     SizedBox(width: 5),
-                    data.isValidDuration(dateTime) ? SlideCountdownSeparated(
-                      duration: data.getDurationDown(dateTime),
-                      shouldShowDays: (duration) => duration.inDays == 0,
-                      padding: const EdgeInsets.all(3),
-                    ) : Text("Đã quá hạn")
+                    data.isValidDuration(dateTime)
+                        ? SlideCountdownSeparated(
+                            duration: data.getDurationDown(dateTime),
+                            shouldShowDays: (duration) => duration.inDays == 0,
+                            padding: const EdgeInsets.all(3),
+                          )
+                        : Text("Đã quá hạn")
                   ],
                 ),
                 Text(
@@ -66,8 +71,7 @@ class FindJobCard extends StatelessWidget {
                 SvgPicture.asset("assets/icons/Clock.svg", height: 20),
                 SizedBox(width: 4),
                 Text(
-                  "Giờ làm việc: ${DateFormat('HH:mm dd-MM-yyyy')
-                                            .format(data.dateStart!)}",
+                  "Giờ làm việc: ${DateFormat('HH:mm dd-MM-yyyy').format(data.dateStart!)}",
                   style: TextStyle(fontSize: 14, color: primaryColor),
                 )
               ],
@@ -89,43 +93,44 @@ class FindJobCard extends StatelessWidget {
                     height: 20, color: Colors.black),
                 SizedBox(width: 4),
                 Text(
-                  "Phường 15, Quận 11, Hồ Chi Minh",
+                  data.bookingCustomerAddress ?? "",
                   style: AppTheme.getTextStyle(context, fontSize: 14),
                 )
               ],
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor.withOpacity(.3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(defaultBorderRadious * 2),
+            if (data.isValidDuration(dateTime))
+              Row(
+                children: [
+                  Flexible(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor.withOpacity(.3),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(defaultBorderRadious * 2),
+                        ),
+                        padding: EdgeInsets.all(5),
                       ),
-                      padding: EdgeInsets.all(5),
+                      onPressed: () {},
+                      child: const Text("Chi Tiết"),
                     ),
-                    onPressed: () {},
-                    child: const Text("Chi Tiết"),
                   ),
-                ),
-                SizedBox(width: 10),
-                Flexible(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(defaultBorderRadious * 2),
+                  SizedBox(width: 10),
+                  Flexible(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(defaultBorderRadious * 2),
+                        ),
+                        padding: EdgeInsets.all(5),
                       ),
-                      padding: EdgeInsets.all(5),
+                      onPressed: () {},
+                      child: const Text("Ứng tuyển"),
                     ),
-                    onPressed: () {},
-                    child: const Text("Ứng tuyển"),
-                  ),
-                )
-              ],
-            )
+                  )
+                ],
+              )
           ],
         ),
       ),

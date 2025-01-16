@@ -80,40 +80,53 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
           ? loadingWidget()
           : Column(
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: defaultPadding, vertical: defaultPadding / 2),
-                  decoration: BoxDecoration(color: lightGreyColor),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        "assets/icons/Address.svg",
-                        height: 42,
-                        width: 42,
-                      ),
-                      SizedBox(width: defaultPadding),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Địa chỉ của bạn",
-                              style: AppTheme.getTextStyle(context,
-                                  fontSize: 16, fontWeight: FontWeight.w500)),
-                          Text(
-                            list.isEmpty
-                                ? "Thêm địa chỉ"
-                                : "${list.first.address}",
-                            style: TextStyle(
-                                color:
-                                    list.isEmpty ? primaryColor : Colors.grey,
-                                fontSize: 14),
-                          )
-                        ],
-                      ),
-                      Spacer(),
-                      SvgPicture.asset(
-                        "assets/icons/miniRight.svg",
-                      ),
-                    ],
+                InkWell(
+                  onTap: () async {
+                    var result = await Navigator.pushNamed(
+                        context, addressScreenRoute,
+                        arguments: true);
+                    if (result != null) {
+                      setState(() {
+                        list[0] = result as AddressModel;
+                      });
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: defaultPadding,
+                        vertical: defaultPadding / 2),
+                    decoration: BoxDecoration(color: lightGreyColor),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/icons/Address.svg",
+                          height: 42,
+                          width: 42,
+                        ),
+                        SizedBox(width: defaultPadding),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Địa chỉ của bạn",
+                                style: AppTheme.getTextStyle(context,
+                                    fontSize: 16, fontWeight: FontWeight.w500)),
+                            Text(
+                              list.isEmpty
+                                  ? "Thêm địa chỉ"
+                                  : "${list.first.address}",
+                              style: TextStyle(
+                                  color:
+                                      list.isEmpty ? primaryColor : Colors.grey,
+                                  fontSize: 14),
+                            )
+                          ],
+                        ),
+                        Spacer(),
+                        SvgPicture.asset(
+                          "assets/icons/miniRight.svg",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: defaultPadding),

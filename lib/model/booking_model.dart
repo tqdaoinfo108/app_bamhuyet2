@@ -18,6 +18,8 @@ class BookingModel {
   int? statusId;
   int? statusPayment;
   dynamic datePayment;
+  String? serviceName;
+  String? bookingCustomerAddress;
 
   String get getAmount =>
       NumberFormat.decimalPattern('vi').format(amount) + "đ";
@@ -30,12 +32,12 @@ class BookingModel {
   }
 
   bool isValidDuration(DateTime now) {
-  Duration difference = now.difference(dateStart!);
-  if (difference.inMinutes <= 0) {
-    return true; 
+    Duration difference = now.difference(dateStart!);
+    if (difference.inMinutes <= 0) {
+      return true;
+    }
+    return false;
   }
-  return false; 
-}
 
   BookingModel.fromJson(Map<String, dynamic> json) {
     bookingId = json["BookingID"];
@@ -53,6 +55,8 @@ class BookingModel {
     statusId = json["StatusID"];
     statusPayment = json["StatusPayment"];
     datePayment = json["DatePayment"];
+    serviceName = json["ServiceName"];
+    bookingCustomerAddress = json["BookingCustomerAddress"];
   }
 
   static ResponseBase<List<BookingModel>>? getFromJsonList(

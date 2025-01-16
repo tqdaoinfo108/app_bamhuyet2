@@ -459,6 +459,22 @@ class AppServices {
     return null;
   }
 
+  Future<ResponseBase<BookingModel>?> postPartnerReciveBooking(
+      {required int bookingID}) async {
+    try {
+      var data = {"BookingID": bookingID};
+      var path = "api/booking/partner-recive-booking";
+      var rawResponse = await _api.post(Uri.parse("${_baseURL}$path"),
+          body: json.encode(data));
+      if (rawResponse.statusCode == 200) {
+        return BookingModel.getFromJsonObject(jsonDecode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
   Future<ResponseBase<String>?> uploadFile(String imagePath) async {
     try {
       final url = Uri.parse('$_baseURL/api/fileupload/upload');

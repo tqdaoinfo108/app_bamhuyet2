@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'components/address_form.dart';
 
 class AddressScreen extends StatefulWidget {
-  const AddressScreen({super.key});
+  const AddressScreen({super.key, this.modeChoose = false});
 
+  final bool? modeChoose;
   @override
   State<AddressScreen> createState() => _AddressScreenState();
 }
@@ -70,6 +71,11 @@ class _AddressScreenState extends State<AddressScreen> {
                 SliverList.builder(
                   itemBuilder: (context, index) {
                     return AddressItem(list[index], () async {
+                      if (widget.modeChoose ?? false) {
+                        Navigator.pop(context, list[index]);
+                        return;
+                      }
+
                       await customModalBottomSheet(context,
                           child: AddressForm(dataInit: list[index]),
                           isDismissible: false);

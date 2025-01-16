@@ -33,6 +33,9 @@ class _EntryPointState extends State<EntryPoint> {
   @override
   void initState() {
     super.initState();
+    if (mounted) {
+      initProfile();
+    }
   }
 
   initProfile() async {
@@ -43,7 +46,7 @@ class _EntryPointState extends State<EntryPoint> {
         phone = temp.data!.userName;
         if (temp.data!.typeUserID != 4) {
           type = temp.data!.typeUserID == 2 ? "Cộng tác viên" : "Tổ chức";
-        }else{
+        } else {
           type = "Trở thành cộng tác viên, chi nhánh";
         }
         typeID = temp.data!.typeUserID;
@@ -165,7 +168,7 @@ class _EntryPointState extends State<EntryPoint> {
               setState(() {
                 _currentIndex = index;
               });
-              if(index == 0){
+              if (index == 0) {
                 initProfile();
               }
             }
@@ -175,7 +178,9 @@ class _EntryPointState extends State<EntryPoint> {
           // selectedLabelStyle: TextStyle(color: primaryColor),
           selectedFontSize: 12,
           selectedItemColor: primaryColor,
-          unselectedItemColor: Colors.transparent,
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          showSelectedLabels: true,
           items: [
             BottomNavigationBarItem(
               icon: svgIcon("assets/icons/Category.svg"),
@@ -184,9 +189,9 @@ class _EntryPointState extends State<EntryPoint> {
               label: "Trang chủ",
             ),
             BottomNavigationBarItem(
-              icon: svgIcon("assets/icons/Search.svg"),
+              icon: svgIcon("assets/icons/document.svg"),
               activeIcon:
-                  svgIcon("assets/icons/Search.svg", color: primaryColor),
+                  svgIcon("assets/icons/document.svg", color: primaryColor),
               label: "Nhận việc",
             ),
             BottomNavigationBarItem(

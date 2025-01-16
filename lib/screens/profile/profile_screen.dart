@@ -39,11 +39,16 @@ class ProfileScreen extends StatelessWidget {
                     }
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: defaultPadding/2),
-                    padding: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: defaultPadding/2),
-                    decoration:
-                        BoxDecoration(color: greyColor.withOpacity(.3),
-                        borderRadius: BorderRadius.circular(defaultBorderRadious)),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: defaultPadding,
+                        vertical: defaultPadding / 2),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: defaultPadding,
+                        vertical: defaultPadding / 2),
+                    decoration: BoxDecoration(
+                        color: greyColor.withOpacity(.3),
+                        borderRadius:
+                            BorderRadius.circular(defaultBorderRadious)),
                     child: Row(
                       children: [
                         SvgPicture.asset(
@@ -83,8 +88,8 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: defaultPadding / 2),
           ProfileMenuListTile(
-            text: "Yêu thích",
-            svgSrc: "assets/icons/Wishlist.svg",
+            text: "Lịch sử hoạt động",
+            svgSrc: "assets/icons/Order.svg",
             press: () {},
           ),
           ProfileMenuListTile(

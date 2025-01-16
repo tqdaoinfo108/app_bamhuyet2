@@ -43,8 +43,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => AddServiceScreen(args),
       );
     case addressScreenRoute:
+      final args = settings.arguments as bool?;
       return MaterialPageRoute(
-        builder: (context) => AddressScreen(),
+        builder: (context) => AddressScreen(modeChoose: args),
       );
     case bookingconfirmscreen:
       final args = settings.arguments as ServiceModel;
