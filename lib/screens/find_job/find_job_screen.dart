@@ -74,7 +74,7 @@ class _FindJobScreenState extends State<FindJobScreen> {
             flex: 10,
             child: isLoading
                 ? loadingWidget()
-                : ListView.builder(
+                : list.isEmpty ? Center(child: Text("Chưa có đặt lịch"),) : ListView.builder(
                     itemBuilder: (context, index) {
                       return FindJobCard(list[index], dateTime);
                     },

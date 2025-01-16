@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -9,6 +10,7 @@ import 'screens/find_job/find_job_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/profile/profile_screen.dart';
 import 'utils/constants.dart';
+import 'package:badges/badges.dart' as badges;
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
@@ -29,7 +31,7 @@ class _EntryPointState extends State<EntryPoint> {
   String phone = "";
   String type = "Trở thành cộng tác viên, chi nhánh";
   int typeID = 4;
-
+  String count = "0";
   @override
   void initState() {
     super.initState();
@@ -40,7 +42,8 @@ class _EntryPointState extends State<EntryPoint> {
 
   initProfile() async {
     var temp = await AppServices.instance.getProfile();
-    if (temp != null) {
+
+    if (temp != null && mounted) {
       setState(() {
         fullName = temp.data!.fullName;
         phone = temp.data!.userName;
@@ -50,6 +53,13 @@ class _EntryPointState extends State<EntryPoint> {
           type = "Trở thành cộng tác viên, chi nhánh";
         }
         typeID = temp.data!.typeUserID;
+      });
+    }
+
+    var temp2 = await AppServices.instance.getCountBooking();
+    if (mounted) {
+      setState(() {
+        count = temp2 ?? "0";
       });
     }
   }
@@ -189,9 +199,23 @@ class _EntryPointState extends State<EntryPoint> {
               label: "Trang chủ",
             ),
             BottomNavigationBarItem(
-              icon: svgIcon("assets/icons/document.svg"),
-              activeIcon:
-                  svgIcon("assets/icons/document.svg", color: primaryColor),
+              icon: badges.Badge(
+                badgeStyle: BadgeStyle(badgeColor: primaryColor, padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2)),
+                badgeContent: Text(
+                  '$count+',
+                  style: TextStyle(fontSize: 10, color: Colors.white),
+                ),
+                child: svgIcon("assets/icons/document.svg"),
+              ),
+              activeIcon: badges.Badge(
+                badgeStyle: BadgeStyle(badgeColor: primaryColor, padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2)),
+                badgeContent: Text(
+                  '$count+',
+                  style: TextStyle(fontSize: 10, color: Colors.white),
+                ),
+                child:
+                    svgIcon("assets/icons/document.svg", color: primaryColor),
+              ),
               label: "Nhận việc",
             ),
             BottomNavigationBarItem(

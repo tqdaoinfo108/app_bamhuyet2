@@ -54,6 +54,7 @@ class FindJobCard extends StatelessWidget {
                         ? SlideCountdownSeparated(
                             duration: data.getDurationDown(dateTime),
                             shouldShowDays: (duration) => duration.inDays == 0,
+                            
                             padding: const EdgeInsets.all(3),
                           )
                         : Text("Đã quá hạn")

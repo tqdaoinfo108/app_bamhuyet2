@@ -459,6 +459,19 @@ class AppServices {
     return null;
   }
 
+  Future<String?> getCountBooking() async {
+    try {
+      var path ="api/booking/count-booking-waiting";
+      var rawResponse = await _api.get(Uri.parse("${_baseURL}$path"));
+      if (rawResponse.statusCode == 200) {
+        return rawResponse.body;
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
   Future<ResponseBase<BookingModel>?> postPartnerReciveBooking(
       {required int bookingID}) async {
     try {
