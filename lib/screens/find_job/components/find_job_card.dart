@@ -2,6 +2,7 @@ import 'package:app_bamnguyet_2/theme/app_theme.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:toastification/toastification.dart';
@@ -9,9 +10,10 @@ import '../../../components/app_snackbar.dart';
 import '../../../model/booking_model.dart';
 
 class FindJobCard extends StatelessWidget {
-  const FindJobCard(this.data, this.dateTime, {super.key});
+  const FindJobCard(this.data, this.dateTime, this.onBooking, {super.key});
   final BookingModel data;
   final DateTime dateTime;
+  final Function() onBooking;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -54,7 +56,6 @@ class FindJobCard extends StatelessWidget {
                         ? SlideCountdownSeparated(
                             duration: data.getDurationDown(dateTime),
                             shouldShowDays: (duration) => duration.inDays == 0,
-                            
                             padding: const EdgeInsets.all(3),
                           )
                         : Text("Đã quá hạn")
@@ -105,28 +106,21 @@ class FindJobCard extends StatelessWidget {
                   Flexible(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor.withOpacity(.3),
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(defaultBorderRadious * 2),
                         ),
                         padding: EdgeInsets.all(5),
                       ),
-                      onPressed: () {},
-                      child: const Text("Chi Tiết"),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Flexible(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(defaultBorderRadious * 2),
-                        ),
-                        padding: EdgeInsets.all(5),
-                      ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (GetStorage().read(userTypeUser) != 2) {
+                          SnackbarHelper.showSnackBar(
+                              "Bạn không phải cộng tác viên",
+                              ToastificationType.warning);
+                          return;
+                        }
+                        onBooking();
+                      },
                       child: const Text("Ứng tuyển"),
                     ),
                   )

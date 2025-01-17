@@ -26,7 +26,10 @@ class _FindJobScreenState extends State<FindJobScreen> {
         .postPartnerReciveBooking(bookingID: bookingID);
     if (response != null) {
       SnackbarHelper.showSnackBar(
-          "Ứng tuyển thành công", ToastificationType.error);
+          "Ứng tuyển thành công", ToastificationType.success);
+      if (mounted) {
+        loadList(dateTime);
+      }
     } else {
       SnackbarHelper.showSnackBar("Thất bại", ToastificationType.error);
     }
@@ -74,12 +77,18 @@ class _FindJobScreenState extends State<FindJobScreen> {
             flex: 10,
             child: isLoading
                 ? loadingWidget()
-                : list.isEmpty ? Center(child: Text("Chưa có đặt lịch"),) : ListView.builder(
-                    itemBuilder: (context, index) {
-                      return FindJobCard(list[index], dateTime);
-                    },
-                    itemCount: list.length,
-                  ),
+                : list.isEmpty
+                    ? Center(
+                        child: Text("Chưa có đặt lịch"),
+                      )
+                    : ListView.builder(
+                        itemBuilder: (context, index) {
+                          return FindJobCard(list[index], dateTime, () async {
+                            await onBooking(list[index].bookingId!);
+                          });
+                        },
+                        itemCount: list.length,
+                      ),
           )
         ],
       ),

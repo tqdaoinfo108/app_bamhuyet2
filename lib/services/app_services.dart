@@ -461,7 +461,7 @@ class AppServices {
 
   Future<String?> getCountBooking() async {
     try {
-      var path ="api/booking/count-booking-waiting";
+      var path = "api/booking/count-booking-waiting";
       var rawResponse = await _api.get(Uri.parse("${_baseURL}$path"));
       if (rawResponse.statusCode == 200) {
         return rawResponse.body;
@@ -472,7 +472,7 @@ class AppServices {
     return null;
   }
 
-  Future<ResponseBase<BookingModel>?> postPartnerReciveBooking(
+  Future<BookingModel?> postPartnerReciveBooking(
       {required int bookingID}) async {
     try {
       var data = {"BookingID": bookingID};
@@ -480,7 +480,7 @@ class AppServices {
       var rawResponse = await _api.post(Uri.parse("${_baseURL}$path"),
           body: json.encode(data));
       if (rawResponse.statusCode == 200) {
-        return BookingModel.getFromJsonObject(jsonDecode(rawResponse.body));
+        return BookingModel.fromJson(jsonDecode(rawResponse.body));
       }
     } catch (e) {
       return null;
