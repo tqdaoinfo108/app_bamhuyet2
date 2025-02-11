@@ -1,4 +1,4 @@
-package com.example.app_bamnguyet_2
+package vn.gbsoft.bamhuyethoanglam
 
 import io.flutter.embedding.android.FlutterActivity
 
