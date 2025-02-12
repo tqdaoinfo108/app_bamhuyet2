@@ -229,18 +229,17 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                 ),
                 SizedBox(height: defaultPadding * 2),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: ElevatedButton(
                     onPressed: () async {
                       await onCreateBooking();
                     },
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 4)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text("Đặt lịch"),
-                        Text("(${itemChoose.getAmount}đ")
+                        Text("${itemChoose.getAmount}đ", style: AppTheme.getTextStyle(context,  fontWeight: FontWeight.bold).copyWith(color: Colors.white),)
                       ],
                     ),
                   ),

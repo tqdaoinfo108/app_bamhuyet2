@@ -63,8 +63,8 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
             padding: const EdgeInsets.only(bottom: 30),
             child: ElevatedButton(
               onPressed: widget.onPressed,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text("Tiếp tục"),
                   if (amount != "") Text("$amount vnd")

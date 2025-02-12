@@ -202,7 +202,7 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                     return;
                   }
 
-                  if (imageMain == null &&
+                  if (imageMain == null ||imageMain == ''  &&
                       [image2, image3, image4]
                               .where((image) => image == null || image.isEmpty)
                               .length <

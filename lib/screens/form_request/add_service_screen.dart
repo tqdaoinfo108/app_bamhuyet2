@@ -12,6 +12,7 @@ import '../../model/service_branch_partner.dart';
 class AddServiceScreen extends StatefulWidget {
   const AddServiceScreen(this.data, {super.key});
   final ServiceBranchPartner data;
+  // final List<LstServiceUsers>
   @override
   State<AddServiceScreen> createState() => _AddServiceScreenState();
 }

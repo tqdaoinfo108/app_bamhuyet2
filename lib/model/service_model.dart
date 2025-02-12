@@ -74,6 +74,9 @@ class LstServiceDetails {
   int? serviceId;
   int? minute;
   double? amount;
+
+  String get amountFormatString => NumberFormat.decimalPattern('vi').format(amount) + "đ";
+
   // int? amountDiscount;
   String? description;
   bool isChoose = false;
