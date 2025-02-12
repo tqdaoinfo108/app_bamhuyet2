@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:app_bamnguyet_2/model/address_model.dart';
 import 'package:app_bamnguyet_2/model/city_model.dart';
+import 'package:app_bamnguyet_2/model/history_model.dart';
 import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
@@ -507,5 +508,31 @@ class AppServices {
     } catch (e) {
       return null;
     }
+  }
+
+  Future<ResponseBase<List<AddressModel>>?> getListRating(int typeServiceID) async {
+    try {
+      var rawResponse = await _api.get(
+          Uri.parse("${_baseURL}api/rating/get-rating-average-by-type-service?typeServiceID=${typeServiceID}&page=1&limit=20"));
+      if (rawResponse.statusCode == 200) {
+        return AddressModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<List<HistoryModel>>?> getHistory() async {
+    try {
+      var rawResponse = await _api.get(
+          Uri.parse("${_baseURL}api/booking/get-booking-by-user?page=1&limit=20"));
+      if (rawResponse.statusCode == 200) {
+        return HistoryModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
   }
 }

@@ -202,11 +202,13 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                     return;
                   }
 
-                  if (imageMain == null ||imageMain == ''  &&
-                      [image2, image3, image4]
-                              .where((image) => image == null || image.isEmpty)
-                              .length <
-                          2) {
+                  if (imageMain == null ||
+                      imageMain == '' &&
+                          [image2, image3, image4]
+                                  .where(
+                                      (image) => image == null || image.isEmpty)
+                                  .length <
+                              2) {
                     SnackbarHelper.showSnackBar(
                         "Chọn ít nhất 1 ảnh đại diện và 2 ảnh khác",
                         ToastificationType.error);
@@ -233,7 +235,9 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
 
                     Navigator.popAndPushNamed(context, addServiceScreenRoute,
                         arguments: ServiceBranchPartner(
-                            branchID: 0, partnerID: response.data!.userID!));
+                            branchID: 0,
+                            partnerID: response.data!.userID,
+                            initData: response.data?.lstServiceUsers ?? []));
                   } else {
                     SnackbarHelper.showSnackBar(
                         "Thất bại, vui lòng liên hệ ban quản trị.",

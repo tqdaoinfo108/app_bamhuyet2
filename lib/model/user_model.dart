@@ -1,4 +1,5 @@
 import 'base_response.dart';
+import 'service_model.dart';
 
 class UserModel {
   int userID = 0;
@@ -21,7 +22,7 @@ class UserModel {
   String? timeOTP;
   // bool? isDeleted;
   List<LstImageUsers> lstImageUsers = [];
-  List<LstServiceUsers> lstServiceUsers = [];
+  List<LstServiceDetails> lstServiceUsers = [];
   List<int> lstBranchId = [];
   int cityId = 0;
   int proviceId = 0;
@@ -63,7 +64,7 @@ class UserModel {
     lstServiceUsers = json["lstServiceUsers"] == null
         ? []
         : (json["lstServiceUsers"] as List)
-            .map((e) => LstServiceUsers.fromJson(e))
+            .map((e) => LstServiceDetails.fromJson(e))
             .toList();
     lstBranchId =
         json["lstBranchID"] == null ? [] : List<int>.from(json["lstBranchID"]);
@@ -97,26 +98,6 @@ class UserModel {
     } else {
       return ResponseBase();
     }
-  }
-}
-
-class LstServiceUsers {
-  int userServiceId = 0;
-  int minute = 0;
-  double amount = 0;
-
-  LstServiceUsers.fromJson(Map<String, dynamic> json) {
-    userServiceId = json["UserServiceID"];
-    minute = json["Minute"];
-    amount = json["Amount"];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["UserServiceID"] = userServiceId;
-    _data["Minute"] = minute;
-    _data["Amount"] = amount;
-    return _data;
   }
 }
 

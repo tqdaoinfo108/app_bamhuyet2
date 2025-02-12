@@ -12,7 +12,6 @@ import '../../model/service_branch_partner.dart';
 class AddServiceScreen extends StatefulWidget {
   const AddServiceScreen(this.data, {super.key});
   final ServiceBranchPartner data;
-  // final List<LstServiceUsers>
   @override
   State<AddServiceScreen> createState() => _AddServiceScreenState();
 }
@@ -60,6 +59,12 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   getListService() async {
     var temp = await AppServices.instance.getServicesAll();
     if (temp != null) {
+      for(var item in temp.data ??[]){
+        if(item.lstServiceDetails.any((i) => widget.data.initData.any((y) => y.serviceDetailId == i.serviceDetailId))){
+          item.isExpand = true;
+        }
+      }
+
       setState(() {
         listData = temp.data ?? [];
       });

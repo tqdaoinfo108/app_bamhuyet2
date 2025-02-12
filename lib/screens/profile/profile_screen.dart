@@ -90,7 +90,9 @@ class ProfileScreen extends StatelessWidget {
           ProfileMenuListTile(
             text: "Lịch sử hoạt động",
             svgSrc: "assets/icons/Order.svg",
-            press: () {},
+            press: () {
+              Navigator.pushNamed(context, historyscreen);
+            },
           ),
           ProfileMenuListTile(
             text: "Địa chỉ",

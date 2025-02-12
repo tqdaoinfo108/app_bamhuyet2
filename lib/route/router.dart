@@ -1,3 +1,4 @@
+import 'package:app_bamnguyet_2/screens/history/history_screen.dart';
 import 'package:flutter/material.dart';
 import '../model/service_model.dart';
 import '../model/type_service_model.dart';
@@ -51,6 +52,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final args = settings.arguments as ServiceModel;
       return MaterialPageRoute(
         builder: (context) => BookingConfirmScreen(args),
+      );
+    case historyscreen:
+      return MaterialPageRoute(
+        builder: (context) => const HistoryScreen(),
       );
     default:
       return MaterialPageRoute(

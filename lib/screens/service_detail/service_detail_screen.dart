@@ -45,6 +45,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     setState(() {
       listPartner = parner;
     });
+    
+    var listRating = (await AppServices.instance.getListRating(widget.data.typeServiceID))?.data ?? [];
   }
 
   @override

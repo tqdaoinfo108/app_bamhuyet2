@@ -1,3 +1,5 @@
+import 'package:app_bamnguyet_2/model/base_response.dart';
+import 'package:app_bamnguyet_2/model/branch_model.dart';
 import 'package:app_bamnguyet_2/model/city_model.dart';
 import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:app_bamnguyet_2/route/route_constants.dart';
@@ -317,7 +319,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
                     return;
                   }
 
-                  var response = await AppServices.instance.updateBranch(
+                  ResponseBase<BranchModel>? response = await AppServices.instance.updateBranch(
                       branch: branchID,
                       cityID: city!.cityId!,
                       description: descriptionController.text,
@@ -345,7 +347,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
 
                     Navigator.popAndPushNamed(context, addServiceScreenRoute,
                         arguments: ServiceBranchPartner(
-                            branchID: response.data!.branchId!, partnerID: 0));
+                            branchID: response.data!.branchId!, partnerID: 0, initData: response.data?.lstServiceUsers ?? []));
                   } else {
                     SnackbarHelper.showSnackBar(
                         "Thất bại, vui lòng liên hệ ban quản trị.",

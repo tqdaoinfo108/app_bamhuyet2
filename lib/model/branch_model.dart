@@ -1,4 +1,5 @@
 import 'base_response.dart';
+import 'service_model.dart';
 
 class BranchModel {
   int? branchId;
@@ -24,6 +25,7 @@ class BranchModel {
   double? ingMap;
   String? description;
   List<LstBranchImages>? lstBranchImages;
+  List<LstServiceDetails> lstServiceUsers = [];
 
   BranchModel(
       {this.branchId,
@@ -78,6 +80,12 @@ class BranchModel {
         : (json["lstBranchImages"] as List)
             .map((e) => LstBranchImages.fromJson(e))
             .toList();
+
+    lstServiceUsers = json["lstServiceUsers"] == null
+        ? []
+        : (json["lstServiceUsers"] as List)
+        .map((e) => LstServiceDetails.fromJson(e))
+        .toList();
   }
 
   static ResponseBase<BranchModel> getFromJson(Map<String, dynamic> json) {
