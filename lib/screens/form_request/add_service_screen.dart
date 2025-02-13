@@ -1,3 +1,4 @@
+import 'package:app_bamnguyet_2/model/base_response.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:app_bamnguyet_2/screens/form_request/components/service_item.dart';
@@ -57,10 +58,12 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   }
 
   getListService() async {
-    var temp = await AppServices.instance.getServicesAll();
+    ResponseBase<List<ServiceModel>>? temp = await AppServices.instance.getServicesAll();
     if (temp != null) {
-      for(var item in temp.data ??[]){
-        if(item.lstServiceDetails.any((i) => widget.data.initData.any((y) => y.serviceDetailId == i.serviceDetailId))){
+      List<int> ids = widget.data.initData.map((item) => item.serviceDetailId!).toList();
+
+      for(ServiceModel item in temp.data ??[]){
+        if(item.lstServiceDetails.any((i) => ids.contains(i.serviceDetailId))){
           item.isExpand = true;
         }
       }

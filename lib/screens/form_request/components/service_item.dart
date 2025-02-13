@@ -64,10 +64,11 @@ class _ServiceItemState extends State<ServiceItem> {
                     width: 120,
                     child: TextField(
                       controller: TextEditingController(text: "${z.amountFormatString}"),
-                      onChanged: (value) => z.amount = (double.tryParse(value) ?? 0) ,
+                      onChanged: (value) => z.amount = (double.tryParse(value.replaceAll('đ', '').replaceAll('.', '')) ?? 0) ,
                       textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
+                        enabled: widget.isPartner.partnerID == 0,
                         hintStyle: TextStyle(fontSize: 14),
                         hintText: 'Giá',
                         border: UnderlineInputBorder(

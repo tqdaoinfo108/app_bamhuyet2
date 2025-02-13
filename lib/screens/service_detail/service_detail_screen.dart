@@ -1,6 +1,8 @@
+import 'package:app_bamnguyet_2/components/app_snackbar.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../components/custom_modal_bottom_sheet.dart';
 import '../../components/rating.dart';
@@ -125,6 +127,10 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   await customModalBottomSheet(context,
                       child:
                           ServiceDetailPopup(item.lstServiceDetails, () async {
+                            if(!item.lstServiceDetails.any((e) => e.isChoose)){
+                              SnackbarHelper.showSnackBar("Chọn thời gian để tiếp tục", ToastificationType.error);
+                              return;
+                            }
                         Navigator.of(context).pop();
                         Navigator.pushNamed(context, bookingconfirmscreen,
                             arguments: item);
