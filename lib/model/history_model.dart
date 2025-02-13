@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import 'base_response.dart';
 
 class HistoryModel {
@@ -14,6 +16,8 @@ class HistoryModel {
   // int? amountDiscount;
   String? bookingDate;
   String? dateStart;
+
+  String get getDateStart => DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(dateStart!));
   int? statusID;
   int? statusPayment;
   Null? datePayment;

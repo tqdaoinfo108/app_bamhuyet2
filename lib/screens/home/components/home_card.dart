@@ -16,12 +16,6 @@ class HomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if(GetStorage().read(userTypeUser) != 4){
-          SnackbarHelper.showSnackBar(
-                        "CTV và chi nhánh không thể đặt lịch",
-                        ToastificationType.warning);
-          return;
-        }
         Navigator.pushNamed(context, serviceDetailScreenRoute, arguments: data);
       },
       child: Container(

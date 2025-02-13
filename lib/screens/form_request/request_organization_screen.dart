@@ -80,7 +80,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
       if (profile!.data!.typeUserID == 3 &&
           profile.data!.lstBranchId.isNotEmpty) {
         branchID = profile.data!.lstBranchId[0];
-        var branchInfo = await AppServices.instance.getBranchByID(branchID!);
+        ResponseBase<BranchModel>? branchInfo = await AppServices.instance.getBranchByID(branchID!);
         if (branchInfo != null) {
           var listImage = branchInfo.data?.lstBranchImages ?? [];
           var branch = branchInfo.data!;

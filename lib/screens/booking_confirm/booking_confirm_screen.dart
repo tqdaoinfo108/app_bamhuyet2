@@ -4,6 +4,7 @@ import 'package:app_bamnguyet_2/route/screen_export.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
 
@@ -38,6 +39,13 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
   }
 
   onCreateBooking() async {
+    if(GetStorage().read(userTypeUser) != 4){
+      SnackbarHelper.showSnackBar(
+          "CTV và chi nhánh không thể đặt lịch",
+          ToastificationType.warning);
+      return;
+    }
+
     setState(() {
       isLoading = true;
     });
