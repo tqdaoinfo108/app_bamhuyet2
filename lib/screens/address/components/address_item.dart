@@ -20,25 +20,23 @@ class AddressItem extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPadding, vertical: defaultPadding / 2),
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      data.nameContact,
-                      style: AppTheme.getTextStyle(context,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(data.address),
-                  ],
-                ),
-                Spacer(),
-                SvgPicture.asset(
-                  "assets/icons/miniRight.svg",
-                  color: Theme.of(context).iconTheme.color!.withOpacity(0.4),
-                )
-              ],
+            child:
+            ListTile(
+              trailing: SvgPicture.asset(
+                "assets/icons/miniRight.svg",
+                color: Theme.of(context).iconTheme.color!.withOpacity(0.4),
+              ),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.nameContact,
+                    style: AppTheme.getTextStyle(context,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(data.address),
+                ],
+              ),
             ),
           ),
         ),

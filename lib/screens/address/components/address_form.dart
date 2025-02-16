@@ -55,61 +55,67 @@ class _AddressFormState extends State<AddressForm> {
     return response?.data ?? false;
   }
 
+  final GlobalKey<FormState> key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: defaultPadding, vertical: defaultPadding / 2),
-        child: Column(
-          children: [
-            AppBar(
-              title: Text("Chi tiết địa chỉ"),
-            ),
-            AppTextField(nameContactController, "Họ và tên", "Họ và tên"),
-            SizedBox(height: 10),
-            AppTextField(addressContactController, "Địa chỉ", "Địa chỉ",
-                maxLines: 2),
-            SizedBox(height: 10),
-            AppTextField(
-              phoneContactController,
-              "Số điện thoại",
-              "Số điện thoại",
-              textInputType: TextInputType.phone,
-            ),
-            SizedBox(height: 10),
-            AppTextField(
-              descriptionController,
-              "Ghi Chú",
-              "Ghi Chú",
-              textInputType: TextInputType.text,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                await onSave();
-              },
-              child: const Text("Lưu"),
-            ),
-            SizedBox(height: 10),
-            if (widget.dataInit?.userAddressId != null)
+        child: Form(
+          key: key,
+          child: Column(
+            children: [
+              AppBar(
+                title: Text("Chi tiết địa chỉ"),
+              ),
+              AppTextField(nameContactController, "Họ và tên", "Họ và tên"),
+              SizedBox(height: 10),
+              AppTextField(addressContactController, "Địa chỉ", "Địa chỉ",
+                  maxLines: 2),
+              SizedBox(height: 10),
+              AppTextField(
+                phoneContactController,
+                "Số điện thoại",
+                "Số điện thoại",
+                textInputType: TextInputType.phone,
+              ),
+              SizedBox(height: 10),
+              AppTextField(
+                descriptionController,
+                "Ghi Chú",
+                "Ghi Chú",
+                textInputType: TextInputType.text,
+              ),
+              SizedBox(height: 20),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: greyColor),
                 onPressed: () async {
-                  var response = await onDelete();
-                  if (response) {
-                    SnackbarHelper.showSnackBar(
-                        "Thao tác thành công", ToastificationType.success);
-                    Navigator.of(context).pop();
-                  } else {
-                    SnackbarHelper.showSnackBar(
-                        "Thao tác thất bại", ToastificationType.error);
+                  if (key.currentState?.validate() ?? false) {
+                    await onSave();
                   }
                 },
-                child: const Text("Xóa địa chỉ"),
+                child: const Text("Lưu"),
               ),
-            SizedBox(height: 40),
-          ],
+              SizedBox(height: 10),
+              if (widget.dataInit?.userAddressId != null)
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: greyColor),
+                  onPressed: () async {
+                    var response = await onDelete();
+                    if (response) {
+                      SnackbarHelper.showSnackBar(
+                          "Thao tác thành công", ToastificationType.success);
+                      Navigator.of(context).pop();
+                    } else {
+                      SnackbarHelper.showSnackBar(
+                          "Thao tác thất bại", ToastificationType.error);
+                    }
+                  },
+                  child: const Text("Xóa địa chỉ"),
+                ),
+              SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );

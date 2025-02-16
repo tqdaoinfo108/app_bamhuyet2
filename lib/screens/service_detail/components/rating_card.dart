@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../components/rating.dart';
+import '../../../model/rating_model.dart';
 import '../../../utils/constants.dart';
 
 class RatingCard extends StatelessWidget {
-  const RatingCard({super.key});
+  const RatingCard( this.ratingModel,{ super.key});
+  final RatingModel ratingModel;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class RatingCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
           ),
           SizedBox(height: 10),
-          Text("Đây là phần đánh giá")
+          Text(ratingModel.fullName ?? "")
         ],
       ),
     );

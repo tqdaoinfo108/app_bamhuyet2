@@ -27,6 +27,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
 
   late LstServiceDetails itemChoose;
   TimeOfDay timeOfDay = TimeOfDay.now();
+  bool isChangeTime = false;
   String timeOfDayString = "";
   TextEditingController descriptionController = TextEditingController();
   bool isLoading = false;
@@ -39,34 +40,55 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
   }
 
   onCreateBooking() async {
-    if(GetStorage().read(userTypeUser) != 4){
-      SnackbarHelper.showSnackBar(
-          "CTV và chi nhánh không thể đặt lịch",
-          ToastificationType.warning);
-      return;
-    }
+    try {
+      if (GetStorage().read(userTypeUser) != 4) {
+        SnackbarHelper.showSnackBar(
+            "CTV và chi nhánh không thể đặt lịch", ToastificationType.warning);
+        return;
+      }
 
-    setState(() {
-      isLoading = true;
-    });
-    var respone = await AppServices.instance.createBooking(
-        serviceID: widget.data.serviceID,
-        addressID: list.first.userAddressId,
-        minute: itemChoose.minute!,
-        amount: itemChoose.amount!,
-        time: timeOfDay,
-        description: descriptionController.text);
-    if (respone != null) {
-      SnackbarHelper.showSnackBar("Thành công", ToastificationType.success);
-      Navigator.pushNamedAndRemoveUntil(
-          context, homeScreenRoute, ModalRoute.withName(homeScreenRoute));
-    } else {
-      SnackbarHelper.showSnackBar(
-          "Thất bại, vui lòng liên hệ ban quản trị.", ToastificationType.error);
+      if (list.isEmpty) {
+        SnackbarHelper.showSnackBar(
+            "Chưa chọn địa chỉ", ToastificationType.warning);
+        return;
+      }
+
+      if (!isChangeTime) {
+        timeOfDay = TimeOfDay.now();
+      }
+      TimeOfDay now = TimeOfDay.now();
+      if (isChangeTime &&
+          !((timeOfDay.hour >= now.hour ||
+              (timeOfDay.hour == now.hour &&
+                  timeOfDay.minute + 15 >= now.minute)))) {
+        SnackbarHelper.showSnackBar(
+            "Thời gian nhỏ hơn hiện tại", ToastificationType.warning);
+        return;
+      }
+
+      setState(() {
+        isLoading = true;
+      });
+      var respone = await AppServices.instance.createBooking(
+          serviceID: widget.data.serviceID,
+          addressID: list.first.userAddressId,
+          minute: itemChoose.minute!,
+          amount: itemChoose.amount!,
+          time: timeOfDay,
+          description: descriptionController.text);
+      if (respone != null) {
+        SnackbarHelper.showSnackBar("Thành công", ToastificationType.success);
+        Navigator.pushNamedAndRemoveUntil(
+            context, homeScreenRoute, ModalRoute.withName(homeScreenRoute));
+      } else {
+        SnackbarHelper.showSnackBar("Thất bại, vui lòng liên hệ ban quản trị.",
+            ToastificationType.error);
+      }
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   onInit() async {
@@ -104,36 +126,32 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                         horizontal: defaultPadding,
                         vertical: defaultPadding / 2),
                     decoration: BoxDecoration(color: lightGreyColor),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          "assets/icons/Address.svg",
-                          height: 42,
-                          width: 42,
-                        ),
-                        SizedBox(width: defaultPadding),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Địa chỉ của bạn",
-                                style: AppTheme.getTextStyle(context,
-                                    fontSize: 16, fontWeight: FontWeight.w500)),
-                            Text(
-                              list.isEmpty
-                                  ? "Thêm địa chỉ"
-                                  : "${list.first.address}",
-                              style: TextStyle(
-                                  color:
-                                      list.isEmpty ? primaryColor : Colors.grey,
-                                  fontSize: 14),
-                            )
-                          ],
-                        ),
-                        Spacer(),
-                        SvgPicture.asset(
-                          "assets/icons/miniRight.svg",
-                        ),
-                      ],
+                    child:  ListTile(
+                      trailing: SvgPicture.asset(
+                        "assets/icons/miniRight.svg",
+                      ),
+                      leading:  SvgPicture.asset(
+                        "assets/icons/Address.svg",
+                        height: 42,
+                        width: 42,
+                      ),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Địa chỉ của bạn",
+                              style: AppTheme.getTextStyle(context,
+                                  fontSize: 16, fontWeight: FontWeight.w500)),
+                          Text(
+                            list.isEmpty
+                                ? "Thêm địa chỉ"
+                                : "${list.first.address}",
+                            style: TextStyle(
+                                color:
+                                list.isEmpty ? primaryColor : Colors.grey,
+                                fontSize: 14),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -189,6 +207,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                                   context: context, initialTime: timeOfDay);
                               if (time != null) {
                                 timeOfDay = time;
+                                isChangeTime = true;
                                 setState(() {
                                   timeOfDayString = time.format(context);
                                 });
@@ -196,10 +215,10 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                             },
                             child: timeOfDayString != ""
                                 ? Text(
-                                    DateFormat('dd-MM-yyyy')
-                                            .format(DateTime.now()) +
+                                    timeOfDayString +
                                         " " +
-                                        timeOfDayString,
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(DateTime.now()),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold))
                                 : Text("Hẹn lịch",
@@ -242,12 +261,16 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                     onPressed: () async {
                       await onCreateBooking();
                     },
-
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text("Đặt lịch"),
-                        Text("${itemChoose.getAmount}đ", style: AppTheme.getTextStyle(context,  fontWeight: FontWeight.bold).copyWith(color: Colors.white),)
+                        Text(
+                          "${itemChoose.getAmount}đ",
+                          style: AppTheme.getTextStyle(context,
+                                  fontWeight: FontWeight.bold)
+                              .copyWith(color: Colors.white),
+                        )
                       ],
                     ),
                   ),

@@ -31,7 +31,7 @@ class _FindJobScreenState extends State<FindJobScreen> {
         loadList(dateTime);
       }
     } else {
-      SnackbarHelper.showSnackBar("Thất bại", ToastificationType.error);
+      SnackbarHelper.showSnackBar("Xảy ra lỗi, vui lòng gọi tổng đài để hỗ trợ.", ToastificationType.error);
     }
   }
 

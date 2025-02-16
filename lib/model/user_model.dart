@@ -78,7 +78,7 @@ class UserModel {
         data: UserModel.fromJson(json['data']),
       );
     } else {
-      return ResponseBase();
+      return ResponseBase()..message = json["message"] ;
     }
   }
 

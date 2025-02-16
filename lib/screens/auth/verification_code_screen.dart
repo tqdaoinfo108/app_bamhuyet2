@@ -22,6 +22,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
 
     final defaultPinTheme = PinTheme(
       width: 56,
@@ -79,8 +80,6 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                     showCursor: true,
                     onCompleted: (pin) async {
-                      
- 
                     },
                   ),
                   const SizedBox(height: defaultPadding),
@@ -95,8 +94,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                         box.write(userUserID, temp.data!.userID);
                         Navigator.pushNamedAndRemoveUntil(
                           context,
-                          homeScreenRoute,
-                          ModalRoute.withName(verificationMethodScreenRoute));
+                          changepasswordscreen,
+                          ModalRoute.withName(changepasswordscreen));
                       }
                     },
                     child: const Text("Tiếp tục"),

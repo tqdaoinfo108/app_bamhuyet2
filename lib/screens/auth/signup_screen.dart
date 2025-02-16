@@ -1,6 +1,8 @@
+import 'package:app_bamnguyet_2/components/app_snackbar.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../components/loading.dart';
 import '../../model/user_model.dart';
@@ -27,9 +29,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       isLoading = true;
     });
     var temp = await AppServices.instance.letRegister(phoneController.text);
-    if (temp != null) {
+    if (temp != null && temp.message == null) {
       userModel = temp.data!;
       GetStorage().write(userUserID, userModel.userID);
+    }else if(temp?.message != null){
+      SnackbarHelper.showSnackBar(temp?.message, ToastificationType.error);
+      temp = null;
     }
     setState(() {
       isLoading = false;

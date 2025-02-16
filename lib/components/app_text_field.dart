@@ -1,4 +1,7 @@
+import 'package:app_bamnguyet_2/components/app_snackbar.dart';
+import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 
 class TextFieldLabel extends StatelessWidget {
   const TextFieldLabel(this.label, {super.key});
@@ -56,12 +59,18 @@ class AppTextField extends StatelessWidget {
           ),
         TextFormField(
           validator: (e) {
-            if (e?.isEmpty ?? true) {
+            if ((isShowRequired ?? false) && (e?.isEmpty ?? true)) {
               return "Không bỏ trống";
+            }
+            if(textInputType == TextInputType.phone){
+              if(!RegExp(r'^(\+84|0)\d{9,10}$').hasMatch(e!)){
+                return "Số điện thoại khônh hợp lệ";
+              }
             }
             return null;
           },
           textInputAction: TextInputAction.done,
+          autovalidateMode: AutovalidateMode.onUnfocus,
           controller: controller,
           maxLines: maxLines,
           keyboardType: textInputType,

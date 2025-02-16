@@ -1,8 +1,10 @@
+import 'package:app_bamnguyet_2/screens/auth/change_password_screen.dart';
 import 'package:app_bamnguyet_2/screens/history/history_screen.dart';
 import 'package:flutter/material.dart';
 import '../model/service_model.dart';
 import '../model/type_service_model.dart';
 import '../screens/booking_confirm/booking_confirm_screen.dart';
+import '../screens/profile/fag/fag_screen.dart';
 import 'screen_export.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -56,6 +58,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case historyscreen:
       return MaterialPageRoute(
         builder: (context) => const HistoryScreen(),
+      );
+    case changepasswordscreen:
+      return MaterialPageRoute(
+        builder: (context) => const ChangePasswordScreen(),
+      );
+    case fagScreen:
+      return MaterialPageRoute(
+        builder: (context) => const FAGScreen(),
       );
     default:
       return MaterialPageRoute(

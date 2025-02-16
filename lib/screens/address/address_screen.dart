@@ -66,7 +66,7 @@ class _AddressScreenState extends State<AddressScreen> {
       ),
       body: isLoading
           ? loadingWidget()
-          : CustomScrollView(
+          : list.isEmpty ? Center(child: Text("Không có dữ liệu"),) :  CustomScrollView(
               slivers: [
                 SliverList.builder(
                   itemBuilder: (context, index) {

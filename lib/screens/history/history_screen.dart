@@ -2,7 +2,6 @@ import 'package:app_bamnguyet_2/model/base_response.dart';
 import 'package:app_bamnguyet_2/model/history_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../components/loading.dart';
 import 'components/history_card.dart';
@@ -44,7 +43,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       body: SafeArea(
           child: isLoading
               ? loadingWidget()
-              : ListView.builder(
+              :  listData.isEmpty ? Center(child: Text("Không có dữ liệu"),) :ListView.builder(
                   itemBuilder: (c, i) {
                     return HistoryCard(listData[i]);
                   },

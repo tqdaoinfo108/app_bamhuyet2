@@ -87,7 +87,7 @@ class HistoryCard extends StatelessWidget {
               ),
               subtitle: Row(
                 children: [
-                  if (data.statusID == 2)
+                  if (data.statusID == 0)
                     InkWell(
                       onTap: () async {
                         await launchUrl(Uri(scheme: 'tel', path: data.bookingCustomerPhone!));
@@ -126,7 +126,7 @@ class HistoryCard extends StatelessWidget {
                         borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(defaultBorderRadious),
                           bottomLeft: Radius.circular(
-                              ![2].contains(data.statusID)
+                              ![0,2].contains(data.statusID)
                                   ? defaultBorderRadious
                                   : 0),
                         ),
@@ -134,7 +134,7 @@ class HistoryCard extends StatelessWidget {
                             ? Colors.lightGreen
                             : [-1, -2].contains(data.statusID)
                                 ? Colors.redAccent
-                                : data.statusID == 2
+                                : data.statusID == 0
                                     ? Colors.lightBlueAccent
                                     : Colors.grey,
                       ),
@@ -154,7 +154,7 @@ class HistoryCard extends StatelessWidget {
                                 ? "Hoàn thành"
                                 : [-1, -2].contains(data.statusID)
                                     ? "Hủy"
-                                    : data.statusID == 2
+                                    : data.statusID == 0
                                         ? "Đang thực hiện"
                                         : "Chờ xử lý",
                             style: TextStyle(

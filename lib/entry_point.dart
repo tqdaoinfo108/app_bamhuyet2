@@ -79,7 +79,7 @@ class _EntryPointState extends State<EntryPoint> {
     }
 
     return Scaffold(
-      appBar: AppBar(
+      appBar:  _currentIndex == 2 ? null :AppBar(
         // pinned: true,
         // floating: true,
         // snap: true,
@@ -139,20 +139,20 @@ class _EntryPointState extends State<EntryPoint> {
         //   height: 20,
         //   width: 100,
         // ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Navigator.pushNamed(context, notificationsScreenRoute);
-            },
-            icon: SvgPicture.asset(
-              "assets/icons/Notification.svg",
-              height: 24,
-              colorFilter: ColorFilter.mode(
-                  Theme.of(context).textTheme.bodyLarge!.color!,
-                  BlendMode.srcIn),
-            ),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       // Navigator.pushNamed(context, notificationsScreenRoute);
+        //     },
+        //     icon: SvgPicture.asset(
+        //       "assets/icons/Notification.svg",
+        //       height: 24,
+        //       colorFilter: ColorFilter.mode(
+        //           Theme.of(context).textTheme.bodyLarge!.color!,
+        //           BlendMode.srcIn),
+        //     ),
+        //   ),
+        // ],
       ),
       // body: _pages[_currentIndex],
       body: PageTransitionSwitcher(

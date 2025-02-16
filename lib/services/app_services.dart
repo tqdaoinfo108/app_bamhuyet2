@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:app_bamnguyet_2/model/address_model.dart';
 import 'package:app_bamnguyet_2/model/city_model.dart';
 import 'package:app_bamnguyet_2/model/history_model.dart';
+import 'package:app_bamnguyet_2/model/news_model.dart';
 import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
@@ -12,6 +13,7 @@ import 'package:http/http.dart' as http;
 import '../model/base_response.dart';
 import '../model/booking_model.dart';
 import '../model/branch_model.dart';
+import '../model/rating_model.dart';
 import '../model/type_service_model.dart';
 import '../model/user_model.dart';
 import 'http_auth_basic.dart';
@@ -74,8 +76,7 @@ class AppServices {
       var data = json.encode({"UserName": phone});
       var rawResponse = await _api
           .post(Uri.parse("${_baseURL}api/user/register"), body: data);
-      if (rawResponse.statusCode == 200 &&
-          json.decode(rawResponse.body)["message"] == null) {
+      if (rawResponse.statusCode == 200 ) {
         return UserModel.getFromJson(json.decode(rawResponse.body));
       }
     } catch (e) {
@@ -510,12 +511,12 @@ class AppServices {
     }
   }
 
-  Future<ResponseBase<List<AddressModel>>?> getListRating(int typeServiceID) async {
+  Future<ResponseBase<List<RatingModel>>?> getListRating(int typeServiceID) async {
     try {
       var rawResponse = await _api.get(
           Uri.parse("${_baseURL}api/rating/get-rating-average-by-type-service?typeServiceID=${typeServiceID}&page=1&limit=20"));
       if (rawResponse.statusCode == 200) {
-        return AddressModel.getFromJson(json.decode(rawResponse.body));
+        return RatingModel.getFromJson(json.decode(rawResponse.body));
       }
     } catch (e) {
       return null;
@@ -529,6 +530,39 @@ class AppServices {
           Uri.parse("${_baseURL}api/booking/get-booking-by-user?page=1&limit=20"));
       if (rawResponse.statusCode == 200) {
         return HistoryModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<UserModel>?> createPassword(String password) async {
+    try {
+
+      var data = json.encode({
+        "UserName": "string",
+        "PassWordNew": password,
+        "PassWordNewAgain": password
+      });
+      var rawResponse = await _api
+          .post(Uri.parse("${_baseURL}api/user/create-pass"), body: data);
+      if (rawResponse.statusCode == 200) {
+        return UserModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<List<NewsModel>>?> getNewsList(int type) async {
+    try {
+
+      var rawResponse = await _api
+          .get(Uri.parse("${_baseURL}api/news/get-list-news?contentTypeID=2&page=1&limit=1"));
+      if (rawResponse.statusCode == 200) {
+        return NewsModel.getFromJson(json.decode(rawResponse.body));
       }
     } catch (e) {
       return null;

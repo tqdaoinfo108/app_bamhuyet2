@@ -1,4 +1,5 @@
 import 'package:app_bamnguyet_2/components/app_snackbar.dart';
+import 'package:app_bamnguyet_2/model/rating_model.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class ServiceDetailScreen extends StatefulWidget {
 class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
   List<ServiceModel> listServiceModel = [];
   List<UserModel> listPartner = [];
+  List<RatingModel> listRating = [];
 
   @override
   void initState() {
@@ -47,8 +49,14 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     setState(() {
       listPartner = parner;
     });
-    
-    var listRating = (await AppServices.instance.getListRating(widget.data.typeServiceID))?.data ?? [];
+
+    var rs =
+        (await AppServices.instance.getListRating(widget.data.typeServiceID))
+                ?.data ??
+            [];
+    setState(() {
+      listRating = rs;
+    });
   }
 
   @override
@@ -59,7 +67,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
       ),
       body: SafeArea(
           child: SingleChildScrollView(
-        child: Padding(
+        child: listRating.isEmpty ? null : Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +76,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               Row(
                 children: [
                   StarRating(starCount: 1, rating: 5),
-                  Text("5 (100 đánh giá)")
+                  Text("${listRating[0].ratingAverage} (${listRating.length} đánh giá)")
                 ],
               ),
               SizedBox(height: 10),
@@ -78,9 +86,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: defaultPadding),
                     itemBuilder: (c, x) {
-                      return RatingCard();
+                      return RatingCard(listRating[x]);
                     },
-                    itemCount: 2,
+                    itemCount: listRating.length,
                     scrollDirection: Axis.horizontal),
               ),
               SizedBox(height: 10),
@@ -127,10 +135,12 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   await customModalBottomSheet(context,
                       child:
                           ServiceDetailPopup(item.lstServiceDetails, () async {
-                            if(!item.lstServiceDetails.any((e) => e.isChoose)){
-                              SnackbarHelper.showSnackBar("Chọn thời gian để tiếp tục", ToastificationType.error);
-                              return;
-                            }
+                        if (!item.lstServiceDetails.any((e) => e.isChoose)) {
+                          SnackbarHelper.showSnackBar(
+                              "Chọn thời gian để tiếp tục",
+                              ToastificationType.error);
+                          return;
+                        }
                         Navigator.of(context).pop();
                         Navigator.pushNamed(context, bookingconfirmscreen,
                             arguments: item);

@@ -2,6 +2,7 @@ import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../theme/app_theme.dart';
 import '../../utils/constants.dart';
@@ -114,14 +115,17 @@ class ProfileScreen extends StatelessWidget {
           ProfileMenuListTile(
             text: "Hỗ trợ",
             svgSrc: "assets/icons/Help.svg",
-            press: () {
+            press: () async {
+              await launchUrl(Uri(scheme: 'tel', path:"0862792749"));
               // Navigator.pushNamed(context, getHelpScreenRoute);
             },
           ),
           ProfileMenuListTile(
-            text: "FAQ",
+            text: "Điều khoản và dịch vụ",
             svgSrc: "assets/icons/FAQ.svg",
-            press: () {},
+            press: () {
+              Navigator.of(context).pushNamed(fagScreen);
+            },
             isShowDivider: false,
           ),
           const SizedBox(height: defaultPadding),
@@ -129,6 +133,7 @@ class ProfileScreen extends StatelessWidget {
           // Log Out
           ListTile(
             onTap: () {
+              GetStorage().remove(userUserID);
               Navigator.popAndPushNamed(context, logInScreenRoute);
             },
             minLeadingWidth: 24,

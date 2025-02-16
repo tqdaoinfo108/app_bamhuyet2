@@ -60,10 +60,10 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   getListService() async {
     ResponseBase<List<ServiceModel>>? temp = await AppServices.instance.getServicesAll();
     if (temp != null) {
-      List<int> ids = widget.data.initData.map((item) => item.serviceDetailId!).toList();
+      List<int> ids = widget.data.initData.map((item) => item.serviceId!).toList();
 
       for(ServiceModel item in temp.data ??[]){
-        if(item.lstServiceDetails.any((i) => ids.contains(i.serviceDetailId))){
+        if(item.lstServiceDetails.any((i) => ids.contains(i.serviceId))){
           item.isExpand = true;
         }
       }
