@@ -147,15 +147,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           ProfileMenuListTile(
             text: "Quy chế hoạt động",
-            svgSrc: "assets/icons/Lock.svg",
-            press: () {
-              Navigator.of(context).pushNamed(fagScreen);
-            },
-            isShowDivider: true,
-          ),
-          ProfileMenuListTile(
-            text: "Chính sách bảo mật",
-            svgSrc: "assets/icons/Lock.svg",
+            svgSrc: "assets/icons/Bookmark.svg",
             press: () {
               Navigator.of(context).pushNamed(fagScreen);
             },

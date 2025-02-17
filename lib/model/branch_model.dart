@@ -25,7 +25,7 @@ class BranchModel {
   double? ingMap;
   String? description;
   List<LstBranchImages>? lstBranchImages;
-  List<LstServiceDetails> lstServiceUsers = [];
+  List<LstServiceDetails> lstBranchServices = [];
 
   BranchModel(
       {this.branchId,
@@ -81,9 +81,9 @@ class BranchModel {
             .map((e) => LstBranchImages.fromJson(e))
             .toList();
 
-    lstServiceUsers = json["lstServiceUsers"] == null
+    lstBranchServices = json["lstBranchServices"] == null
         ? []
-        : (json["lstServiceUsers"] as List)
+        : (json["lstBranchServices"] as List)
         .map((e) => LstServiceDetails.fromJson(e))
         .toList();
   }

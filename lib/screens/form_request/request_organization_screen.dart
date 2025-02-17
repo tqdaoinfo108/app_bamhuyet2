@@ -347,7 +347,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
 
                     Navigator.popAndPushNamed(context, addServiceScreenRoute,
                         arguments: ServiceBranchPartner(
-                            branchID: response.data!.branchId!, partnerID: 0, initData: response.data?.lstServiceUsers ?? []));
+                            branchID: response.data!.branchId!, partnerID: 0, initData: response.data?.lstBranchServices ?? []));
                   } else {
                     SnackbarHelper.showSnackBar(
                         "Thất bại, vui lòng liên hệ ban quản trị.",

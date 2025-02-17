@@ -88,7 +88,7 @@ class LstServiceDetails {
       this.description});
 
   LstServiceDetails.fromJson(Map<String, dynamic> json) {
-    serviceDetailId = json["ServiceDetailID"] ?? json["UserServiceID"];
+    serviceDetailId = json["ServiceDetailID"] ?? json["BranchServiceID"];
     serviceId = json["ServiceID"];
     minute = json["Minute"];
     amount = json["Amount"];

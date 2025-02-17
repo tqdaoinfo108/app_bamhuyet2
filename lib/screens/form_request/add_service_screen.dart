@@ -65,6 +65,15 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
       for(ServiceModel item in temp.data ??[]){
         if(item.lstServiceDetails.any((i) => ids.contains(i.serviceId))){
           item.isExpand = true;
+
+          if(widget.data.partnerID  == 0){
+            for(var serviceDetail in item.lstServiceDetails){
+              var first = widget.data.initData.where((e) => e.serviceDetailId == serviceDetail.serviceDetailId).firstOrNull;
+              if(first != null){
+                serviceDetail.amount = first.amount;
+              }
+            }
+          }
         }
       }
 
