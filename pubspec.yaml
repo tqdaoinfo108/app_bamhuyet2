@@ -29,6 +29,7 @@ dependencies:
   slide_countdown: ^2.0.2
   badges: ^3.1.2
   url_launcher: ^6.3.1
+  localization_plus: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -41,7 +42,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-
+    - assets/i18n/
   fonts:
     - family: Plus Jakarta
       fonts:

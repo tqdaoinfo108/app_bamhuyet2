@@ -108,6 +108,23 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPadding, vertical: defaultPadding / 2),
             child: Text(
+              "Hệ thống",
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+          ProfileMenuListTile(
+            text: "Đổi ngôn ngữ",
+            svgSrc: "assets/icons/Language.svg",
+            press: () async {
+              await launchUrl(Uri(scheme: 'tel', path:"0862792749"));
+              // Navigator.pushNamed(context, getHelpScreenRoute);
+            },
+          ),
+          const SizedBox(height: defaultPadding),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: defaultPadding, vertical: defaultPadding / 2),
+            child: Text(
               "Hỗ trợ",
               style: Theme.of(context).textTheme.titleSmall,
             ),
@@ -121,7 +138,31 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
           ProfileMenuListTile(
-            text: "Điều khoản và dịch vụ",
+            text: "Chính sách bảo mật",
+            svgSrc: "assets/icons/Lock.svg",
+            press: () {
+              Navigator.of(context).pushNamed(fagScreen);
+            },
+            isShowDivider: true,
+          ),
+          ProfileMenuListTile(
+            text: "Quy chế hoạt động",
+            svgSrc: "assets/icons/Lock.svg",
+            press: () {
+              Navigator.of(context).pushNamed(fagScreen);
+            },
+            isShowDivider: true,
+          ),
+          ProfileMenuListTile(
+            text: "Chính sách bảo mật",
+            svgSrc: "assets/icons/Lock.svg",
+            press: () {
+              Navigator.of(context).pushNamed(fagScreen);
+            },
+            isShowDivider: true,
+          ),
+          ProfileMenuListTile(
+            text: "Điều khoản sử dụng",
             svgSrc: "assets/icons/FAQ.svg",
             press: () {
               Navigator.of(context).pushNamed(fagScreen);
@@ -130,6 +171,14 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: defaultPadding),
 
+          ProfileMenuListTile(
+            text: "Thông tin ứng dụng",
+            svgSrc: "assets/icons/FAQ.svg",
+            press: () {
+              Navigator.of(context).pushNamed(fagScreen);
+            },
+            isShowDivider: false,
+          ),
           // Log Out
           ListTile(
             onTap: () {
