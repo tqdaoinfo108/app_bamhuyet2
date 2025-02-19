@@ -1,7 +1,9 @@
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:toastification/toastification.dart';
 
+import '../../components/app_snackbar.dart';
 import '../../components/loading.dart';
 import '../../route/route_constants.dart';
 import '../../utils/constants.dart';
@@ -94,6 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context,
                                     homeScreenRoute,
                                     ModalRoute.withName(logInScreenRoute));
+                              }else{
+                                SnackbarHelper.showSnackBar("Tài koản hoặc mật không đúng", ToastificationType.error);
                               }
                             }
                           },

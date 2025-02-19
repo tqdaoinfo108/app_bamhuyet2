@@ -4,7 +4,8 @@ import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:toastification/toastification.dart';
-
+import '../../components/custom_modal_bottom_sheet.dart';
+import '../../components/list_tile/checkbox_underline_list_tile.dart';
 import 'components/app_dropdownlist.dart';
 import '../../components/app_snackbar.dart';
 import '../../components/app_text_field.dart';
@@ -12,6 +13,7 @@ import '../../model/service_branch_partner.dart';
 import '../../route/route_constants.dart';
 import '../../utils/constants.dart';
 import 'components/image_card.dart';
+import 'components/policy_screen.dart';
 
 class RequestPartnerScreen extends StatefulWidget {
   const RequestPartnerScreen({super.key});
@@ -40,6 +42,7 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
   String? image2;
   String? image3;
   String? image4;
+  bool isAccpect = false;
 
   @override
   void initState() {
@@ -175,9 +178,30 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
               AppTextField(
                   descriptionController, "Mô tả cá nhân", "Mô tả cá nhân",
                   maxLines: 3),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
+              ListTile(
+                contentPadding: const EdgeInsets.all(0),
+                title: InkWell(onTap: (){
+                  customModalBottomSheet(context, child: PolicyScreen(2));
+                }, child: Text("Chấp nhận điều khoản Cộng tác viên")),
+                leading: Checkbox(
+                    onChanged: (e) {
+                      setState(() {
+                        isAccpect = !isAccpect;
+                      });
+                    },
+                    value: isAccpect,
+                    activeColor: primaryColor),
+              ),
+              SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () async {
+                  if(!isAccpect){
+                    SnackbarHelper.showSnackBar(
+                        "Vui lòng chấp nhận điều khoản", ToastificationType.error);
+                    return;
+                  }
+
                   if (fullNameController.text.isEmpty) {
                     SnackbarHelper.showSnackBar(
                         "Chưa nhập họ và tên", ToastificationType.error);

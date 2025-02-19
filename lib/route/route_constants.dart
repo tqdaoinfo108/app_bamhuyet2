@@ -14,3 +14,4 @@ const String bookingconfirmscreen = "bookingconfirmscreen";
 const String historyscreen = "historyscreen";
 const String changepasswordscreen = "changepasswordscreen";
 const String fagScreen = "fagScreen";
+const String walletScreen = "walletScreen";

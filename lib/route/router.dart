@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import '../model/service_model.dart';
 import '../model/type_service_model.dart';
 import '../screens/booking_confirm/booking_confirm_screen.dart';
-import '../screens/profile/fag/fag_screen.dart';
+import '../screens/profile/pages/fag_screen.dart';
+import '../screens/profile/wallet/wallet_screen.dart';
 import 'screen_export.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -66,6 +67,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case fagScreen:
       return MaterialPageRoute(
         builder: (context) => const FAGScreen(),
+      );
+    case walletScreen:
+      return MaterialPageRoute(
+        builder: (context) => const WalletScreen(),
       );
     default:
       return MaterialPageRoute(

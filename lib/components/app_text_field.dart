@@ -28,8 +28,9 @@ class AppTextField extends StatelessWidget {
       {super.key,
       this.maxLines = 1,
       this.textInputType = TextInputType.text,
+        this.onChanged,
       this.isShowTitle = true,
-      this.isShowRequired = true});
+      this.isShowRequired = true, });
   final TextEditingController controller;
   final String labelText;
   final String hintText;
@@ -37,6 +38,7 @@ class AppTextField extends StatelessWidget {
   final TextInputType? textInputType;
   final bool? isShowTitle;
   final bool? isShowRequired;
+  final Function(String? s)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -74,6 +76,9 @@ class AppTextField extends StatelessWidget {
           controller: controller,
           maxLines: maxLines,
           keyboardType: textInputType,
+          onChanged: (s) {
+            if(onChanged != null) onChanged!(s);
+          },
           decoration: InputDecoration(
             hintText: hintText,
             labelStyle: TextStyle(),

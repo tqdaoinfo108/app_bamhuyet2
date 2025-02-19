@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:toastification/toastification.dart';
 
+import '../../components/custom_modal_bottom_sheet.dart';
 import 'components/app_dropdownlist.dart';
 import '../../components/app_snackbar.dart';
 import '../../components/app_text_field.dart';
@@ -16,6 +17,7 @@ import '../../model/service_branch_partner.dart';
 import '../../services/app_services.dart';
 import '../../utils/constants.dart';
 import 'components/image_card.dart';
+import 'components/policy_screen.dart';
 import 'components/time_picker.dart';
 
 class RequestOrganizationScreen extends StatefulWidget {
@@ -63,6 +65,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
 
   bool isLoading = false;
   int? branchID;
+  bool isAccpect = false;
 
   @override
   void initState() {
@@ -287,9 +290,30 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
                 "Nhập địa chỉ instagram (nếu có)",
                 isShowTitle: false,
               ),
+              SizedBox(height: 10),
+              ListTile(
+                contentPadding: const EdgeInsets.all(0),
+                title: InkWell(onTap: (){
+                  customModalBottomSheet(context, child: PolicyScreen(3));
+                }, child: Text("Chấp nhận điều khoản Cộng tác viên")),
+                leading: Checkbox(
+                    onChanged: (e) {
+                      setState(() {
+                        isAccpect = !isAccpect;
+                      });
+                    },
+                    value: isAccpect,
+                    activeColor: primaryColor),
+              ),
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () async {
+                  if(!isAccpect){
+                    SnackbarHelper.showSnackBar(
+                        "Vui lòng chấp nhận điều khoản", ToastificationType.error);
+                    return;
+                  }
+
                   if (fullNameController.text.isEmpty) {
                     SnackbarHelper.showSnackBar(
                         "Chưa nhập tên chi nhánh", ToastificationType.error);
@@ -341,6 +365,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
                       ws: websiteController.text);
 
                   if (response != null) {
+
                     SnackbarHelper.showSnackBar(
                         "Thành công", ToastificationType.success);
                     GetStorage().write(userImagePath, imageMain);

@@ -1,13 +1,20 @@
 import 'package:app_bamnguyet_2/route/route_constants.dart';
+import 'package:app_bamnguyet_2/screens/profile/pages/fag_screen.dart';
+import 'package:app_bamnguyet_2/screens/profile/pages/support_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../components/custom_modal_bottom_sheet.dart';
+import '../../components/list_tile/divider_list_tile.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/constants.dart';
 import 'components/profile_card.dart';
 import 'components/profile_menu_item_list_tile.dart';
+import 'pages/operating_regulations_screen.dart';
+import 'pages/policy_secure_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -62,9 +69,18 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 10),
-                        Text(
-                          "Đối tác của Hoàng Lâm",
-                          style: AppTheme.getTextStyle(context),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Đối tác của Hoàng Lâm",
+                              style: AppTheme.getTextStyle(context),
+                            ),
+                            Text(
+                              "${NumberFormat.decimalPattern('vi').format(GetStorage().read(userUserAmount)) + " đ"}",
+                              style: AppTheme.getTextStyle(context).copyWith(fontSize: 12, fontWeight: FontWeight.bold, color: blackColor80),
+                            ),
+                          ],
                         ),
                         Spacer(),
                         SvgPicture.asset(
@@ -102,7 +118,14 @@ class ProfileScreen extends StatelessWidget {
               Navigator.pushNamed(context, addressScreenRoute);
             },
           ),
-
+          ProfileMenuListTile(
+            text: "Ví",
+            svgSrc: "assets/icons/Wallet.svg",
+            press: () {
+              Navigator.pushNamed(context, walletScreen);
+            },
+            isShowDivider: false,
+          ),
           const SizedBox(height: defaultPadding),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -116,9 +139,10 @@ class ProfileScreen extends StatelessWidget {
             text: "Đổi ngôn ngữ",
             svgSrc: "assets/icons/Language.svg",
             press: () async {
-              await launchUrl(Uri(scheme: 'tel', path:"0862792749"));
               // Navigator.pushNamed(context, getHelpScreenRoute);
             },
+            isShowDivider: false,
+
           ),
           const SizedBox(height: defaultPadding),
           Padding(
@@ -133,7 +157,7 @@ class ProfileScreen extends StatelessWidget {
             text: "Hỗ trợ",
             svgSrc: "assets/icons/Help.svg",
             press: () async {
-              await launchUrl(Uri(scheme: 'tel', path:"0862792749"));
+              customModalBottomSheet(context, child: SupportScreen());
               // Navigator.pushNamed(context, getHelpScreenRoute);
             },
           ),
@@ -141,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
             text: "Chính sách bảo mật",
             svgSrc: "assets/icons/Lock.svg",
             press: () {
-              Navigator.of(context).pushNamed(fagScreen);
+              customModalBottomSheet(context, child: PolicySecureScreen());
             },
             isShowDivider: true,
           ),
@@ -149,28 +173,39 @@ class ProfileScreen extends StatelessWidget {
             text: "Quy chế hoạt động",
             svgSrc: "assets/icons/Bookmark.svg",
             press: () {
-              Navigator.of(context).pushNamed(fagScreen);
+              customModalBottomSheet(context, child: OperatingRegulationsScreen());
             },
             isShowDivider: true,
           ),
           ProfileMenuListTile(
             text: "Điều khoản sử dụng",
-            svgSrc: "assets/icons/FAQ.svg",
+            svgSrc: "assets/icons/Standard.svg",
             press: () {
-              Navigator.of(context).pushNamed(fagScreen);
+              customModalBottomSheet(context, child: FAGScreen());
             },
-            isShowDivider: false,
+            isShowDivider: true,
           ),
-          const SizedBox(height: defaultPadding),
 
-          ProfileMenuListTile(
-            text: "Thông tin ứng dụng",
-            svgSrc: "assets/icons/FAQ.svg",
-            press: () {
-              Navigator.of(context).pushNamed(fagScreen);
-            },
-            isShowDivider: false,
-          ),
+          DividerListTile(
+              minLeadingWidth: 24,
+              leading: SvgPicture.asset(
+                "assets/icons/FAQ.svg",
+                height: 24,
+                width: 24,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).iconTheme.color!,
+                  BlendMode.srcIn,
+                ),
+              ),
+              title: Text(
+                "Thông tin ứng dụng",
+                style: const TextStyle(fontSize: 14, height: 1),
+              ),
+              press: () {},
+              isShowDivider: false,
+              isShowForwordArrow: false,
+              trailing: Text("1.0.0 beta",style: const TextStyle(fontSize: 14, height: 1))),
+
           // Log Out
           ListTile(
             onTap: () {

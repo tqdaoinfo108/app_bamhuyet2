@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../utils/constants.dart';
+
 class DividerListTile extends StatelessWidget {
   const DividerListTile({
     super.key,
@@ -10,11 +12,14 @@ class DividerListTile extends StatelessWidget {
     this.leading,
     this.minLeadingWidth,
     this.isShowDivider = true,
+    this.trailing
   });
   final bool isShowForwordArrow, isShowDivider;
   final Widget title;
   final Widget? leading;
   final double? minLeadingWidth;
+
+  final Widget? trailing;
   final VoidCallback press;
 
   @override
@@ -33,9 +38,9 @@ class DividerListTile extends StatelessWidget {
                       Theme.of(context).iconTheme.color!.withOpacity(0.4),
                       BlendMode.srcIn),
                 )
-              : null,
+              : trailing,
         ),
-        if (isShowDivider) const Divider(height: 1),
+        if (isShowDivider) const Divider(height: 1,color: blackColor10,),
       ],
     );
   }

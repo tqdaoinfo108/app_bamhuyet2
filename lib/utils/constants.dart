@@ -81,3 +81,4 @@ const userImagePath = "USER_IMAGEPATH";
 const userTypeUser = "USER_TYPEUSER";
 const userUserID = "USER_ID";
 const isIntro = "IS_INTRO";
+const userUserAmount = "USER_USER_AMOUNT";

@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 
-class FAGScreen extends StatefulWidget {
-  const FAGScreen({super.key, this.modeChoose = false});
+class PolicySecureScreen extends StatefulWidget {
+  const PolicySecureScreen({super.key});
 
-  final bool? modeChoose;
   @override
-  State<FAGScreen> createState() => _FAGScreenState();
+  State<PolicySecureScreen> createState() => _PolicySecureScreenState();
 }
 
-class _FAGScreenState extends State<FAGScreen> {
+class _PolicySecureScreenState extends State<PolicySecureScreen> {
   NewsModel? news = null;
   bool isLoading =  false;
   @override
@@ -27,7 +26,7 @@ class _FAGScreenState extends State<FAGScreen> {
       setState(() {
         isLoading = true;
       });
-      var address = await AppServices.instance.getNewsList(2);
+      var address = await AppServices.instance.getNewsList(8);
       if (address != null) {
         setState(() {
           news = address.data![0];
@@ -42,16 +41,18 @@ class _FAGScreenState extends State<FAGScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Điều khoản dịch vụ"),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Chính sách bảo mật"),
+        ),
+        body: isLoading
+            ? loadingWidget()
+            : news == null ? Center(child: Text("Không có dữ liệu"),) :  Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: HtmlWidget(news!.description ?? ""),
+        ),
       ),
-      body: isLoading
-          ? loadingWidget()
-          : news == null ? Center(child: Text("Không có dữ liệu"),) :  Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: HtmlWidget(news!.description ?? ""),
-          ),
     );
   }
 }

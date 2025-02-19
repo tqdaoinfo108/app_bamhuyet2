@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:app_bamnguyet_2/model/address_model.dart';
 import 'package:app_bamnguyet_2/model/city_model.dart';
 import 'package:app_bamnguyet_2/model/history_model.dart';
+import 'package:app_bamnguyet_2/model/money_input_model.dart';
 import 'package:app_bamnguyet_2/model/news_model.dart';
 import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
@@ -62,7 +63,7 @@ class AppServices {
         box.write(userImagePath, result.data!.imagePath);
         box.write(userUserID, result.data!.userID);
         box.write(userTypeUser, result.data!.typeUserID);
-
+        box.write(userUserAmount, result.data!.totalAmount);
         return result;
       }
     } catch (e) {
@@ -568,5 +569,36 @@ class AppServices {
       return null;
     }
     return null;
+  }
+
+  Future<ResponseBase<List<MoneyInputModel>>?> getListMoneyInput() async {
+    try {
+
+      var rawResponse = await _api
+          .get(Uri.parse("${_baseURL}api/money-input/get-list-pagging?page=1&limit=20"));
+      if (rawResponse.statusCode == 200) {
+        return MoneyInputModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<bool> postCreateMoneyInput(double price) async {
+    try {
+
+      var data = json.encode({
+        "Amount": price
+      });
+      var rawResponse = await _api
+          .post(Uri.parse("${_baseURL}api/money-input/create"), body: data);
+      if (rawResponse.statusCode == 200) {
+        return json.decode(rawResponse.body)["data"] != null;
+      }
+    } catch (e) {
+      return false;
+    }
+    return false;
   }
 }

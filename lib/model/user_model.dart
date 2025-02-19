@@ -27,7 +27,7 @@ class UserModel {
   int cityId = 0;
   int proviceId = 0;
   int yearBirthday = 0;
-
+  double totalAmount = 0;
   String? description;
 
   UserModel();
@@ -55,7 +55,7 @@ class UserModel {
     proviceId = json["ProviceID"];
     yearBirthday = json["YearBirthday"];
     description = json["Description"];
-
+    totalAmount = json["TotalAmount"];
     lstImageUsers = json["lstImageUsers"] == null
         ? []
         : (json["lstImageUsers"] as List)

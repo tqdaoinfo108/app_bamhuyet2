@@ -178,7 +178,7 @@ class _EntryPointState extends State<EntryPoint> {
               setState(() {
                 _currentIndex = index;
               });
-              if (index == 0) {
+              if (index == 0 || index == 2) {
                 initProfile();
               }
             }
