@@ -1,9 +1,11 @@
 import 'package:app_bamnguyet_2/screens/auth/change_password_screen.dart';
 import 'package:app_bamnguyet_2/screens/history/history_screen.dart';
 import 'package:flutter/material.dart';
+import '../model/history_model.dart';
 import '../model/service_model.dart';
 import '../model/type_service_model.dart';
 import '../screens/booking_confirm/booking_confirm_screen.dart';
+import '../screens/history_detail/history_hotel_screen.dart';
 import '../screens/profile/pages/fag_screen.dart';
 import '../screens/profile/wallet/wallet_screen.dart';
 import 'screen_export.dart';
@@ -71,6 +73,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case walletScreen:
       return MaterialPageRoute(
         builder: (context) => const WalletScreen(),
+      );
+    case historydetailscreen:
+      final args = settings.arguments as HistoryModel;
+      return MaterialPageRoute(
+        builder: (context) => HistoryHotelScreen(data: args),
       );
     default:
       return MaterialPageRoute(

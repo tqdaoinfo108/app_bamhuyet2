@@ -1,10 +1,9 @@
-import 'package:app_bamnguyet_2/components/app_snackbar.dart';
 import 'package:app_bamnguyet_2/model/history_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:toastification/toastification.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../route/route_constants.dart';
 import '../../../utils/constants.dart';
 
 class HistoryCard extends StatelessWidget {
@@ -14,8 +13,7 @@ class HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        SnackbarHelper.showSnackBar(
-            "Đang phát triển", ToastificationType.success);
+        Navigator.pushNamed(context, historydetailscreen, arguments: data);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
@@ -90,7 +88,8 @@ class HistoryCard extends StatelessWidget {
                   if (data.statusID == 0)
                     InkWell(
                       onTap: () async {
-                        await launchUrl(Uri(scheme: 'tel', path: data.bookingCustomerPhone!));
+                        await launchUrl(Uri(
+                            scheme: 'tel', path: data.bookingCustomerPhone!));
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -126,7 +125,7 @@ class HistoryCard extends StatelessWidget {
                         borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(defaultBorderRadious),
                           bottomLeft: Radius.circular(
-                              ![0,2].contains(data.statusID)
+                              ![0, 2].contains(data.statusID)
                                   ? defaultBorderRadious
                                   : 0),
                         ),

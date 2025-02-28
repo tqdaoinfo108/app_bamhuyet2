@@ -13,6 +13,7 @@ import '../../theme/app_theme.dart';
 import '../../utils/constants.dart';
 import 'components/profile_card.dart';
 import 'components/profile_menu_item_list_tile.dart';
+import 'pages/change_language_screen.dart';
 import 'pages/operating_regulations_screen.dart';
 import 'pages/policy_secure_screen.dart';
 
@@ -78,7 +79,10 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             Text(
                               "${NumberFormat.decimalPattern('vi').format(GetStorage().read(userUserAmount)) + " đ"}",
-                              style: AppTheme.getTextStyle(context).copyWith(fontSize: 12, fontWeight: FontWeight.bold, color: blackColor80),
+                              style: AppTheme.getTextStyle(context).copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: blackColor80),
                             ),
                           ],
                         ),
@@ -139,10 +143,9 @@ class ProfileScreen extends StatelessWidget {
             text: "Đổi ngôn ngữ",
             svgSrc: "assets/icons/Language.svg",
             press: () async {
-              // Navigator.pushNamed(context, getHelpScreenRoute);
+              customModalBottomSheet(context, child: ChangeLanguageScreen());
             },
             isShowDivider: false,
-
           ),
           const SizedBox(height: defaultPadding),
           Padding(
@@ -173,7 +176,8 @@ class ProfileScreen extends StatelessWidget {
             text: "Quy chế hoạt động",
             svgSrc: "assets/icons/Bookmark.svg",
             press: () {
-              customModalBottomSheet(context, child: OperatingRegulationsScreen());
+              customModalBottomSheet(context,
+                  child: OperatingRegulationsScreen());
             },
             isShowDivider: true,
           ),
@@ -204,7 +208,8 @@ class ProfileScreen extends StatelessWidget {
               press: () {},
               isShowDivider: false,
               isShowForwordArrow: false,
-              trailing: Text("1.0.0 beta",style: const TextStyle(fontSize: 14, height: 1))),
+              trailing: Text("1.0.0 beta",
+                  style: const TextStyle(fontSize: 14, height: 1))),
 
           // Log Out
           ListTile(
