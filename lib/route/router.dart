@@ -5,7 +5,7 @@ import '../model/history_model.dart';
 import '../model/service_model.dart';
 import '../model/type_service_model.dart';
 import '../screens/booking_confirm/booking_confirm_screen.dart';
-import '../screens/history_detail/history_hotel_screen.dart';
+import '../screens/history_detail/history_detail_screen.dart';
 import '../screens/profile/pages/fag_screen.dart';
 import '../screens/profile/wallet/wallet_screen.dart';
 import 'screen_export.dart';

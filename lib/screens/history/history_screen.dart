@@ -4,6 +4,7 @@ import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/loading.dart';
+import '../../route/route_constants.dart';
 import 'components/history_card.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -43,12 +44,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
       body: SafeArea(
           child: isLoading
               ? loadingWidget()
-              :  listData.isEmpty ? Center(child: Text("Không có dữ liệu"),) :ListView.builder(
-                  itemBuilder: (c, i) {
-                    return HistoryCard(listData[i]);
-                  },
-                  itemCount: listData.length,
-                )),
+              : listData.isEmpty
+                  ? Center(
+                      child: Text("Không có dữ liệu"),
+                    )
+                  : ListView.builder(
+                      itemBuilder: (c, i) {
+                        return HistoryCard(listData[i], () async {
+                          var result = await Navigator.pushNamed(
+                              context, historydetailscreen,
+                              arguments: listData[i]);
+                          if (result as bool? ?? false) {
+                            initData();
+                          }
+                        });
+                      },
+                      itemCount: listData.length,
+                    )),
     );
   }
 }

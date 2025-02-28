@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../route/route_constants.dart';
 import '../../../utils/constants.dart';
 
 class HistoryCard extends StatelessWidget {
-  const HistoryCard(this.data, {super.key});
+  const HistoryCard(this.data, this.onEvent, {super.key});
   final HistoryModel data;
+  final Function() onEvent;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, historydetailscreen, arguments: data);
+        onEvent();
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
