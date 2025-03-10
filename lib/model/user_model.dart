@@ -32,6 +32,35 @@ class UserModel {
 
   UserModel();
 
+  Map<String, dynamic> toJson(String inputFullName) {
+
+    final Map<String, dynamic> _auth = <String, dynamic>{};
+    _auth["UserID"] = userID;
+    _auth["UUSerID"] = fullName;
+
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["UserID"] = userID;
+    _data["CodeInvite"] = codeInvite;
+    _data["CodePersonInvite"] = codePersonInvite;
+    _data["ImagePath"] = imagePath;
+    _data["TypeUserID"] = typeUserID;
+    _data["UserName"] = userName;
+    _data["FullName"] = inputFullName;
+    _data["GenderID"] = genderID;
+    _data["Address"] = address;
+    _data["IsActive"] = true;
+    _data["ConfirmPhone"] = confirmPhone;
+    _data["ConfirmPartner"] = confirmPartner;
+    _data["LastLogin"] = DateTime.now().toIso8601String();
+    _data["OTP"] = "";
+    _data["TimeOTP"] = DateTime.now().toIso8601String();
+
+    final Map<String, dynamic> _full = <String, dynamic>{};
+    _full["auth"] = _auth;
+    _full["data"] = _data;
+    return _full;
+  }
+
   UserModel.fromJson(Map<String, dynamic> json) {
     userID = json['UserID'];
     codeInvite = json['CodeInvite'];
@@ -51,11 +80,11 @@ class UserModel {
     // lastLogin = json['LastLogin'];
     oTP = json['OTP'];
     timeOTP = json['TimeOTP'];
-    cityId = json["CityID"];
-    proviceId = json["ProviceID"];
+    cityId = json["CityID"] ?? 0;
+    proviceId = json["ProviceID"] ?? 0;
     yearBirthday = json["YearBirthday"];
     description = json["Description"];
-    totalAmount = json["TotalAmount"];
+    totalAmount = json["TotalAmount"] ?? 0;
     lstImageUsers = json["lstImageUsers"] == null
         ? []
         : (json["lstImageUsers"] as List)

@@ -1,5 +1,6 @@
 import 'package:app_bamnguyet_2/screens/auth/change_password_screen.dart';
 import 'package:app_bamnguyet_2/screens/history/history_screen.dart';
+import 'package:app_bamnguyet_2/screens/profile/profile_detail_screen.dart';
 import 'package:flutter/material.dart';
 import '../model/history_model.dart';
 import '../model/service_model.dart';
@@ -78,6 +79,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final args = settings.arguments as HistoryModel;
       return MaterialPageRoute(
         builder: (context) => HistoryHotelScreen(data: args),
+      );
+    case profileDetailScreen:
+      return MaterialPageRoute(
+        builder: (context) => ProfileDetailScreen(),
       );
     default:
       return MaterialPageRoute(

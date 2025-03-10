@@ -94,7 +94,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               SizedBox(height: 10),
               Row(
                 children: [
-                  Text("Đặt cộng tác viên yêu thích",
+                  Text("Thông tin cộng tác viên",
                       style: AppTheme.getTextStyle(context,
                           fontWeight: FontWeight.bold)),
                   Spacer(),

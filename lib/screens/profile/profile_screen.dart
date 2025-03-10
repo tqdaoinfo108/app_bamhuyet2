@@ -32,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
             // proLableText: "Sliver",
             // isPro: true, if the user is pro
             press: () {
-              // Navigator.pushNamed(context, userInfoScreenRoute);
+              Navigator.pushNamed(context, profileDetailScreen);
             },
           ),
           GetStorage().read(userTypeUser) == 4

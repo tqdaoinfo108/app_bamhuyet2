@@ -451,7 +451,7 @@ class AppServices {
       required int page}) async {
     try {
       var path =
-          "api/booking/get-booking-by-date?dateGet=${dateTime.toIso8601String()}&Latitude=$lat&Longitude=$lng&page=$page&limit=20";
+          "api/booking/get-booking-by-date?dateGet=${dateTime.toIso8601String()}&Latitude=$lat&Longitude=$lng&page=$page&limit=40";
       var rawResponse = await _api.get(Uri.parse("${_baseURL}$path"));
       if (rawResponse.statusCode == 200) {
         return BookingModel.getFromJsonList(jsonDecode(rawResponse.body));
@@ -482,8 +482,12 @@ class AppServices {
       var path = "api/booking/partner-recive-booking";
       var rawResponse = await _api.post(Uri.parse("${_baseURL}$path"),
           body: json.encode(data));
-      if (rawResponse.statusCode == 200) {
-        return BookingModel.fromJson(jsonDecode(rawResponse.body));
+      if (rawResponse.statusCode == 200 ) {
+        var rs = jsonDecode(rawResponse.body);
+        if(rs["status"] != null){
+          return BookingModel()..bookingId = -1;
+        }
+        return BookingModel.fromJson(rs);
       }
     } catch (e) {
       return null;
@@ -605,6 +609,29 @@ class AppServices {
           body: data);
       if (rawResponse.statusCode == 200) {
         return json.decode(rawResponse.body) != null;
+      }
+    } catch (e) {
+      return false;
+    }
+    return false;
+  }
+
+  Future<bool> updateProfile(UserModel model, String fullName) async{
+    try {
+      var rawResponse = await _api.post(Uri.parse(
+          "${_baseURL}api/user/update"), body: json.encode(model.toJson(fullName)));
+      if (rawResponse.statusCode == 200) {
+        var result = UserModel.getFromJson(json.decode(rawResponse.body));
+
+        GetStorage box = new GetStorage();
+        box.write(userUserName, result.data!.userName);
+        box.write(userFullName, result.data!.fullName);
+        box.write(userImagePath, result.data!.imagePath);
+        box.write(userUserID, result.data!.userID);
+        box.write(userTypeUser, result.data!.typeUserID);
+        box.write(userUserAmount, result.data!.totalAmount);
+
+        return true;
       }
     } catch (e) {
       return false;

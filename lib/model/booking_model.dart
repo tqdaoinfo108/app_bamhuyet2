@@ -21,6 +21,8 @@ class BookingModel {
   String? serviceName;
   String? bookingCustomerAddress;
 
+  BookingModel();
+
   String get getAmount =>
       NumberFormat.decimalPattern('vi').format(amount) + "đ";
   String get getMinute => "$minute phút";
@@ -73,7 +75,8 @@ class BookingModel {
         data: list,
       );
     } else {
-      return ResponseBase();
+      int status = json["status"] ?? 0;
+      return ResponseBase(status: status);
     }
   }
 

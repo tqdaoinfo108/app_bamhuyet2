@@ -16,4 +16,5 @@ const String changepasswordscreen = "changepasswordscreen";
 const String fagScreen = "fagScreen";
 const String walletScreen = "walletScreen";
 const String historydetailscreen = "historydetailscreen";
+const String profileDetailScreen = "profileDetailScreen";
 

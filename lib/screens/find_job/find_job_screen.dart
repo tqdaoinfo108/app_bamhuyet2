@@ -25,12 +25,19 @@ class _FindJobScreenState extends State<FindJobScreen> {
     var response = await AppServices.instance
         .postPartnerReciveBooking(bookingID: bookingID);
     if (response != null) {
-      SnackbarHelper.showSnackBar(
+      if(response.bookingId == -1){
+        SnackbarHelper.showSnackBar(
+            "Số tiền tạm ứng không đủ", ToastificationType.error);
+        return;
+      }
+
+        SnackbarHelper.showSnackBar(
           "Ứng tuyển thành công", ToastificationType.success);
       if (mounted) {
         loadList(dateTime);
       }
     } else {
+
       SnackbarHelper.showSnackBar("Xảy ra lỗi, vui lòng gọi tổng đài để hỗ trợ.", ToastificationType.error);
     }
   }
@@ -84,7 +91,8 @@ class _FindJobScreenState extends State<FindJobScreen> {
                     : ListView.builder(
                         itemBuilder: (context, index) {
                           return FindJobCard(list[index], dateTime, () async {
-                            await onBooking(list[index].bookingId!);
+                            var rs =  await onBooking(list[index].bookingId!);
+
                           });
                         },
                         itemCount: list.length,
