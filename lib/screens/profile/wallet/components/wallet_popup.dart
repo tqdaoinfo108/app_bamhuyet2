@@ -3,6 +3,7 @@ import 'package:app_bamnguyet_2/components/app_text_field.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
 class WalletPopup extends StatefulWidget {
@@ -19,13 +20,11 @@ class _WalletPopupState extends State<WalletPopup> {
   onCreateMoney() async {
     var rs =
         await AppServices.instance.postCreateMoneyInput(double.parse(value));
-    if (rs ) {
-      SnackbarHelper.showSnackBar(
-          "Thành công", ToastificationType.success);
+    if (rs) {
+      SnackbarHelper.showSnackBar("success", ToastificationType.success);
       Navigator.of(context).pop();
     } else {
-      SnackbarHelper.showSnackBar(
-          "Thao tác thất bại", ToastificationType.error);
+      SnackbarHelper.showSnackBar("error", ToastificationType.error);
     }
   }
 
@@ -34,7 +33,7 @@ class _WalletPopupState extends State<WalletPopup> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Nộp tiền vào ví"),
+          title: Text(""),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -43,8 +42,8 @@ class _WalletPopupState extends State<WalletPopup> {
             children: [
               AppTextField(
                 inputMoneyController,
-                "Nhập số tiền",
-                "Nhập số tiền",
+                "enter_money".trans(),
+                "enter_money".trans(),
                 onChanged: (s) {
                   setState(() {
                     if (s == '') s = "0";
@@ -64,7 +63,7 @@ class _WalletPopupState extends State<WalletPopup> {
                 onPressed: () async {
                   await onCreateMoney();
                 },
-                child: const Text("Gửi"),
+                child: Text("send".trans()),
               ),
             ],
           ),

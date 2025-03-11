@@ -3,7 +3,7 @@ import 'package:app_bamnguyet_2/model/news_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-
+import 'package:localization_plus/localization_plus.dart';
 
 class SupportScreen extends StatefulWidget {
   const SupportScreen({super.key});
@@ -14,7 +14,7 @@ class SupportScreen extends StatefulWidget {
 
 class _SupportScreenState extends State<SupportScreen> {
   NewsModel? news = null;
-  bool isLoading =  false;
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -43,14 +43,18 @@ class _SupportScreenState extends State<SupportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hỗ trợ, Hướng dẫn sử dụng"),
+        title: Text("support_title".trans()),
       ),
       body: isLoading
           ? loadingWidget()
-          : news == null ? Center(child: Text("Không có dữ liệu"),) :  Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: HtmlWidget(news!.description ?? ""),
-      ),
+          : news == null
+              ? Center(
+                  child: Text("no_data"),
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: HtmlWidget(news!.description ?? ""),
+                ),
     );
   }
 }

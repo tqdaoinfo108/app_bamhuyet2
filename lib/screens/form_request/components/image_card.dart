@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:hl_image_picker/hl_image_picker.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../../components/app_snackbar.dart';
@@ -42,10 +43,11 @@ class _ImageCardState extends State<ImageCard> {
     final images = await _picker.openPicker();
     var response = await AppServices.instance.uploadFile(images.first.path);
     if (response != null) {
-      SnackbarHelper.showSnackBar("Thành công", ToastificationType.success);
+      SnackbarHelper.showSnackBar(
+          "success".trans(), ToastificationType.success);
       return response.data;
     } else {
-      SnackbarHelper.showSnackBar("Huỷ chọn file", ToastificationType.warning);
+      SnackbarHelper.showSnackBar("cancel".trans(), ToastificationType.warning);
       return null;
     }
   }
@@ -53,8 +55,8 @@ class _ImageCardState extends State<ImageCard> {
   @override
   Widget build(BuildContext context) {
     var note = widget.isPartner
-        ? "<html> <body> Lưu ý <ul> <li>Không đăng ảnh ảo, hở hang. Ảnh cần rõ mặt, rõ nét, nghiêm túc</li> <li>Nếu bạn là chủ Spa, phòng khám, thẩm mỹ viện, tiệm hớt tóc, hãy liên hệ chúng tôi để hỗ trợ chuyên sâu</li> </ul> </body> </html>"
-        : "<html> <body> Lưu ý <ul> <li>Hãy thêm cơ sở vật chất, không gian của bạn</li></ul> </body> </html>";
+        ? "warning_partner_1".trans()
+        : "warning_partner_2".trans();
     return Column(
       children: [
         SingleChildScrollView(
@@ -96,7 +98,7 @@ class _ImageCardState extends State<ImageCard> {
             ),
             SizedBox(width: 5),
             Text(
-              "Vui lòng thêm ít nhất 2 ảnh",
+              "chose_least_2_image".trans(),
               style: TextStyle(fontSize: 12, color: Colors.red),
             )
           ],
@@ -126,10 +128,11 @@ class _PickerCardItemState extends State<PickerCardItem> {
     final images = await _picker.openPicker();
     var response = await AppServices.instance.uploadFile(images.first.path);
     if (response != null) {
-      SnackbarHelper.showSnackBar("Thành công", ToastificationType.success);
+      SnackbarHelper.showSnackBar(
+          "success".trans(), ToastificationType.success);
       return response.data;
     } else {
-      SnackbarHelper.showSnackBar("Huỷ chọn file", ToastificationType.warning);
+      SnackbarHelper.showSnackBar("cancel".trans(), ToastificationType.warning);
       return null;
     }
   }
@@ -197,7 +200,7 @@ class _PickerCardItemState extends State<PickerCardItem> {
                 color: Colors.grey,
               ),
               child: Text(
-                "Ảnh đại diện",
+                "avatar".trans(),
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),

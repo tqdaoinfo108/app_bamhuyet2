@@ -5,6 +5,7 @@ import 'package:app_bamnguyet_2/screens/form_request/components/service_item.dar
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../components/app_snackbar.dart';
@@ -58,18 +59,23 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   }
 
   getListService() async {
-    ResponseBase<List<ServiceModel>>? temp = await AppServices.instance.getServicesAll();
+    ResponseBase<List<ServiceModel>>? temp =
+        await AppServices.instance.getServicesAll();
     if (temp != null) {
-      List<int> ids = widget.data.initData.map((item) => item.serviceId!).toList();
+      List<int> ids =
+          widget.data.initData.map((item) => item.serviceId!).toList();
 
-      for(ServiceModel item in temp.data ??[]){
-        if(item.lstServiceDetails.any((i) => ids.contains(i.serviceId))){
+      for (ServiceModel item in temp.data ?? []) {
+        if (item.lstServiceDetails.any((i) => ids.contains(i.serviceId))) {
           item.isExpand = true;
 
-          if(widget.data.partnerID  == 0){
-            for(var serviceDetail in item.lstServiceDetails){
-              var first = widget.data.initData.where((e) => e.serviceDetailId == serviceDetail.serviceDetailId).firstOrNull;
-              if(first != null){
+          if (widget.data.partnerID == 0) {
+            for (var serviceDetail in item.lstServiceDetails) {
+              var first = widget.data.initData
+                  .where(
+                      (e) => e.serviceDetailId == serviceDetail.serviceDetailId)
+                  .firstOrNull;
+              if (first != null) {
                 serviceDetail.amount = first.amount;
               }
             }
@@ -86,7 +92,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Thêm dịch vụ")),
+      appBar: AppBar(title: Text("add_service".trans())),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -102,14 +108,14 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                   var res = await onAddService();
                   if (res) {
                     SnackbarHelper.showSnackBar(
-                        "Thành công", ToastificationType.success);
+                        "success".trans(), ToastificationType.success);
                     Navigator.of(context).pushReplacementNamed(homeScreenRoute);
                   } else {
                     SnackbarHelper.showSnackBar(
-                        "Gửi thất bại", ToastificationType.error);
+                        "send_fail".trans(), ToastificationType.error);
                   }
                 },
-                child: const Text("Tiếp tục"),
+                child: Text("continue".trans()),
               ),
             ),
             SizedBox(height: 40),

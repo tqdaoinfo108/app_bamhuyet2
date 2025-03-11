@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../components/app_snackbar.dart';
@@ -43,13 +44,13 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
     try {
       if (GetStorage().read(userTypeUser) != 4) {
         SnackbarHelper.showSnackBar(
-            "CTV và chi nhánh không thể đặt lịch", ToastificationType.warning);
+            "colaborator_cannot_booking".trans(), ToastificationType.warning);
         return;
       }
 
       if (list.isEmpty) {
         SnackbarHelper.showSnackBar(
-            "Chưa chọn địa chỉ", ToastificationType.warning);
+            "choose_address".trans(), ToastificationType.warning);
         return;
       }
 
@@ -62,7 +63,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
               (timeOfDay.hour == now.hour &&
                   timeOfDay.minute + 15 >= now.minute)))) {
         SnackbarHelper.showSnackBar(
-            "Thời gian nhỏ hơn hiện tại", ToastificationType.warning);
+            "time_less_than_current".trans(), ToastificationType.warning);
         return;
       }
 
@@ -77,12 +78,13 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
           time: timeOfDay,
           description: descriptionController.text);
       if (respone != null) {
-        SnackbarHelper.showSnackBar("Thành công", ToastificationType.success);
+        SnackbarHelper.showSnackBar(
+            "success".trans(), ToastificationType.success);
         Navigator.pushNamedAndRemoveUntil(
             context, homeScreenRoute, ModalRoute.withName(homeScreenRoute));
       } else {
-        SnackbarHelper.showSnackBar("Thất bại, vui lòng liên hệ ban quản trị.",
-            ToastificationType.error);
+        SnackbarHelper.showSnackBar(
+            "faild_contact_admin".trans(), ToastificationType.error);
       }
     } finally {
       setState(() {
@@ -104,7 +106,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Xác nhận đặt lịch"),
+        title: Text("confirm_booking".trans()),
       ),
       body: isLoading
           ? loadingWidget()
@@ -126,11 +128,11 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                         horizontal: defaultPadding,
                         vertical: defaultPadding / 2),
                     decoration: BoxDecoration(color: lightGreyColor),
-                    child:  ListTile(
+                    child: ListTile(
                       trailing: SvgPicture.asset(
                         "assets/icons/miniRight.svg",
                       ),
-                      leading:  SvgPicture.asset(
+                      leading: SvgPicture.asset(
                         "assets/icons/Address.svg",
                         height: 42,
                         width: 42,
@@ -138,16 +140,16 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Địa chỉ của bạn",
+                          Text("your_address".trans(),
                               style: AppTheme.getTextStyle(context,
                                   fontSize: 16, fontWeight: FontWeight.w500)),
                           Text(
                             list.isEmpty
-                                ? "Thêm địa chỉ"
+                                ? "add_address".trans()
                                 : "${list.first.address}",
                             style: TextStyle(
                                 color:
-                                list.isEmpty ? primaryColor : Colors.grey,
+                                    list.isEmpty ? primaryColor : Colors.grey,
                                 fontSize: 14),
                           )
                         ],
@@ -183,7 +185,9 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                              "${itemChoose.minute} phút (${itemChoose.getAmount}đ)",
+                              "${itemChoose.minute} " +
+                                  "minutes".trans() +
+                                  " (${itemChoose.getAmount}đ)",
                               style:
                                   AppTheme.getTextStyle(context, fontSize: 14)),
                         ],
@@ -199,7 +203,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                       children: [
                         SvgPicture.asset("assets/icons/Clock.svg"),
                         SizedBox(width: 4),
-                        Text("Ngay bây giờ"),
+                        Text("now".trans()),
                         Spacer(),
                         InkWell(
                             onTap: () async {
@@ -221,7 +225,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                                             .format(DateTime.now()),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold))
-                                : Text("Hẹn lịch",
+                                : Text("choose_time".trans(),
                                     style: TextStyle(
                                         color: primaryColor,
                                         fontWeight: FontWeight.bold)))
@@ -235,10 +239,10 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                       children: [
                         SvgPicture.asset("assets/icons/Cash.svg"),
                         SizedBox(width: 4),
-                        Text("Hình thức thanh toán"),
+                        Text("payment_method".trans()),
                         Spacer(),
                         InkWell(
-                            child: Text("Tiền mặt",
+                            child: Text("cash".trans(),
                                 style: TextStyle(fontWeight: FontWeight.bold)))
                       ],
                     )),
@@ -248,8 +252,8 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                       const EdgeInsets.symmetric(horizontal: defaultPadding),
                   child: AppTextField(
                     descriptionController,
-                    "Ghi chú",
-                    "Ghi chú",
+                    "note".trans(),
+                    "note".trans(),
                     maxLines: 3,
                     isShowRequired: false,
                   ),
@@ -264,7 +268,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Đặt lịch"),
+                        Text("Booking".trans()),
                         Text(
                           "${itemChoose.getAmount}đ",
                           style: AppTheme.getTextStyle(context,

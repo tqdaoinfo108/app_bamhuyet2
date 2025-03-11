@@ -3,7 +3,7 @@ import 'package:app_bamnguyet_2/model/news_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-
+import 'package:localization_plus/localization_plus.dart';
 
 class PolicyScreen extends StatefulWidget {
   const PolicyScreen(this.contentType, {super.key});
@@ -16,7 +16,7 @@ class PolicyScreen extends StatefulWidget {
 
 class _PolicyScreenState extends State<PolicyScreen> {
   NewsModel? news = null;
-  bool isLoading =  false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -51,10 +51,14 @@ class _PolicyScreenState extends State<PolicyScreen> {
         ),
         body: isLoading
             ? loadingWidget()
-            : news == null ? Center(child: Text("Không có dữ liệu"),) :  Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: HtmlWidget(news!.description ?? ""),
-        ),
+            : news == null
+                ? Center(
+                    child: Text("no_data".trans()),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: HtmlWidget(news!.description ?? ""),
+                  ),
       ),
     );
   }

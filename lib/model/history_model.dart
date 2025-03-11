@@ -13,11 +13,15 @@ class HistoryModel {
   int? serviceID;
   int? minute;
   double? amount;
-  // int? amountDiscount;
+
+  String get getAmount =>
+      NumberFormat.decimalPattern('vi').format(amount ?? 0) +
+      "đ"; // int? amountDiscount;
   String? bookingDate;
   String? dateStart;
 
-  String get getDateStart => DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(dateStart!));
+  String get getDateStart =>
+      DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(dateStart!));
   int? statusID;
   int? statusPayment;
   Null? datePayment;

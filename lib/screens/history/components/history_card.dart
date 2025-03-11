@@ -1,21 +1,20 @@
-import 'package:app_bamnguyet_2/components/app_snackbar.dart';
 import 'package:app_bamnguyet_2/model/history_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:toastification/toastification.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/constants.dart';
 
 class HistoryCard extends StatelessWidget {
-  const HistoryCard(this.data, {super.key});
+  const HistoryCard(this.data, this.onEvent, {super.key});
   final HistoryModel data;
+  final Function() onEvent;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        SnackbarHelper.showSnackBar(
-            "Đang phát triển", ToastificationType.success);
+        onEvent();
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
@@ -69,7 +68,7 @@ class HistoryCard extends StatelessWidget {
                     SizedBox(height: 5),
                     Row(
                       children: [
-                        Text("Bấm để xem chi tiết",
+                        Text("click_to_see_detail".trans(),
                             style: TextStyle(
                                 fontSize: 12,
                                 fontStyle: FontStyle.italic,
@@ -90,7 +89,8 @@ class HistoryCard extends StatelessWidget {
                   if (data.statusID == 0)
                     InkWell(
                       onTap: () async {
-                        await launchUrl(Uri(scheme: 'tel', path: data.bookingCustomerPhone!));
+                        await launchUrl(Uri(
+                            scheme: 'tel', path: data.bookingCustomerPhone!));
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -112,7 +112,7 @@ class HistoryCard extends StatelessWidget {
                               color: Colors.white,
                             ),
                             Text(
-                              "Gọi",
+                              "call".trans(),
                               style: TextStyle(color: Colors.white),
                             )
                           ],
@@ -126,7 +126,7 @@ class HistoryCard extends StatelessWidget {
                         borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(defaultBorderRadious),
                           bottomLeft: Radius.circular(
-                              ![0,2].contains(data.statusID)
+                              ![0, 2].contains(data.statusID)
                                   ? defaultBorderRadious
                                   : 0),
                         ),
@@ -151,12 +151,12 @@ class HistoryCard extends StatelessWidget {
                           SizedBox(width: 10),
                           Text(
                             data.statusID == 1
-                                ? "Hoàn thành"
+                                ? "finish".trans()
                                 : [-1, -2].contains(data.statusID)
-                                    ? "Hủy"
+                                    ? "cancel".trans()
                                     : data.statusID == 0
-                                        ? "Đang thực hiện"
-                                        : "Chờ xử lý",
+                                        ? "in_progress".trans()
+                                        : "waiting".trans(),
                             style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,

@@ -30,7 +30,8 @@ class AppTextField extends StatelessWidget {
       this.textInputType = TextInputType.text,
         this.onChanged,
       this.isShowTitle = true,
-      this.isShowRequired = true, });
+      this.isShowRequired = true,
+      this.enable = true});
   final TextEditingController controller;
   final String labelText;
   final String hintText;
@@ -38,6 +39,7 @@ class AppTextField extends StatelessWidget {
   final TextInputType? textInputType;
   final bool? isShowTitle;
   final bool? isShowRequired;
+  final bool? enable;
   final Function(String? s)? onChanged;
   @override
   Widget build(BuildContext context) {
@@ -79,6 +81,7 @@ class AppTextField extends StatelessWidget {
           onChanged: (s) {
             if(onChanged != null) onChanged!(s);
           },
+          enabled: enable,
           decoration: InputDecoration(
             hintText: hintText,
             labelStyle: TextStyle(),

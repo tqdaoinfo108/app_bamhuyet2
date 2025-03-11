@@ -77,7 +77,7 @@ class AppServices {
       var data = json.encode({"UserName": phone});
       var rawResponse = await _api
           .post(Uri.parse("${_baseURL}api/user/register"), body: data);
-      if (rawResponse.statusCode == 200 ) {
+      if (rawResponse.statusCode == 200) {
         return UserModel.getFromJson(json.decode(rawResponse.body));
       }
     } catch (e) {
@@ -451,7 +451,7 @@ class AppServices {
       required int page}) async {
     try {
       var path =
-          "api/booking/get-booking-by-date?dateGet=${dateTime.toIso8601String()}&Latitude=$lat&Longitude=$lng&page=$page&limit=20";
+          "api/booking/get-booking-by-date?dateGet=${dateTime.toIso8601String()}&Latitude=$lat&Longitude=$lng&page=$page&limit=40";
       var rawResponse = await _api.get(Uri.parse("${_baseURL}$path"));
       if (rawResponse.statusCode == 200) {
         return BookingModel.getFromJsonList(jsonDecode(rawResponse.body));
@@ -482,8 +482,12 @@ class AppServices {
       var path = "api/booking/partner-recive-booking";
       var rawResponse = await _api.post(Uri.parse("${_baseURL}$path"),
           body: json.encode(data));
-      if (rawResponse.statusCode == 200) {
-        return BookingModel.fromJson(jsonDecode(rawResponse.body));
+      if (rawResponse.statusCode == 200 ) {
+        var rs = jsonDecode(rawResponse.body);
+        if(rs["status"] != null){
+          return BookingModel()..bookingId = -1;
+        }
+        return BookingModel.fromJson(rs);
       }
     } catch (e) {
       return null;
@@ -512,10 +516,11 @@ class AppServices {
     }
   }
 
-  Future<ResponseBase<List<RatingModel>>?> getListRating(int typeServiceID) async {
+  Future<ResponseBase<List<RatingModel>>?> getListRating(
+      int typeServiceID) async {
     try {
-      var rawResponse = await _api.get(
-          Uri.parse("${_baseURL}api/rating/get-rating-average-by-type-service?typeServiceID=${typeServiceID}&page=1&limit=20"));
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/rating/get-rating-average-by-type-service?typeServiceID=${typeServiceID}&page=1&limit=20"));
       if (rawResponse.statusCode == 200) {
         return RatingModel.getFromJson(json.decode(rawResponse.body));
       }
@@ -527,8 +532,8 @@ class AppServices {
 
   Future<ResponseBase<List<HistoryModel>>?> getHistory() async {
     try {
-      var rawResponse = await _api.get(
-          Uri.parse("${_baseURL}api/booking/get-booking-by-user?page=1&limit=20"));
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/booking/get-booking-by-user?page=1&limit=20"));
       if (rawResponse.statusCode == 200) {
         return HistoryModel.getFromJson(json.decode(rawResponse.body));
       }
@@ -540,7 +545,6 @@ class AppServices {
 
   Future<ResponseBase<UserModel>?> createPassword(String password) async {
     try {
-
       var data = json.encode({
         "UserName": "string",
         "PassWordNew": password,
@@ -559,9 +563,8 @@ class AppServices {
 
   Future<ResponseBase<List<NewsModel>>?> getNewsList(int type) async {
     try {
-
-      var rawResponse = await _api
-          .get(Uri.parse("${_baseURL}api/news/get-list-news?contentTypeID=2&page=1&limit=1"));
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/news/get-list-news?contentTypeID=2&page=1&limit=1"));
       if (rawResponse.statusCode == 200) {
         return NewsModel.getFromJson(json.decode(rawResponse.body));
       }
@@ -573,9 +576,8 @@ class AppServices {
 
   Future<ResponseBase<List<MoneyInputModel>>?> getListMoneyInput() async {
     try {
-
-      var rawResponse = await _api
-          .get(Uri.parse("${_baseURL}api/money-input/get-list-pagging?page=1&limit=20"));
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/money-input/get-list-pagging?page=1&limit=20"));
       if (rawResponse.statusCode == 200) {
         return MoneyInputModel.getFromJson(json.decode(rawResponse.body));
       }
@@ -587,14 +589,49 @@ class AppServices {
 
   Future<bool> postCreateMoneyInput(double price) async {
     try {
-
-      var data = json.encode({
-        "Amount": price
-      });
+      var data = json.encode({"Amount": price});
       var rawResponse = await _api
           .post(Uri.parse("${_baseURL}api/money-input/create"), body: data);
       if (rawResponse.statusCode == 200) {
         return json.decode(rawResponse.body)["data"] != null;
+      }
+    } catch (e) {
+      return false;
+    }
+    return false;
+  }
+
+  Future<bool> postFinalBooking(int bookingID) async {
+    try {
+      var data = json.encode({"BookingID": bookingID});
+      var rawResponse = await _api.post(
+          Uri.parse("${_baseURL}api/booking/partner-update-final"),
+          body: data);
+      if (rawResponse.statusCode == 200) {
+        return json.decode(rawResponse.body) != null;
+      }
+    } catch (e) {
+      return false;
+    }
+    return false;
+  }
+
+  Future<bool> updateProfile(UserModel model, String fullName) async{
+    try {
+      var rawResponse = await _api.post(Uri.parse(
+          "${_baseURL}api/user/update"), body: json.encode(model.toJson(fullName)));
+      if (rawResponse.statusCode == 200) {
+        var result = UserModel.getFromJson(json.decode(rawResponse.body));
+
+        GetStorage box = new GetStorage();
+        box.write(userUserName, result.data!.userName);
+        box.write(userFullName, result.data!.fullName);
+        box.write(userImagePath, result.data!.imagePath);
+        box.write(userUserID, result.data!.userID);
+        box.write(userTypeUser, result.data!.typeUserID);
+        box.write(userUserAmount, result.data!.totalAmount);
+
+        return true;
       }
     } catch (e) {
       return false;

@@ -3,9 +3,9 @@ import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 import '../../components/custom_modal_bottom_sheet.dart';
-import '../../components/list_tile/checkbox_underline_list_tile.dart';
 import 'components/app_dropdownlist.dart';
 import '../../components/app_snackbar.dart';
 import '../../components/app_text_field.dart';
@@ -79,7 +79,7 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Cá nhân")),
+      appBar: AppBar(title: Text("personal".trans())),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -105,7 +105,8 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                 },
               ),
               SizedBox(height: 10),
-              AppTextField(fullNameController, "Nguyen Van A", "Họ và tên"),
+              AppTextField(
+                  fullNameController, "Nguyen Van A", "full_name".trans()),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -116,7 +117,7 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextFieldLabel("Giới tính"),
+                        TextFieldLabel("gender".trans()),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -131,7 +132,7 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                                   });
                                 }),
                             Text(
-                              "Nam",
+                              "male".trans(),
                               style:
                                   TextStyle(fontSize: 14, color: Colors.grey),
                             ),
@@ -145,7 +146,7 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                                   });
                                 }),
                             Text(
-                              "Nữ",
+                              "felame".trans(),
                               style:
                                   TextStyle(fontSize: 14, color: Colors.grey),
                             ),
@@ -157,12 +158,12 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                   Flexible(
                       flex: 1,
                       child: AppTextField(
-                          yearBirthController, "1970", "Năm sinh",
+                          yearBirthController, "1970", "year_of_birth".trans(),
                           textInputType: TextInputType.number)),
                 ],
               ),
               SizedBox(height: 10),
-              TextFieldLabel("Thành phố làm việc"),
+              TextFieldLabel("working_city".trans()),
               CityDropdownlist(key: cityDropdownKey, (e) {
                 setState(() {
                   city = e;
@@ -170,20 +171,22 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
                 });
               }),
               SizedBox(height: 10),
-              TextFieldLabel("Quận/ Huyện làm việc"),
+              TextFieldLabel("working_district_ward".trans()),
               ProvinceDropdownlist((e) {
                 province = e;
               }, city?.cityId ?? 0, key: provinceDropdownKey),
               SizedBox(height: 10),
               AppTextField(
-                  descriptionController, "Mô tả cá nhân", "Mô tả cá nhân",
+                  descriptionController, "personal_description".trans(), "personal_description".trans(),
                   maxLines: 3),
               SizedBox(height: 10),
               ListTile(
                 contentPadding: const EdgeInsets.all(0),
-                title: InkWell(onTap: (){
-                  customModalBottomSheet(context, child: PolicyScreen(2));
-                }, child: Text("Chấp nhận điều khoản Cộng tác viên")),
+                title: InkWell(
+                    onTap: () {
+                      customModalBottomSheet(context, child: PolicyScreen(2));
+                    },
+                    child: Text("accept_collaborator_terms".trans())),
                 leading: Checkbox(
                     onChanged: (e) {
                       setState(() {
@@ -196,9 +199,9 @@ class _RequestPartnerScreenState extends State<RequestPartnerScreen> {
               SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () async {
-                  if(!isAccpect){
-                    SnackbarHelper.showSnackBar(
-                        "Vui lòng chấp nhận điều khoản", ToastificationType.error);
+                  if (!isAccpect) {
+                    SnackbarHelper.showSnackBar("Vui lòng chấp nhận điều khoản",
+                        ToastificationType.error);
                     return;
                   }
 

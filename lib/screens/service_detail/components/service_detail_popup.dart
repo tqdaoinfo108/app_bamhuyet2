@@ -1,6 +1,7 @@
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:localization_plus/localization_plus.dart';
 
 import '../../../model/service_model.dart';
 
@@ -30,7 +31,7 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AppBar(
-            title: Text("Chọn thời gian"),
+            title: Text("choose_time".trans()),
           ),
           SingleChildScrollView(
             child: Wrap(
@@ -52,7 +53,7 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
                               e.isChoose ? greyColor.withOpacity(.6) : null,
                           padding: const EdgeInsets.all(8)),
                       child: Text(
-                        "${e.minute} phút",
+                        "${e.minute} "+"minutes".trans(),
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       )),
                 );
@@ -66,7 +67,7 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Tiếp tục"),
+                  Text("continue".trans()),
                   if (amount != "") Text("$amount vnd")
                 ],
               ),

@@ -3,6 +3,7 @@ import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../utils/constants.dart';
@@ -62,12 +63,12 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Đăng ký tài khoản",
+                    "register".trans(),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: defaultPadding / 2),
-                  const Text(
-                    "Điền thông tin bên dưới để tiếp tục",
+                  Text(
+                    "fill_in_the_information_below_to_continue".trans(),
                   ),
                   const SizedBox(height: defaultPadding),
                   Pinput(
@@ -75,30 +76,32 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     focusedPinTheme: focusedPinTheme,
                     submittedPinTheme: submittedPinTheme,
                     validator: (s) {
-                      return s == widget.userModel.oTP ? null : 'Mã OTP không đúng';
+                      return s == widget.userModel.oTP
+                          ? null
+                          : 'otp_incorrect'.trans();
                     },
                     pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                     showCursor: true,
-                    onCompleted: (pin) async {
-                    },
+                    onCompleted: (pin) async {},
                   ),
                   const SizedBox(height: defaultPadding),
                   const SizedBox(height: defaultPadding * 2),
                   ElevatedButton(
                     onPressed: () async {
-                      var temp = await AppServices.instance.postVerifyOTP(widget.userModel.oTP!);
-                      if(temp != null){
+                      var temp = await AppServices.instance
+                          .postVerifyOTP(widget.userModel.oTP!);
+                      if (temp != null) {
                         GetStorage box = new GetStorage();
                         box.write(userUserName, temp.data!.userName);
                         box.write(userImagePath, temp.data!.imagePath);
                         box.write(userUserID, temp.data!.userID);
                         Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          changepasswordscreen,
-                          ModalRoute.withName(changepasswordscreen));
+                            context,
+                            changepasswordscreen,
+                            ModalRoute.withName(changepasswordscreen));
                       }
                     },
-                    child: const Text("Tiếp tục"),
+                    child: Text("continue".trans()),
                   ),
                 ],
               ),

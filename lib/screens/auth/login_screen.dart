@@ -1,6 +1,7 @@
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../components/app_snackbar.dart';
@@ -60,12 +61,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Chào bạn quay trở lại!",
+                          "welcome_back".trans(),
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         const SizedBox(height: defaultPadding / 2),
-                        const Text(
-                          "Đăng nhập với thông tin bạn đã đăng ký",
+                        Text(
+                          "login_with_registered_info".trans(),
                         ),
                         const SizedBox(height: defaultPadding),
                         LogInForm(
@@ -75,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Align(
                           child: TextButton(
-                            child: const Text("Quên mật khẩu"),
+                            child: Text("forgot_password".trans()),
                             onPressed: () {
                               Navigator.pushNamed(
                                   context, passwordRecoveryScreenRoute);
@@ -96,22 +97,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context,
                                     homeScreenRoute,
                                     ModalRoute.withName(logInScreenRoute));
-                              }else{
-                                SnackbarHelper.showSnackBar("Tài koản hoặc mật không đúng", ToastificationType.error);
+                              } else {
+                                SnackbarHelper.showSnackBar(
+                                    "account_or_password_incorrect".trans(),
+                                    ToastificationType.error);
                               }
                             }
                           },
-                          child: const Text("Đăng nhập"),
+                          child:  Text("login".trans()),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text("Bạn chưa có tài khoản?"),
+                             Text("dont_have_account".trans()),
                             TextButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, signUpScreenRoute);
                               },
-                              child: const Text("Đăng ký"),
+                              child:  Text("register".trans()),
                             )
                           ],
                         ),

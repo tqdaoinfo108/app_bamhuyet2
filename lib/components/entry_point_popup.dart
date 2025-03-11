@@ -1,6 +1,7 @@
 import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:app_bamnguyet_2/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:localization_plus/localization_plus.dart';
 
 class EntryPointPopupWidget extends StatefulWidget {
   const EntryPointPopupWidget({super.key});
@@ -20,7 +21,7 @@ class _EntryPointPopupWidgetState extends State<EntryPointPopupWidget> {
     return Column(
       children: [
         SizedBox(height: 20),
-        Text("Bạn là ai ?",
+        Text("who-are-you".trans(),
             style: AppTheme.getTextStyle(context,
                 fontSize: 18, fontWeight: FontWeight.bold)),
         RadioListTile(
@@ -31,7 +32,7 @@ class _EntryPointPopupWidgetState extends State<EntryPointPopupWidget> {
               isSelected = tochuc;
             });
           },
-          title: Text("Tổ chức, chi nhánh cửa hàng"),
+          title: Text("organization_and_branch".trans()),
         ),
         RadioListTile(
             value: canhan,
@@ -41,7 +42,7 @@ class _EntryPointPopupWidgetState extends State<EntryPointPopupWidget> {
                 isSelected = canhan;
               });
             },
-            title: Text("Cộng tác viên")),
+            title: Text("collaborator".trans())),
         SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -58,7 +59,7 @@ class _EntryPointPopupWidgetState extends State<EntryPointPopupWidget> {
                   break;
               }
             },
-            child: const Text("Tiếp tục"),
+            child: Text("continue".trans()),
           ),
         ),
       ],

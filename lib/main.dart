@@ -12,7 +12,7 @@ void main() async {
   await GetStorage.init();
   LocalizationPlusController controller = await LocalizationPlusController.init(
       path: 'assets/i18n',
-      supportedLocales: ['en_US'.toLocale(), 'vi-VN'.toLocale()],
+      supportedLocales: ['en_US'.toLocale(), 'vi_VN'.toLocale()],
       saveLocale: true,
       useOnlyLangCode: true);
 

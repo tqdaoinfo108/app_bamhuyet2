@@ -1,5 +1,6 @@
 import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:flutter/material.dart';
+import 'package:localization_plus/localization_plus.dart';
 
 import '../../../model/service_branch_partner.dart';
 import '../../../utils/constants.dart';
@@ -54,7 +55,7 @@ class _ServiceItemState extends State<ServiceItem> {
                     borderRadius: BorderRadius.circular(defaultBorderRadious),
                     border: Border.all(color: Colors.black12)),
                 child: ListTile(
-                  title: Text("${z.minute!} phút",
+                  title: Text("${z.minute!} "+"minutes".trans(),
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -70,7 +71,7 @@ class _ServiceItemState extends State<ServiceItem> {
                       decoration: InputDecoration(
                         enabled: widget.isPartner.partnerID == 0,
                         hintStyle: TextStyle(fontSize: 14),
-                        hintText: 'Giá',
+                        hintText: 'price'.trans(),
                         border: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey),
                         ),

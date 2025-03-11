@@ -2,6 +2,7 @@ import 'package:app_bamnguyet_2/components/app_snackbar.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../components/loading.dart';
@@ -62,12 +63,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Đăng ký tài khoản",
+                          "register_account".trans(),
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         const SizedBox(height: defaultPadding / 2),
-                        const Text(
-                          "Điền thông tin bên dưới để tiếp tục",
+                         Text(
+                          "fill_in_the_information_below_to_continue".trans(),
                         ),
                         const SizedBox(height: defaultPadding),
                         SignUpForm(
@@ -118,17 +119,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               } else {}
                             }
                           },
-                          child: const Text("Tiếp tục"),
+                          child:  Text("continue".trans()),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text("Bạn đã có tài khoản"),
+                             Text("already_have_an_account".trans()),
                             TextButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, logInScreenRoute);
                               },
-                              child: const Text("Đăng nhập"),
+                              child:  Text("login".trans()),
                             )
                           ],
                         ),

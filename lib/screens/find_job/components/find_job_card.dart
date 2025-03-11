@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:toastification/toastification.dart';
 import '../../../components/app_snackbar.dart';
@@ -23,7 +24,7 @@ class FindJobCard extends StatelessWidget {
         onPressed: () {
           if (!data.isValidDuration(dateTime)) {
             SnackbarHelper.showSnackBar(
-                "Tin đã quá hạn !", ToastificationType.warning);
+                "expired_message".trans(), ToastificationType.warning);
           }
         },
         style: OutlinedButton.styleFrom(
@@ -48,7 +49,7 @@ class FindJobCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "Việc mới",
+                      "new_job".trans(),
                       style: AppTheme.getTextStyle(context, fontSize: 14),
                     ),
                     SizedBox(width: 5),
@@ -58,7 +59,7 @@ class FindJobCard extends StatelessWidget {
                             shouldShowDays: (duration) => duration.inDays == 0,
                             padding: const EdgeInsets.all(3),
                           )
-                        : Text("Đã quá hạn")
+                        : Text("expired".trans())
                   ],
                 ),
                 Text(
@@ -73,7 +74,8 @@ class FindJobCard extends StatelessWidget {
                 SvgPicture.asset("assets/icons/Clock.svg", height: 20),
                 SizedBox(width: 4),
                 Text(
-                  "Giờ làm việc: ${DateFormat('HH:mm dd-MM-yyyy').format(data.dateStart!)}",
+                  "working_time".trans() +
+                      ": ${DateFormat('HH:mm dd-MM-yyyy').format(data.dateStart!)}",
                   style: TextStyle(fontSize: 14, color: primaryColor),
                 )
               ],
@@ -84,7 +86,7 @@ class FindJobCard extends StatelessWidget {
                     height: 20, color: Colors.black),
                 SizedBox(width: 4),
                 Text(
-                  "Khách Nam, Hồ Chí Minh",
+                  "Male_customer_HCM".trans(),
                   style: AppTheme.getTextStyle(context, fontSize: 14),
                 )
               ],
@@ -115,13 +117,13 @@ class FindJobCard extends StatelessWidget {
                       onPressed: () {
                         if (GetStorage().read(userTypeUser) != 2) {
                           SnackbarHelper.showSnackBar(
-                              "Bạn không phải cộng tác viên",
+                              "you_are_not_collaborator".trans(),
                               ToastificationType.warning);
                           return;
                         }
                         onBooking();
                       },
-                      child: const Text("Ứng tuyển"),
+                      child: Text("apply".trans()),
                     ),
                   )
                 ],

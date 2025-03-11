@@ -2,6 +2,7 @@ import 'package:app_bamnguyet_2/components/loading.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 import 'package:weekly_calendar/weekly_calendar.dart';
 
@@ -25,13 +26,20 @@ class _FindJobScreenState extends State<FindJobScreen> {
     var response = await AppServices.instance
         .postPartnerReciveBooking(bookingID: bookingID);
     if (response != null) {
-      SnackbarHelper.showSnackBar(
-          "Ứng tuyển thành công", ToastificationType.success);
+      if(response.bookingId == -1){
+        SnackbarHelper.showSnackBar(
+            "money_not_enough".trans(), ToastificationType.error);
+        return;
+      }
+
+        SnackbarHelper.showSnackBar(
+          "apply_success".trans(), ToastificationType.success);
       if (mounted) {
         loadList(dateTime);
       }
     } else {
-      SnackbarHelper.showSnackBar("Xảy ra lỗi, vui lòng gọi tổng đài để hỗ trợ.", ToastificationType.error);
+
+      SnackbarHelper.showSnackBar("faild_contact_admin".trans(), ToastificationType.error);
     }
   }
 
@@ -79,12 +87,13 @@ class _FindJobScreenState extends State<FindJobScreen> {
                 ? loadingWidget()
                 : list.isEmpty
                     ? Center(
-                        child: Text("Chưa có đặt lịch"),
+                        child: Text("no_booking".trans()),
                       )
                     : ListView.builder(
                         itemBuilder: (context, index) {
                           return FindJobCard(list[index], dateTime, () async {
-                            await onBooking(list[index].bookingId!);
+                            var rs =  await onBooking(list[index].bookingId!);
+
                           });
                         },
                         itemCount: list.length,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localization_plus/localization_plus.dart';
 import '../../../utils/constants.dart';
 
 class TimePickerWidget extends StatefulWidget {
@@ -96,7 +97,7 @@ class TimePickerWidgetState extends State<TimePickerWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Thứ 7 - Chủ nhật",
+              "Saturday_Sunday".trans(),
               style: textStyle,
             ),
             Spacer(),

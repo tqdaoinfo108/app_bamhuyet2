@@ -3,6 +3,7 @@ import 'package:app_bamnguyet_2/model/news_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:localization_plus/localization_plus.dart';
 
 
 class PolicySecureScreen extends StatefulWidget {
@@ -44,11 +45,11 @@ class _PolicySecureScreenState extends State<PolicySecureScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Chính sách bảo mật"),
+          title: Text("privacy_policy_title".trans()),
         ),
         body: isLoading
             ? loadingWidget()
-            : news == null ? Center(child: Text("Không có dữ liệu"),) :  Padding(
+            : news == null ? Center(child: Text("no_data".trans()),) :  Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: HtmlWidget(news!.description ?? ""),
         ),

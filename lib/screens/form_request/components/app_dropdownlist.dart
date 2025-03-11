@@ -4,6 +4,7 @@ import 'package:app_bamnguyet_2/model/city_model.dart';
 import 'package:app_bamnguyet_2/model/province_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
+import 'package:localization_plus/localization_plus.dart';
 
 import '../../../utils/constants.dart';
 
@@ -62,7 +63,7 @@ class CityDropdownlistState extends State<CityDropdownlist> {
     return isLoading
         ? loadingWidget()
         : CustomDropdown<CityModel?>(
-            hintText: 'Thành phố làm việc',
+            hintText: 'working_city'.trans(),
             items: list,
             controller: controller,
             listItemBuilder: (context, item, isSelected, onItemSelect) {
@@ -127,7 +128,7 @@ class ProvinceDropdownlistState extends State<ProvinceDropdownlist> {
     return isLoading
         ? loadingWidget()
         : CustomDropdown<ProvinceModel?>(
-            hintText: 'Quận/ Phường làm việc',
+            hintText: 'working_district_ward'.trans(),
             items: list,
             controller: controller,
             listItemBuilder: (context, item, isSelected, onItemSelect) {

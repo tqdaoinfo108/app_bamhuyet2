@@ -5,6 +5,7 @@ import 'package:app_bamnguyet_2/screens/address/components/address_item.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:localization_plus/localization_plus.dart';
 
 import 'components/address_form.dart';
 
@@ -49,7 +50,7 @@ class _AddressScreenState extends State<AddressScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Địa chỉ"),
+        title: Text("address".trans()),
         actions: [
           InkWell(
               onTap: () async {
@@ -66,7 +67,7 @@ class _AddressScreenState extends State<AddressScreen> {
       ),
       body: isLoading
           ? loadingWidget()
-          : list.isEmpty ? Center(child: Text("Không có dữ liệu"),) :  CustomScrollView(
+          : list.isEmpty ? Center(child: Text("no_data".trans()),) :  CustomScrollView(
               slivers: [
                 SliverList.builder(
                   itemBuilder: (context, index) {

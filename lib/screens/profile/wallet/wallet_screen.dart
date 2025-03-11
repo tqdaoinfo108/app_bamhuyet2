@@ -4,6 +4,7 @@ import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:app_bamnguyet_2/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:localization_plus/localization_plus.dart';
 
 import '../../../components/custom_modal_bottom_sheet.dart';
 import 'components/wallet_popup.dart';
@@ -47,7 +48,7 @@ class _WalletScreenState extends State<WalletScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Ví"),
+          title: Text("wallet".trans()),
           actions: [IconButton(onPressed: () async {
             await customModalBottomSheet(context, child: WalletPopup());
             await onLoading();
@@ -57,7 +58,7 @@ class _WalletScreenState extends State<WalletScreen> {
             ? loadingWidget()
             : list.isEmpty
                 ? Center(
-                    child: Text("Không có dữ liệu"),
+                    child: Text("no_data".trans()),
                   )
                 : ListView.builder(
                     itemCount: list.length,
@@ -70,7 +71,7 @@ class _WalletScreenState extends State<WalletScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Nộp ${list[i].getAmount}",
+                                  "submit".trans()+" ${list[i].getAmount}",
                                   style: AppTheme.getTextStyle(context,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -86,7 +87,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                     ),
                                     Spacer(),
                                     Text(
-                                      list[i].isActive! ? "Hoàn thành" : "Chờ duyệt",
+                                      list[i].isActive! ? "finish".trans() : "wating_for_accept".trans(),
                                       style: AppTheme.getTextStyle(context,
                                           fontSize: 12)
                                           .copyWith(color: list[i].isActive! ? Colors.green : Colors.blue),

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../components/custom_modal_bottom_sheet.dart';
@@ -83,7 +84,8 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
       if (profile!.data!.typeUserID == 3 &&
           profile.data!.lstBranchId.isNotEmpty) {
         branchID = profile.data!.lstBranchId[0];
-        ResponseBase<BranchModel>? branchInfo = await AppServices.instance.getBranchByID(branchID!);
+        ResponseBase<BranchModel>? branchInfo =
+            await AppServices.instance.getBranchByID(branchID!);
         if (branchInfo != null) {
           var listImage = branchInfo.data?.lstBranchImages ?? [];
           var branch = branchInfo.data!;
@@ -166,20 +168,20 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      return Future.error('location_services_are_disabled'.trans());
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        return Future.error('location_permissions_are_denied'.trans());
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+          'location_permissions_are_permanently_denied'.trans());
     }
     return await Geolocator.getCurrentPosition();
   }
@@ -187,7 +189,7 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Tổ chức")),
+      appBar: AppBar(title: Text("organization_request".trans())),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -216,9 +218,10 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
               SizedBox(height: 10),
               AppTextField(fullNameController, "Chi nhánh A", "Tên tổ chức"),
               SizedBox(height: 10),
-              AppTextField(addressController, "Địa chỉ", "Nhập địa chỉ"),
+              AppTextField(addressController, "branch_a".trans(),
+                  "enter_address".trans()),
               SizedBox(height: 10),
-              TextFieldLabel("Thành phố làm việc"),
+              TextFieldLabel("working_city".trans()),
               CityDropdownlist(key: cityDropdownKey, (e) {
                 setState(() {
                   city = e;
@@ -226,15 +229,15 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
                 });
               }),
               SizedBox(height: 10),
-              TextFieldLabel("Quận/ Huyện làm việc"),
+              TextFieldLabel("working_district".trans()),
               ProvinceDropdownlist((e) {
                 province = e;
               }, city?.cityId ?? 0, key: provinceDropdownKey),
               SizedBox(height: 10),
-              TextFieldLabel("Thời gian làm việc"),
+              TextFieldLabel("working_time".trans()),
               TimePickerWidget(
                 key: timePickerKey,
-                title: "Thứ 2 - Thứ 6",
+                title: "monday_to_friday".trans(),
                 time26s: (e) {
                   t2t6start = e;
                 },
@@ -253,49 +256,52 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
                 timeofday7cne: t7cnend,
               ),
               SizedBox(height: 10),
-              AppTextField(descriptionController, "Mô tả", "Mô tả chi nhánh",
+              AppTextField(descriptionController, "description".trans(),
+                  "branch_description".trans(),
                   maxLines: 3),
               SizedBox(height: 10),
               AppTextField(
                 websiteController,
-                "Nhập địa chỉ website (nếu có)",
-                "Nhập địa chỉ website (nếu có)",
+                "website".trans(),
+                "website".trans(),
                 isShowTitle: false,
               ),
               SizedBox(height: 10),
               AppTextField(
                 fbController,
-                "Nhập địa chỉ facebook (nếu có)",
-                "Nhập địa chỉ facebook (nếu có)",
+                "facebook".trans(),
+                "facebook".trans(),
                 isShowTitle: false,
               ),
               SizedBox(height: 10),
               AppTextField(
                 youtubeController,
-                "Nhập địa chỉ youtube (nếu có)",
-                "Nhập địa chỉ youtube (nếu có)",
+                "youtube".trans(),
+                "youtube".trans(),
                 isShowTitle: false,
               ),
               SizedBox(height: 10),
               AppTextField(
                 tiktokController,
-                "Nhập địa chỉ tiktok (nếu có)",
-                "Nhập địa chỉ tiktok (nếu có)",
+                "tiktok".trans(),
+                "tiktok".trans(),
                 isShowTitle: false,
               ),
               SizedBox(height: 10),
               AppTextField(
                 instagramController,
-                "Nhập địa chỉ instagram (nếu có)",
-                "Nhập địa chỉ instagram (nếu có)",
+                "instagram".trans(),
+                "instagram".trans(),
                 isShowTitle: false,
               ),
               SizedBox(height: 10),
               ListTile(
                 contentPadding: const EdgeInsets.all(0),
-                title: InkWell(onTap: (){
-                  customModalBottomSheet(context, child: PolicyScreen(3));
-                }, child: Text("Chấp nhận điều khoản Cộng tác viên")),
+                title: InkWell(
+                    onTap: () {
+                      customModalBottomSheet(context, child: PolicyScreen(3));
+                    },
+                    child: Text("accept_collaborator_terms".trans())),
                 leading: Checkbox(
                     onChanged: (e) {
                       setState(() {
@@ -308,27 +314,27 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
               SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () async {
-                  if(!isAccpect){
-                    SnackbarHelper.showSnackBar(
-                        "Vui lòng chấp nhận điều khoản", ToastificationType.error);
+                  if (!isAccpect) {
+                    SnackbarHelper.showSnackBar("please_accept_terms".trans(),
+                        ToastificationType.error);
                     return;
                   }
 
                   if (fullNameController.text.isEmpty) {
-                    SnackbarHelper.showSnackBar(
-                        "Chưa nhập tên chi nhánh", ToastificationType.error);
+                    SnackbarHelper.showSnackBar("branch_name_required".trans(),
+                        ToastificationType.error);
                     return;
                   }
 
                   if (descriptionController.text.isEmpty) {
-                    SnackbarHelper.showSnackBar(
-                        "Chưa nhập mô tả cá nhân", ToastificationType.error);
+                    SnackbarHelper.showSnackBar("description_required".trans(),
+                        ToastificationType.error);
                     return;
                   }
 
                   if (province == null) {
-                    SnackbarHelper.showSnackBar(
-                        "Chưa chọn vùng hoạt động", ToastificationType.error);
+                    SnackbarHelper.showSnackBar("working_city_required".trans(),
+                        ToastificationType.error);
                     return;
                   }
 
@@ -338,48 +344,48 @@ class _RequestOrganizationScreenState extends State<RequestOrganizationScreen> {
                               .length <
                           2) {
                     SnackbarHelper.showSnackBar(
-                        "Chọn ít nhất 1 ảnh đại diện và 2 ảnh khác",
-                        ToastificationType.error);
+                        "image_required".trans(), ToastificationType.error);
                     return;
                   }
 
-                  ResponseBase<BranchModel>? response = await AppServices.instance.updateBranch(
-                      branch: branchID,
-                      cityID: city!.cityId!,
-                      description: descriptionController.text,
-                      fullName: fullNameController.text,
-                      address: addressController.text,
-                      image2: image2 ?? "",
-                      image3: image3 ?? "",
-                      image4: image4 ?? "",
-                      imageRoot: imageMain!,
-                      provinceID: province!.proviceId!,
-                      timeOfDay1: t2t6start,
-                      timeOfDay2: t2t6end,
-                      timeOfDay3: t7cnstart,
-                      timeOfDay4: t7cnend,
-                      fb: fbController.text,
-                      instagram: instagramController.text,
-                      youtube: youtubeController.text,
-                      tiktok: tiktokController.text,
-                      ws: websiteController.text);
+                  ResponseBase<BranchModel>? response =
+                      await AppServices.instance.updateBranch(
+                          branch: branchID,
+                          cityID: city!.cityId!,
+                          description: descriptionController.text,
+                          fullName: fullNameController.text,
+                          address: addressController.text,
+                          image2: image2 ?? "",
+                          image3: image3 ?? "",
+                          image4: image4 ?? "",
+                          imageRoot: imageMain!,
+                          provinceID: province!.proviceId!,
+                          timeOfDay1: t2t6start,
+                          timeOfDay2: t2t6end,
+                          timeOfDay3: t7cnstart,
+                          timeOfDay4: t7cnend,
+                          fb: fbController.text,
+                          instagram: instagramController.text,
+                          youtube: youtubeController.text,
+                          tiktok: tiktokController.text,
+                          ws: websiteController.text);
 
                   if (response != null) {
-
                     SnackbarHelper.showSnackBar(
-                        "Thành công", ToastificationType.success);
+                        "success".trans(), ToastificationType.success);
                     GetStorage().write(userImagePath, imageMain);
 
                     Navigator.popAndPushNamed(context, addServiceScreenRoute,
                         arguments: ServiceBranchPartner(
-                            branchID: response.data!.branchId!, partnerID: 0, initData: response.data?.lstBranchServices ?? []));
+                            branchID: response.data!.branchId!,
+                            partnerID: 0,
+                            initData: response.data?.lstBranchServices ?? []));
                   } else {
-                    SnackbarHelper.showSnackBar(
-                        "Thất bại, vui lòng liên hệ ban quản trị.",
+                    SnackbarHelper.showSnackBar("faild_contact_admin".trans(),
                         ToastificationType.warning);
                   }
                 },
-                child: const Text("Tiếp tục"),
+                child: Text("continue".trans()),
               ),
               SizedBox(height: 80),
             ],
