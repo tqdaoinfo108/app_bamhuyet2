@@ -124,7 +124,7 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
           ProfileMenuListTile(
-            text: "",
+            text: "wallet".trans(),
             svgSrc: "assets/icons/Wallet.svg",
             press: () {
               Navigator.pushNamed(context, walletScreen);
@@ -209,7 +209,7 @@ class ProfileScreen extends StatelessWidget {
               press: () {},
               isShowDivider: false,
               isShowForwordArrow: false,
-              trailing: Text("1.0.0 beta",
+              trailing: Text("1.0.0",
                   style: const TextStyle(fontSize: 14, height: 1))),
 
           // Log Out

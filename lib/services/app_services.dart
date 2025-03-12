@@ -533,7 +533,7 @@ class AppServices {
   Future<ResponseBase<List<HistoryModel>>?> getHistory() async {
     try {
       var rawResponse = await _api.get(Uri.parse(
-          "${_baseURL}api/booking/get-booking-by-user?page=1&limit=20"));
+          "${_baseURL}api/booking/get-booking-by-user?page=1&limit=40"));
       if (rawResponse.statusCode == 200) {
         return HistoryModel.getFromJson(json.decode(rawResponse.body));
       }
@@ -606,6 +606,32 @@ class AppServices {
       var data = json.encode({"BookingID": bookingID});
       var rawResponse = await _api.post(
           Uri.parse("${_baseURL}api/booking/partner-update-final"),
+          body: data);
+      if (rawResponse.statusCode == 200) {
+        return json.decode(rawResponse.body) != null;
+      }
+    } catch (e) {
+      return false;
+    }
+    return false;
+  }
+
+  Future<bool> postRate(int bookingID, String description, int level) async {
+    try {
+      var data = json.encode({
+        "auth": {
+          "UserID": GetStorage().read(userUserID),
+          "UUSerID": GetStorage().read(userUserName)
+        },
+        "data": {
+          "BookingID": bookingID,
+          "LevelID": level,
+          "Description": description,
+          "DateCreated": DateTime.now().toIso8601String()
+        }
+      });
+      var rawResponse = await _api.post(
+          Uri.parse("${_baseURL}api/rating/create"),
           body: data);
       if (rawResponse.statusCode == 200) {
         return json.decode(rawResponse.body) != null;

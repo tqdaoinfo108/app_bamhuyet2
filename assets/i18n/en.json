@@ -117,7 +117,7 @@
   "privacy_policy": "Privacy policy",
   "activity_regulations": "Activity regulations",
   "terms_of_use": "Terms of use",
-  "application_infomation": "Thông tin ứng dụng",
+  "application_infomation": "Infomation application",
   "logout": "Logout",
   "privacy_policy_title": "Privacy policy",
   "support_title": "Support, User guide",
@@ -127,5 +127,6 @@
   "wating_for_accept": "Wating for accept",
   "collaborator_information": "Collaborator information",
   "rating": "rating",
-  "choose_time_to_continue": "Choose time to continue"
+  "choose_time_to_continue": "Choose time to continue",
+  "rate": "Rate"
 }

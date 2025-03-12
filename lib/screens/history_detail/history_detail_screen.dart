@@ -4,9 +4,11 @@ import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../components/app_snackbar.dart';
+import '../../components/custom_modal_bottom_sheet.dart';
 import '../../components/loading.dart';
 import '../../model/history_model.dart';
 import 'components/history_detail_card.dart';
+import 'components/rating_dialog.dart';
 
 class HistoryHotelScreen extends StatefulWidget {
   const HistoryHotelScreen({required this.data, super.key});
@@ -51,6 +53,20 @@ class _HistoryHotelScreenState extends State<HistoryHotelScreen> {
                           }
                         },
                         child: Text("finish".trans()),
+                      ),
+                    ),
+                  if (widget.data.statusID == 1)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                        ),
+                        onPressed: () async {
+                          await customModalBottomSheet(context, height: MediaQuery.of(context).size.height / 2.5,
+                              child: RatingDialog(widget.data.bookingID!));
+                        },
+                        child: Text("rate".trans()),
                       ),
                     ),
                 ],

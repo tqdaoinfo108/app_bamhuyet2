@@ -68,7 +68,7 @@ class HistoryCard extends StatelessWidget {
                     SizedBox(height: 5),
                     Row(
                       children: [
-                        Text("click_to_see_detail".trans(),
+                        Text("click_to_view_detail".trans(),
                             style: TextStyle(
                                 fontSize: 12,
                                 fontStyle: FontStyle.italic,
