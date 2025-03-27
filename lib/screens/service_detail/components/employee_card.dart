@@ -32,6 +32,7 @@ class EmployeeCard extends StatelessWidget {
               radius: BorderRadius.only(
                   topLeft: Radius.circular(defaultBorderRadious - 2),
                   topRight: Radius.circular(defaultBorderRadious - 2)),
+              imageError: "assets/images/customer-service.png",
             ),
           ),
           Padding(

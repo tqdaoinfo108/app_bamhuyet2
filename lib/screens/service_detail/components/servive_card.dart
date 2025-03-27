@@ -6,7 +6,7 @@ import '../../../theme/app_theme.dart';
 import '../../../utils/constants.dart';
 
 class ServiceCard extends StatelessWidget {
-  const ServiceCard(this.data,  this.onPressed,{super.key});
+  const ServiceCard(this.data, this.onPressed, {super.key});
   final ServiceModel data;
   final Function() onPressed;
   @override
@@ -27,17 +27,24 @@ class ServiceCard extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width * .25,
               height: MediaQuery.of(context).size.width * .25,
-              child: NetworkImageWithLoaderAndRadiusBorder(
-                data.imagePath,
-                radius: BorderRadius.only(
-                    topLeft: Radius.circular(defaultBorderRadious - 2),
-                    bottomLeft: Radius.circular(defaultBorderRadious - 2)),
-              ),
+              child: data.imagePath == ''
+                  ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset("assets/images/massage.png"),
+                  )
+                  : NetworkImageWithLoaderAndRadiusBorder(
+                      data.imagePath,
+                      radius: BorderRadius.only(
+                          topLeft: Radius.circular(defaultBorderRadious - 2),
+                          bottomLeft:
+                              Radius.circular(defaultBorderRadious - 2)),
+                    ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ConstrainedBox(
-                constraints: BoxConstraints (maxWidth:MediaQuery.of(context).size.width * .4 ),
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * .4),
                 child: Text(data.serviceName,
                     style: AppTheme.getTextStyle(context,
                         fontSize: 14, fontWeight: FontWeight.bold)),

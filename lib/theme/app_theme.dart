@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../utils/constants.dart';
 import 'button_theme.dart';
@@ -9,7 +10,7 @@ import 'theme_data.dart';
 class AppTheme {
   static TextStyle getTextStyle(BuildContext context,
       {double fontSize = 16, FontWeight fontWeight = FontWeight.normal}) {
-    return TextStyle(
+    return GoogleFonts.openSans(
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: Theme.of(context).brightness == Brightness.dark
@@ -26,9 +27,7 @@ class AppTheme {
       primaryColor: primaryColor,
       scaffoldBackgroundColor: Colors.white,
       iconTheme: const IconThemeData(color: blackColor),
-      textTheme: const TextTheme(
-        bodyMedium: TextStyle(color: blackColor40),
-      ),
+      textTheme:  GoogleFonts.openSansTextTheme(),
       elevatedButtonTheme: elevatedButtonThemeData,
       textButtonTheme: textButtonThemeData,
       outlinedButtonTheme: outlinedButtonTheme(),

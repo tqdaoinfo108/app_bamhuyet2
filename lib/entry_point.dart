@@ -3,6 +3,7 @@ import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:localization_plus/localization_plus.dart';
 
 import 'components/custom_modal_bottom_sheet.dart';
@@ -109,7 +110,7 @@ class _EntryPointState extends State<EntryPoint> {
                           children: [
                             Text(
                               "Chào " + (fullName.isEmpty ? phone : fullName),
-                              style: TextStyle(
+                              style: GoogleFonts.openSans(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).brightness ==
@@ -124,7 +125,7 @@ class _EntryPointState extends State<EntryPoint> {
                                 const SizedBox(width: 4),
                                 Text(
                                   type,
-                                  style: TextStyle(
+                                  style: GoogleFonts.openSans(
                                     fontSize: 12,
                                     color: Theme.of(context).brightness ==
                                             Brightness.dark

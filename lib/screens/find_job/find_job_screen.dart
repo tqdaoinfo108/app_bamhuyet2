@@ -1,4 +1,5 @@
 import 'package:app_bamnguyet_2/components/loading.dart';
+import 'package:app_bamnguyet_2/screens/find_job/components/configm_find_job_popup.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -92,8 +93,14 @@ class _FindJobScreenState extends State<FindJobScreen> {
                     : ListView.builder(
                         itemBuilder: (context, index) {
                           return FindJobCard(list[index], dateTime, () async {
-                            var rs =  await onBooking(list[index].bookingId!);
-
+                            // var rs =  await onBooking(list[index].bookingId!);
+                            showDialog<String>(
+                              context: context,
+                              builder:
+                                  (BuildContext context) => Dialog(
+                                child: ConfirmFindJobPopup(list[index], () =>
+                                    onBooking(list[index].bookingId!))
+                              ));
                           });
                         },
                         itemCount: list.length,

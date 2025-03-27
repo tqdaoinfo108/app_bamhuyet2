@@ -58,7 +58,9 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
             ProfileWidget(
               imagePath: GetStorage().read(userImagePath),
               isEdit: true,
-              onClicked: () async {},
+              onClicked: () async {
+
+              },
             ),
             const SizedBox(height: 24),
             AppTextField(

@@ -3,6 +3,7 @@ import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:localization_plus/localization_plus.dart';
 import 'package:pinput/pinput.dart';
 
@@ -28,7 +29,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
-      textStyle: TextStyle(
+      textStyle: GoogleFonts.openSans(
           fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
         border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),

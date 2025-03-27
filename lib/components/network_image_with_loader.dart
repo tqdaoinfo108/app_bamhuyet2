@@ -40,7 +40,8 @@ class NetworkImageWithLoader extends StatelessWidget {
               child: LoadingAnimationWidget.staggeredDotsWave(
                   color: primaryColor, size: 20)),
         ),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+        errorWidget: (context, url, error) =>
+            Image.asset("assets/images/customer-service.png"),
       ),
     );
   }
@@ -49,13 +50,12 @@ class NetworkImageWithLoader extends StatelessWidget {
 class NetworkImageWithLoaderAndRadiusBorder extends StatelessWidget {
   final BoxFit fit;
 
-  const NetworkImageWithLoaderAndRadiusBorder(
-    this.src, {
-    super.key,
-    this.fit = BoxFit.cover,
-    required this.radius,
-  });
-
+  const NetworkImageWithLoaderAndRadiusBorder(this.src,
+      {super.key,
+      this.fit = BoxFit.cover,
+      required this.radius,
+      this.imageError = "assets/images/massage.png"});
+  final String imageError;
   final String src;
   final BorderRadiusGeometry radius;
 
@@ -75,7 +75,10 @@ class NetworkImageWithLoaderAndRadiusBorder extends StatelessWidget {
           ),
         ),
         placeholder: (context, url) => const Skeleton(),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+        errorWidget: (context, url, error) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(imageError),
+        ),
       ),
     );
   }

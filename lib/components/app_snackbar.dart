@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:toastification/toastification.dart';
 
 
@@ -13,7 +14,7 @@ class SnackbarHelper {
       toastification.show(
         backgroundColor: Colors.white,
         title: Text(message ?? "",
-            style: TextStyle(fontSize: 14),),
+            style: GoogleFonts.openSans(fontSize: 14),),
         type: type,
         autoCloseDuration: const Duration(seconds: 5),
       );

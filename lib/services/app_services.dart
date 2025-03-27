@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 
 import '../model/base_response.dart';
 import '../model/booking_model.dart';
+import '../model/booking_price_model.dart';
 import '../model/branch_model.dart';
 import '../model/rating_model.dart';
 import '../model/type_service_model.dart';
@@ -663,5 +664,22 @@ class AppServices {
       return false;
     }
     return false;
+  }
+
+  Future<PriceBooking?> postGetPrice(int bookingID) async{
+    var data = json.encode({
+      "BookingID": bookingID
+    });
+
+    try {
+      var rawResponse = await _api.post(Uri.parse(
+          "${_baseURL}api/booking/get-amount-remain"), body: data);
+      if (rawResponse.statusCode == 200) {
+        return PriceBooking.fromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
   }
 }

@@ -32,15 +32,22 @@ class FindJobCard extends StatelessWidget {
             backgroundColor:
                 !data.isValidDuration(dateTime) ? Colors.grey.shade300 : null),
         child: Column(
+          spacing: 5,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(data.serviceName ?? "",
-                    style: AppTheme.getTextStyle(context,
-                        fontSize: 16, fontWeight: FontWeight.bold)),
-                Text(data.getMinute,
-                    style: AppTheme.getTextStyle(context, fontSize: 14))
+                Flexible(
+                  flex: 7,
+                  child: Text(data.serviceName ?? "",
+                      style: AppTheme.getTextStyle(context,
+                          fontSize: 16, fontWeight: FontWeight.bold)),
+                ),
+                Flexible(
+                  flex: 3,
+                  child: Text(data.getMinute,
+                      style: AppTheme.getTextStyle(context, fontSize: 14)),
+                )
               ],
             ),
             Row(
@@ -96,9 +103,11 @@ class FindJobCard extends StatelessWidget {
                 SvgPicture.asset("assets/icons/Location.svg",
                     height: 20, color: Colors.black),
                 SizedBox(width: 4),
-                Text(
-                  data.bookingCustomerAddress ?? "",
-                  style: AppTheme.getTextStyle(context, fontSize: 14),
+                Flexible(
+                  child: Text(
+                    data.bookingCustomerAddress ?? "",
+                    style: AppTheme.getTextStyle(context, fontSize: 14),
+                  ),
                 )
               ],
             ),

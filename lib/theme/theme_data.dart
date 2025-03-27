@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../utils/constants.dart';
 
 
-const AppBarTheme appBarLightTheme = AppBarTheme(
+AppBarTheme appBarLightTheme = AppBarTheme(
   backgroundColor: Colors.white,
   elevation: 0,
   iconTheme: IconThemeData(color: blackColor),
-  titleTextStyle: TextStyle(
+  titleTextStyle: GoogleFonts.openSans(
     fontSize: 16,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.bold,
     color: blackColor,
   ),
 );
 
-const AppBarTheme appBarDarkTheme = AppBarTheme(
+AppBarTheme appBarDarkTheme = AppBarTheme(
   backgroundColor: blackColor,
   elevation: 0,
   iconTheme: IconThemeData(color: Colors.white),
-  titleTextStyle: TextStyle(
+  titleTextStyle: GoogleFonts.openSans(
     fontSize: 16,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.bold,
     color: Colors.white,
   ),
 );
@@ -36,7 +37,7 @@ DataTableThemeData dataTableLightThemeData = DataTableThemeData(
     borderRadius: const BorderRadius.all(Radius.circular(defaultBorderRadious)),
     border: Border.all(color: Colors.black12),
   ),
-  dataTextStyle: const TextStyle(
+  dataTextStyle:  GoogleFonts.openSans(
     fontSize: 12,
     fontWeight: FontWeight.w500,
     color: blackColor,
@@ -50,7 +51,7 @@ DataTableThemeData dataTableDarkThemeData = DataTableThemeData(
     borderRadius: const BorderRadius.all(Radius.circular(defaultBorderRadious)),
     border: Border.all(color: Colors.white10),
   ),
-  dataTextStyle: const TextStyle(
+  dataTextStyle:  GoogleFonts.openSans(
     fontWeight: FontWeight.w500,
     color: Colors.white,
     fontSize: 12,
