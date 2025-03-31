@@ -1,6 +1,7 @@
 import 'package:app_bamnguyet_2/components/app_snackbar.dart';
 import 'package:app_bamnguyet_2/components/app_text_field.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
+import 'package:app_bamnguyet_2/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:localization_plus/localization_plus.dart';
@@ -30,42 +31,51 @@ class _WalletPopupState extends State<WalletPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(""),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppTextField(
-                inputMoneyController,
-                "enter_money".trans(),
-                "enter_money".trans(),
-                onChanged: (s) {
-                  setState(() {
-                    if (s == '') s = "0";
-                    value = s ?? "0";
-                  });
-                },
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Text(NumberFormat.decimalPattern('vi')
-                        .format(double.parse(value)) +
-                    "đ"),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  await onCreateMoney();
-                },
-                child: Text("send".trans()),
-              ),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(""),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              spacing: 10,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppTextField(
+                  inputMoneyController,
+                  "enter_money".trans(),
+                  "enter_money".trans(),
+                  onChanged: (s) {
+                    setState(() {
+                      if (s == '') s = "0";
+                      value = s ?? "0";
+                    });
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(NumberFormat.decimalPattern('vi')
+                          .format(double.parse(value)) +
+                      "đ"),
+                ),
+                Image.asset("assets/images/qr.jpg"),
+                Text("STK: 0783828999", style: AppTheme.getTextStyle(context,
+                    fontWeight: FontWeight.bold, fontSize: 16)),
+                Text("NAM A BANK - DAO NGOC BANG", style: AppTheme.getTextStyle(context,
+                    fontWeight: FontWeight.bold)),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () async {
+                    await onCreateMoney();
+                  },
+                  child: Text("send".trans()),
+                ),
+                SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),

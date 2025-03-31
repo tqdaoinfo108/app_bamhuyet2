@@ -22,12 +22,9 @@ Future<dynamic> customModalBottomSheet(
         topRight: Radius.circular(defaultBorderRadious * 2),
       ),
     ),
-    builder: (context) => Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: SizedBox(
-        height: height ?? MediaQuery.of(context).size.height * 0.75,
-        child: child,
-      ),
+    builder: (context) => SizedBox(
+      height: height ?? MediaQuery.of(context).size.height * 0.75,
+      child: child
     ),
   );
 }

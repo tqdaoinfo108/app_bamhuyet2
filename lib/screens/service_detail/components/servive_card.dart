@@ -14,8 +14,7 @@ class ServiceCard extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.symmetric(
-            horizontal: defaultPadding, vertical: defaultPadding / 3),
+        margin: EdgeInsets.symmetric(vertical: defaultPadding / 3),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.shade200),
           borderRadius:

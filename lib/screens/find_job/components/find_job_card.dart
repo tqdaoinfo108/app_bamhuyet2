@@ -30,7 +30,8 @@ class FindJobCard extends StatelessWidget {
         style: OutlinedButton.styleFrom(
             padding: const EdgeInsets.all(8),
             backgroundColor:
-                !data.isValidDuration(dateTime) ? Colors.grey.shade300 : null),
+                !data.isValidDuration(dateTime) || data.statusId != 0 ?
+                Colors.grey.shade300 : null),
         child: Column(
           spacing: 5,
           children: [
@@ -111,7 +112,7 @@ class FindJobCard extends StatelessWidget {
                 )
               ],
             ),
-            if (data.isValidDuration(dateTime))
+            if (data.isValidDuration(dateTime) && data.statusId! == 0)
               Row(
                 children: [
                   Flexible(

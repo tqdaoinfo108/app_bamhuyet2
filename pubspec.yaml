@@ -2,7 +2,7 @@ name: app_bamnguyet_2
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.1+2
+version: 1.0.3+5
 
 environment:
   sdk: ">=3.6.0 <4.0.0"
@@ -31,6 +31,7 @@ dependencies:
   url_launcher: ^6.3.1
   localization_plus: ^1.0.1
   google_fonts: ^6.2.1
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

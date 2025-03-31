@@ -32,9 +32,9 @@ class _FindJobScreenState extends State<FindJobScreen> {
             "money_not_enough".trans(), ToastificationType.error);
         return;
       }
-
         SnackbarHelper.showSnackBar(
           "apply_success".trans(), ToastificationType.success);
+      Navigator.pop(context);
       if (mounted) {
         loadList(dateTime);
       }

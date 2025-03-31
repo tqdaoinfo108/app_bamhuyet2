@@ -9,6 +9,7 @@ import '../screens/booking_confirm/booking_confirm_screen.dart';
 import '../screens/history_detail/history_detail_screen.dart';
 import '../screens/profile/pages/fag_screen.dart';
 import '../screens/profile/wallet/wallet_screen.dart';
+import '../screens/service_detail/service_branch_detail_screen.dart';
 import 'screen_export.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -30,6 +31,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (context) => ServiceDetailScreen(args),
+      );
+    case serviceBranchDetailScreenRoute:
+      final args = settings.arguments as TypeServiceModel;
+      return MaterialPageRoute(
+        builder: (context) => ServiceBranchDetailScreen(args),
       );
     case verificationMethodScreenRoute:
       final args = settings.arguments as UserModel;

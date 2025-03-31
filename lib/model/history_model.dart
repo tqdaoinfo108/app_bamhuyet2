@@ -11,7 +11,7 @@ class HistoryModel {
   int? userIDProccess;
   Null? branchIDProccess;
   int? serviceID;
-  int? minute;
+  String? minute;
   double? amount;
 
   String get getAmount =>
@@ -24,7 +24,7 @@ class HistoryModel {
       DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(dateStart!));
   int? statusID;
   int? statusPayment;
-  Null? datePayment;
+  // Null? datePayment;
   String? description;
   String? dateCreated;
   String? dateUpdated;
@@ -62,7 +62,7 @@ class HistoryModel {
       this.dateStart,
       this.statusID,
       this.statusPayment,
-      this.datePayment,
+      // this.datePayment,
       this.description,
       this.dateCreated,
       this.dateUpdated,
@@ -100,7 +100,7 @@ class HistoryModel {
     dateStart = json['DateStart'];
     statusID = json['StatusID'];
     statusPayment = json['StatusPayment'];
-    datePayment = json['DatePayment'];
+    // datePayment = json['DatePayment'];
     description = json['Description'];
     dateCreated = json['DateCreated'];
     dateUpdated = json['DateUpdated'];

@@ -128,5 +128,7 @@
   "collaborator_information": "Thông tin cộng tác viên",
   "rating": "Đánh giá",
   "choose_time_to_continue": "Chọn thời gian để tiếp tục",
-  "rate": "Đánh giá"
+  "rate": "Đánh giá",
+  "note_apply_job" : "** Bạn cần nộp thêm {price} để tiếp tục ứng việc",
+  "amountAfterCommission" : "Thực nhận"
 }

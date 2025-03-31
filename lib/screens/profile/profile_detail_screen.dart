@@ -4,6 +4,7 @@ import 'package:app_bamnguyet_2/model/user_model.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hl_image_picker/hl_image_picker.dart';
 import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
@@ -31,8 +32,10 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
   onInit() async {
     ResponseBase<UserModel>? p = await AppServices.instance.getProfile();
     if (p != null) {
-      profile = p.data!;
       nameContactController.text = profile!.fullName;
+      setState(() {
+        profile = p.data!;
+      });
     }
   }
 
@@ -59,7 +62,24 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
               imagePath: GetStorage().read(userImagePath),
               isEdit: true,
               onClicked: () async {
-
+                final _picker = HLImagePicker();
+                final images = await _picker.openPicker();
+                var response = await AppServices.instance.uploadFile(images.first.path);
+                if (response != null) {
+                  var response2 = await AppServices.instance.postUpdateAvt
+                    (response.data!);
+                  if(response2 != null){
+                    SnackbarHelper.showSnackBar(
+                        "success".trans(), ToastificationType.success);
+                    onInit();
+                  }else{
+                    SnackbarHelper.showSnackBar("cancel".trans(), ToastificationType.warning);
+                    return null;
+                  }
+                } else {
+                  SnackbarHelper.showSnackBar("cancel".trans(), ToastificationType.warning);
+                  return null;
+                }
               },
             ),
             const SizedBox(height: 24),

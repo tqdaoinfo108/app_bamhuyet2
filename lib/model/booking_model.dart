@@ -10,7 +10,7 @@ class BookingModel {
   int? userAddressId;
   int? userIdProccess;
   int? serviceId;
-  int? minute;
+  String? minute;
   double? amount;
   double? amountDiscount;
   String? bookingDate;

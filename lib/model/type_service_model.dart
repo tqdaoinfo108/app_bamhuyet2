@@ -4,6 +4,7 @@ class TypeServiceModel {
   int typeServiceID = 0;
   String typeServiceName = "";
   String imagePath = "";
+  int typeID = 1;
   // bool? isActive;
   // String? description;
 
@@ -19,6 +20,7 @@ class TypeServiceModel {
     typeServiceID = json['TypeServiceID'];
     typeServiceName = json['TypeServiceName'];
     imagePath = json['ImagePath'];
+    typeID = json ['TypeID'];
     // isActive = json['IsActive'];
     // description = json['Description'];
   }
@@ -28,6 +30,7 @@ class TypeServiceModel {
     data['TypeServiceID'] = this.typeServiceID;
     data['TypeServiceName'] = this.typeServiceName;
     data['ImagePath'] = this.imagePath;
+
     // data['IsActive'] = this.isActive;
     // data['Description'] = this.description;
     return data;

@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import 'base_response.dart';
 import 'service_model.dart';
 
@@ -26,6 +28,41 @@ class BranchModel {
   String? description;
   List<LstBranchImages>? lstBranchImages;
   List<LstServiceDetails> lstBranchServices = [];
+
+  String get getTime26 {
+    var time1 = DateFormat('HH:mm').format(DateTime.parse(timeStart26!));
+    var time2 = DateFormat('HH:mm').format(DateTime.parse(timeEnd26!));
+
+    return "$time1 -$time2";
+  }
+
+  String get getTime7 {
+    var time1 = DateFormat('HH:mm').format(DateTime.parse(timeStart7Cn!));
+    var time2 = DateFormat('HH:mm').format(DateTime.parse(timeEnd7Cn!));
+
+    return "$time1 -$time2";
+  }
+
+  List<String> get ImagePathList {
+    List<String> imagePaths = [];
+
+    // Thêm imagePath chính nếu nó không null và không rỗng
+    if (imagePath != null && imagePath!.isNotEmpty) {
+      imagePaths.add(imagePath!);
+    }
+
+    // Thêm tất cả imagePath từ lstBranchImages nếu danh sách không null
+    if (lstBranchImages != null) {
+      imagePaths.addAll(
+        lstBranchImages!
+            .map((image) => image.imagePath)
+            .where((path) => path != null && path.isNotEmpty)
+            .cast<String>(),
+      );
+    }
+
+    return imagePaths;
+  }
 
   BranchModel(
       {this.branchId,
@@ -84,14 +121,32 @@ class BranchModel {
     lstBranchServices = json["lstBranchServices"] == null
         ? []
         : (json["lstBranchServices"] as List)
-        .map((e) => LstServiceDetails.fromJson(e))
-        .toList();
+            .map((e) => LstServiceDetails.fromJson(e))
+            .toList();
   }
 
   static ResponseBase<BranchModel> getFromJson(Map<String, dynamic> json) {
     if (json["message"] == null) {
       return ResponseBase<BranchModel>(
         data: BranchModel.fromJson(json['data']),
+      );
+    } else {
+      return ResponseBase();
+    }
+  }
+
+  static ResponseBase<List<BranchModel>>? getFromJsonList(
+      Map<String, dynamic> json) {
+    if (json["message"] == null) {
+      var list = <BranchModel>[];
+      if (json['data'] != null) {
+        json['data'].forEach((v) {
+          list.add(BranchModel.fromJson(v));
+        });
+      }
+      return ResponseBase<List<BranchModel>>(
+        totals: json['totals'] ?? json['total'],
+        data: list,
       );
     } else {
       return ResponseBase();

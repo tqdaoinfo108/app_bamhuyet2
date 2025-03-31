@@ -1,9 +1,19 @@
+import 'package:intl/intl.dart';
+
 class PriceBooking {
   double? amounBooking;
-  double? percentCommission;
+  int? percentCommission;
   double? amountCommission;
   double? amountAfterCommission;
   double? amountCurrent;
+
+  String get getAmount =>
+      NumberFormat.decimalPattern('vi').format(amountAfterCommission ?? 0) +
+          "đ"; //
+
+  String get getPrice =>NumberFormat.decimalPattern('vi').format
+    ((amountCurrent! - amountAfterCommission!) * -1)
+      + "đ";
 
   PriceBooking(
       {this.amounBooking,

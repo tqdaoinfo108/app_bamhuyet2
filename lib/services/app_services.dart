@@ -30,7 +30,8 @@ class AppServices {
 
   static Map get getAuth => {
         "UserID": GetStorage().read(userUserID),
-        "UUSerID": GetStorage().read(userUserName)
+        "UUSerID": GetStorage().read(userUserName),
+        "UserName": GetStorage().read(userUserName)
       };
 
   static final AppServices _instance = AppServices._privateConstructor();
@@ -415,7 +416,7 @@ class AppServices {
   Future<ResponseBase<BookingModel>?> createBooking(
       {required int serviceID,
       required int addressID,
-      required int minute,
+      required String minute,
       required double amount,
       required TimeOfDay time,
       String? description}) async {
@@ -483,9 +484,9 @@ class AppServices {
       var path = "api/booking/partner-recive-booking";
       var rawResponse = await _api.post(Uri.parse("${_baseURL}$path"),
           body: json.encode(data));
-      if (rawResponse.statusCode == 200 ) {
+      if (rawResponse.statusCode == 200) {
         var rs = jsonDecode(rawResponse.body);
-        if(rs["status"] != null){
+        if (rs["status"] != null) {
           return BookingModel()..bookingId = -1;
         }
         return BookingModel.fromJson(rs);
@@ -631,9 +632,8 @@ class AppServices {
           "DateCreated": DateTime.now().toIso8601String()
         }
       });
-      var rawResponse = await _api.post(
-          Uri.parse("${_baseURL}api/rating/create"),
-          body: data);
+      var rawResponse = await _api
+          .post(Uri.parse("${_baseURL}api/rating/create"), body: data);
       if (rawResponse.statusCode == 200) {
         return json.decode(rawResponse.body) != null;
       }
@@ -643,10 +643,10 @@ class AppServices {
     return false;
   }
 
-  Future<bool> updateProfile(UserModel model, String fullName) async{
+  Future<bool> updateProfile(UserModel model, String fullName) async {
     try {
-      var rawResponse = await _api.post(Uri.parse(
-          "${_baseURL}api/user/update"), body: json.encode(model.toJson(fullName)));
+      var rawResponse = await _api.post(Uri.parse("${_baseURL}api/user/update"),
+          body: json.encode(model.toJson(fullName)));
       if (rawResponse.statusCode == 200) {
         var result = UserModel.getFromJson(json.decode(rawResponse.body));
 
@@ -666,16 +666,45 @@ class AppServices {
     return false;
   }
 
-  Future<PriceBooking?> postGetPrice(int bookingID) async{
-    var data = json.encode({
-      "BookingID": bookingID
-    });
+  Future<PriceBooking?> postGetPrice(int bookingID) async {
+    var data = json.encode({"BookingID": bookingID});
 
     try {
-      var rawResponse = await _api.post(Uri.parse(
-          "${_baseURL}api/booking/get-amount-remain"), body: data);
+      var rawResponse = await _api.post(
+          Uri.parse("${_baseURL}api/booking/get-amount-remain"),
+          body: data);
       if (rawResponse.statusCode == 200) {
         return PriceBooking.fromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  Future<ResponseBase<UserModel>?> postUpdateAvt(String avatar) async {
+    var data = json.encode({"ImagesPaths": avatar});
+
+    try {
+      var rawResponse = await _api.post(
+          Uri.parse("${_baseURL}api/user/upload-avatar"),
+          body: data);
+      if (rawResponse.statusCode == 200) {
+        return UserModel.getFromJson(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+
+  Future<ResponseBase<List<BranchModel>>?> getBranch() async {
+    try {
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/branch/get-list-branch-active?page=1&limit=100"));
+      if (rawResponse.statusCode == 200) {
+        return BranchModel.getFromJsonList(json.decode(rawResponse.body));
       }
     } catch (e) {
       return null;

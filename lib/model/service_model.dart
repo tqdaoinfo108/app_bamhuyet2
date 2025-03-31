@@ -72,7 +72,7 @@ class ServiceModel {
 class LstServiceDetails {
   int? serviceDetailId;
   int? serviceId;
-  int? minute;
+  String? minute;
   double? amount;
 
   String get amountFormatString => NumberFormat.decimalPattern('vi').format(amount) + "đ";

@@ -37,6 +37,7 @@ class BasicAuthClient extends http.BaseClient {
     request.headers['Authorization'] = _authString;
     request.headers['Content-Type'] = "application/json";
     request.headers['UserID'] = GetStorage().read(userUserID).toString();
+    request.headers['UserName'] =GetStorage().read(userUserName).toString();
 
     return _inner.send(request);
   }

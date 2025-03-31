@@ -62,7 +62,7 @@ class HistoryCard extends StatelessWidget {
                         SizedBox(width: 4),
                         Flexible(
                             child: Text(data.bookingCustomerAddress ?? "",
-                                style: TextStyle(fontSize: 14)))
+                                style: TextStyle(fontSize: 14),))
                       ],
                     ),
                     SizedBox(height: 5),

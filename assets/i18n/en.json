@@ -128,5 +128,7 @@
   "collaborator_information": "Collaborator information",
   "rating": "rating",
   "choose_time_to_continue": "Choose time to continue",
-  "rate": "Rate"
+  "rate": "Rate",
+  "note_apply_job" : "** You need to submit {price} to continue applying",
+  "amountAfterCommission" : "Actual amount received"
 }
