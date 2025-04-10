@@ -186,7 +186,6 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                           SizedBox(height: 10),
                           Text(
                               "${itemChoose.minute} " +
-                                  "minutes".trans() +
                                   " (${itemChoose.getAmount}đ)",
                               style:
                                   AppTheme.getTextStyle(context, fontSize: 14)),

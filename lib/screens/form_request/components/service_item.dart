@@ -55,7 +55,7 @@ class _ServiceItemState extends State<ServiceItem> {
                     borderRadius: BorderRadius.circular(defaultBorderRadious),
                     border: Border.all(color: Colors.black12)),
                 child: ListTile(
-                  title: Text("${z.minute!} "+"minutes".trans(),
+                  title: Text("${z.minute!}".trans(),
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,

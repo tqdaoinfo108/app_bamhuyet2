@@ -53,7 +53,7 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
                               e.isChoose ? greyColor.withOpacity(.6) : null,
                           padding: const EdgeInsets.all(8)),
                       child: Text(
-                        "${e.minute} "+"minutes".trans(),
+                        "${e.minute}".trans(),
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       )),
                 );
