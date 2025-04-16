@@ -1,13 +1,16 @@
 import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:app_bamnguyet_2/screens/profile/pages/fag_screen.dart';
 import 'package:app_bamnguyet_2/screens/profile/pages/support_screen.dart';
+import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:localization_plus/localization_plus.dart';
+import 'package:toastification/toastification.dart' show ToastificationType;
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../components/app_snackbar.dart';
 import '../../components/custom_modal_bottom_sheet.dart';
 import '../../components/list_tile/divider_list_tile.dart';
 import '../../theme/app_theme.dart';
@@ -131,6 +134,60 @@ class ProfileScreen extends StatelessWidget {
             },
             isShowDivider: false,
           ),
+          ListTile(
+            onTap: () {
+              showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                        content: Text(
+                          'delete_account_description'.trans(),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            style: TextButton.styleFrom(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelLarge),
+                            child: Text("cancel".trans()),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelLarge),
+                            child: Text("accept".trans()),
+                            onPressed: () async {
+                              var rs = await AppServices.instance.deleteUser();
+                              if (rs) {
+                                SnackbarHelper.showSnackBar(
+                                    "Thao tác thành công", ToastificationType.success);
+                                GetStorage().remove(userUserID);
+                                Navigator.popAndPushNamed(context, logInScreenRoute);
+                              } else {
+                                SnackbarHelper.showSnackBar(
+                                    "Thao tác thất bại", ToastificationType.error);
+                              }
+                            },
+                          ),
+                        ],
+                      ));
+            },
+            minLeadingWidth: 24,
+            leading: SvgPicture.asset(
+              "assets/icons/Delete.svg",
+              height: 24,
+              width: 24,
+              colorFilter: const ColorFilter.mode(
+                errorColor,
+                BlendMode.srcIn,
+              ),
+            ),
+            title: Text(
+              "delete_account".trans(),
+              style: TextStyle(color: errorColor, fontSize: 14, height: 1),
+            ),
+          ),
           const SizedBox(height: defaultPadding),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -213,6 +270,7 @@ class ProfileScreen extends StatelessWidget {
                   style: const TextStyle(fontSize: 14, height: 1))),
 
           // Log Out
+
           ListTile(
             onTap: () {
               GetStorage().remove(userUserID);

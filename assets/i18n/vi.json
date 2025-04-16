@@ -129,6 +129,9 @@
   "rating": "Đánh giá",
   "choose_time_to_continue": "Chọn thời gian để tiếp tục",
   "rate": "Đánh giá",
-  "note_apply_job" : "** Bạn cần nộp thêm {price} để tiếp tục ứng việc",
-  "amountAfterCommission" : "Thực nhận"
+  "note_apply_job": "** Bạn cần nộp thêm {price} để tiếp tục ứng việc",
+  "amountAfterCommission": "Thực nhận",
+  "delete_account": "Xoá tài khoản",
+  "accept": "Đồng ý",
+  "delete_account_description": "Xóa vĩnh viễn tài khoản của bạn cùng toàn bộ dữ liệu liên quan, không thể khôi phục sau khi xác nhận. Bạn có chắc chắn muốn tiếp tục?"
 }

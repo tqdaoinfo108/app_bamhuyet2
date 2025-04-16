@@ -711,4 +711,18 @@ class AppServices {
     }
     return null;
   }
+
+  Future<bool> deleteUser() async {
+    try {
+      var userID = GetStorage().read(userUserID);
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/user/delete?UserID=$userID"));
+      if (rawResponse.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      return false;
+    }
+    return false;
+  }
 }

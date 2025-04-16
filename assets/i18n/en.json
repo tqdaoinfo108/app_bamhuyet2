@@ -130,5 +130,8 @@
   "choose_time_to_continue": "Choose time to continue",
   "rate": "Rate",
   "note_apply_job" : "** You need to submit {price} to continue applying",
-  "amountAfterCommission" : "Actual amount received"
+  "amountAfterCommission" : "Actual amount received",
+  "delete_account" : "Delete account",
+  "accept" : "Accept",
+  "delete_account_description": "Permanently delete your account and all related data, which cannot be recovered after confirmation. Are you sure you want to proceed?"
 }
