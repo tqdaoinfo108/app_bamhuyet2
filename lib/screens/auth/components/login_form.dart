@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:localization_plus/localization_plus.dart';
 
 import '../../../utils/constants.dart';
 
@@ -30,7 +31,7 @@ class LogInForm extends StatelessWidget {
             controller: phoneController,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
-              hintText: "Số điện thoại",
+              hintText: 'phone'.trans(),
               prefixIcon: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: defaultPadding * 0.75),
@@ -58,7 +59,7 @@ class LogInForm extends StatelessWidget {
             validator: passwordValidator.call,
             obscureText: true,
             decoration: InputDecoration(
-              hintText: "Mật khẩu",
+              hintText: 'password'.trans(),
               prefixIcon: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: defaultPadding * 0.75),

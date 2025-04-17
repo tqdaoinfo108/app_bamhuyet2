@@ -53,10 +53,12 @@ class HomeCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    data.typeServiceName,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                  Flexible(
+                    child: Text(
+                      data.typeServiceName,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   SvgPicture.asset(
                     "assets/icons/Arrow - Right.svg",

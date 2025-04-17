@@ -133,5 +133,7 @@
   "amountAfterCommission" : "Actual amount received",
   "delete_account" : "Delete account",
   "accept" : "Accept",
+  "home" : "Home",
+  "password" : "Password",
   "delete_account_description": "Permanently delete your account and all related data, which cannot be recovered after confirmation. Are you sure you want to proceed?"
 }

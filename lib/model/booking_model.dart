@@ -25,7 +25,7 @@ class BookingModel {
 
   String get getAmount =>
       NumberFormat.decimalPattern('vi').format(amount) + "đ";
-  String get getMinute => "$minute phút";
+  String get getMinute => "$minute";
 
   Duration getDurationDown(dateTime) {
     DateTime now = DateTime.now();

@@ -3,6 +3,7 @@ import 'package:app_bamnguyet_2/model/rating_model.dart';
 import 'package:app_bamnguyet_2/model/service_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
@@ -77,7 +78,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (!listRating.isEmpty)
+              if (!listRating.isEmpty && GetStorage().read(isRelease))
                 Row(
                   children: [
                     StarRating(starCount: 1, rating: 5),
@@ -87,8 +88,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                             ")")
                   ],
                 ),
-              if (!listRating.isEmpty) SizedBox(height: 10),
-              if (!listRating.isEmpty)
+              if (!listRating.isEmpty && GetStorage().read(isRelease)) SizedBox(height: 10),
+              if (!listRating.isEmpty && GetStorage().read(isRelease))
                 SizedBox(
                   height: 100,
                   child: ListView.builder(
@@ -101,6 +102,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       scrollDirection: Axis.horizontal),
                 ),
               SizedBox(height: 10),
+              if(GetStorage().read(isRelease))
               Row(
                 children: [
                   Text("collaborator_information".trans(),
@@ -118,7 +120,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   // )
                 ],
               ),
+              if(GetStorage().read(isRelease))
               SizedBox(height: 10),
+              if(GetStorage().read(isRelease))
               SizedBox(
                 height: MediaQuery.of(context).size.width * .48,
                 child: ListView.builder(

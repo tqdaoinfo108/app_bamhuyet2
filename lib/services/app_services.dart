@@ -686,9 +686,8 @@ class AppServices {
     var data = json.encode({"ImagesPaths": avatar});
 
     try {
-      var rawResponse = await _api.post(
-          Uri.parse("${_baseURL}api/user/upload-avatar"),
-          body: data);
+      var rawResponse = await _api
+          .post(Uri.parse("${_baseURL}api/user/upload-avatar"), body: data);
       if (rawResponse.statusCode == 200) {
         return UserModel.getFromJson(json.decode(rawResponse.body));
       }
@@ -697,7 +696,6 @@ class AppServices {
     }
     return null;
   }
-
 
   Future<ResponseBase<List<BranchModel>>?> getBranch() async {
     try {
@@ -715,8 +713,8 @@ class AppServices {
   Future<bool> deleteUser() async {
     try {
       var userID = GetStorage().read(userUserID);
-      var rawResponse = await _api.get(Uri.parse(
-          "${_baseURL}api/user/delete?UserID=$userID"));
+      var rawResponse = await _api
+          .get(Uri.parse("${_baseURL}api/user/delete?UserID=$userID"));
       if (rawResponse.statusCode == 200) {
         return true;
       }
@@ -724,5 +722,21 @@ class AppServices {
       return false;
     }
     return false;
+  }
+
+  Future<void> getListConfig() async {
+    try {
+      var rawResponse =
+          await _api.get(Uri.parse("${_baseURL}api/config/get-list-all"));
+      if (rawResponse.statusCode == 200) {
+        for (var item in jsonDecode(rawResponse.body)["data"]) {
+          if (item["ConfigKey"] == "IsRelease") {
+            var isRelease2 = item["ConfigValue"] == "true";
+            GetStorage box = new GetStorage();
+            box.write(isRelease, isRelease2);
+          }
+        }
+      }
+    } catch (e) {}
   }
 }

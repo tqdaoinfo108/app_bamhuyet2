@@ -1,3 +1,4 @@
+import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppServices.instance.getListConfig();
     return ToastificationWrapper(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

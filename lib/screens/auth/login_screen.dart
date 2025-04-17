@@ -74,15 +74,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           phoneController: phoneController,
                           passwordController: passwordController,
                         ),
-                        Align(
-                          child: TextButton(
-                            child: Text("forgot_password".trans()),
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, passwordRecoveryScreenRoute);
-                            },
-                          ),
-                        ),
+                        // Align(
+                        //   child: TextButton(
+                        //     child: Text("forgot_password".trans()),
+                        //     onPressed: () {
+                        //       Navigator.pushNamed(
+                        //           context, passwordRecoveryScreenRoute);
+                        //     },
+                        //   ),
+                        // ),
                         SizedBox(
                           height: size.height > 700
                               ? size.height * 0.1

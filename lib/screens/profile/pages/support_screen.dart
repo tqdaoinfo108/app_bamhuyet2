@@ -53,7 +53,7 @@ class _SupportScreenState extends State<SupportScreen> {
                 )
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: HtmlWidget(news!.description ?? ""),
+                  child: SingleChildScrollView(child: HtmlWidget(news!.description ?? "")),
                 ),
     );
   }

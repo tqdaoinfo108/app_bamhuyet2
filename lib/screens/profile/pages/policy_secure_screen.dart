@@ -51,7 +51,7 @@ class _PolicySecureScreenState extends State<PolicySecureScreen> {
             ? loadingWidget()
             : news == null ? Center(child: Text("no_data".trans()),) :  Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: HtmlWidget(news!.description ?? ""),
+          child: SingleChildScrollView(child: HtmlWidget(news!.description ?? "")),
         ),
       ),
     );
