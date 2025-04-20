@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:localization_plus/localization_plus.dart';
 
 import '../../../components/network_image_with_loader.dart';
+import '../../../route/route_constants.dart';
 import '../../../utils/constants.dart';
-
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({
@@ -73,5 +74,33 @@ class ProfileCard extends StatelessWidget {
             )
           : null,
     );
+  }
+}
+
+class ProfileLoginCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        onTap: () {
+          Navigator.pushNamed(context, logInScreenRoute);
+        },
+        leading: CircleAvatar(
+          radius: 28,
+          child: Image.asset("assets/images/customer-service.png"),
+        ),
+        title: Row(
+          children: [
+            Text(
+              "login".trans(),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+        trailing: SvgPicture.asset(
+          "assets/icons/miniRight.svg",
+          color: Theme.of(context).iconTheme.color!.withOpacity(0.4),
+        ));
   }
 }

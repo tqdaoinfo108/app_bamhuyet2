@@ -2,6 +2,7 @@ import 'package:app_bamnguyet_2/screens/auth/change_password_screen.dart';
 import 'package:app_bamnguyet_2/screens/history/history_screen.dart';
 import 'package:app_bamnguyet_2/screens/profile/profile_detail_screen.dart';
 import 'package:flutter/material.dart';
+import '../model/branch_model.dart';
 import '../model/history_model.dart';
 import '../model/service_model.dart';
 import '../model/type_service_model.dart';
@@ -9,6 +10,7 @@ import '../screens/booking_confirm/booking_confirm_screen.dart';
 import '../screens/history_detail/history_detail_screen.dart';
 import '../screens/profile/pages/fag_screen.dart';
 import '../screens/profile/wallet/wallet_screen.dart';
+import '../screens/service_branch_detail/service_branch_detail_screen.dart';
 import '../screens/service_detail/service_branch_detail_screen.dart';
 import 'screen_export.dart';
 
@@ -89,6 +91,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case profileDetailScreen:
       return MaterialPageRoute(
         builder: (context) => ProfileDetailScreen(),
+      );
+    case service_branch_detail:
+      final args = settings.arguments as BranchModel;
+      return MaterialPageRoute(
+        builder: (context) => ServiceBranchServiceScreen(args),
       );
     default:
       return MaterialPageRoute(

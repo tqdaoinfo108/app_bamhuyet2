@@ -1,4 +1,5 @@
 import 'package:app_bamnguyet_2/components/custom_modal_bottom_sheet.dart';
+import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:app_bamnguyet_2/theme/app_theme.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -13,26 +14,14 @@ class BranchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        customModalBottomSheet(context, child: Scaffold(
-          appBar: AppBar(title: Text(data.branchName!)),
-          body: ListView.builder(itemBuilder: (c, i){
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                title: Text(data.lstBranchServices[i].description!),
-                trailing: Text(data.lstBranchServices[i].getAmount, style:
-                AppTheme.getTextStyle(context, fontSize: 16, fontWeight:
-                FontWeight.bold).copyWith(color: primaryColor),),
-              ),
-            );
-          }, itemCount: data.lstBranchServices.length),
-        ));
+      onTap: () {
+        Navigator.pushNamed(context, service_branch_detail,arguments: data);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-            color: Colors.grey.shade100, borderRadius: BorderRadius.circular(20)),
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(20)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -96,11 +85,15 @@ class BranchCard extends StatelessWidget {
                                       fontSize: 14)))
                         ],
                       ),
-
-                      Align(alignment: Alignment.centerRight,child: Text("Xem "
-                          "chi tiết dịch vụ", style: AppTheme.getTextStyle
-                        (context, fontSize: 13).copyWith(fontStyle: FontStyle.italic, color: Colors
-                          .grey)),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                            "Xem "
+                            "chi tiết dịch vụ",
+                            style: AppTheme.getTextStyle(context, fontSize: 13)
+                                .copyWith(
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey)),
                       )
                     ],
                   ),

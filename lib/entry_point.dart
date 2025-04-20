@@ -1,8 +1,10 @@
 import 'package:animations/animations.dart';
+import 'package:app_bamnguyet_2/route/route_constants.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localization_plus/localization_plus.dart';
 
@@ -96,12 +98,14 @@ class _EntryPointState extends State<EntryPoint> {
               title: _currentIndex == 2
                   ? null
                   : InkWell(
-                      onTap: typeID != 4
-                          ? null
-                          : () {
-                              customModalBottomSheet(context,
-                                  child: EntryPointPopupWidget());
-                            },
+                      onTap: () => GetStorage().read(userUserID) == null
+                          ? Navigator.pushNamed(context, logInScreenRoute)
+                          : typeID != 4
+                              ? null
+                              : () {
+                                  customModalBottomSheet(context,
+                                      child: EntryPointPopupWidget());
+                                },
                       child: SizedBox(
                         height: kToolbarHeight,
                         child: Column(

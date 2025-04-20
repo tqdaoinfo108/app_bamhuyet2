@@ -29,17 +29,20 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          ProfileCard(
-            name: GetStorage().read(userFullName),
-            email: GetStorage().read(userUserName),
-            imageSrc: GetStorage().read(userImagePath),
-            // proLableText: "Sliver",
-            // isPro: true, if the user is pro
-            press: () {
-              Navigator.pushNamed(context, profileDetailScreen);
-            },
-          ),
-          GetStorage().read(userTypeUser) == 4
+          GetStorage().read(userUserID) != null
+              ? ProfileCard(
+                  name: GetStorage().read(userFullName),
+                  email: GetStorage().read(userUserName),
+                  imageSrc: GetStorage().read(userImagePath),
+                  // proLableText: "Sliver",
+                  // isPro: true, if the user is pro
+                  press: () {
+                    Navigator.pushNamed(context, profileDetailScreen);
+                  },
+                )
+              : ProfileLoginCard(),
+          (GetStorage().read(userTypeUser) == 4) ||
+                  GetStorage().read(userUserID) == null
               ? SizedBox()
               : InkWell(
                   onTap: () {
@@ -104,91 +107,105 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   )),
           SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-            child: Text(
-              "account".trans(),
-              style: Theme.of(context).textTheme.titleSmall,
+          if (GetStorage().read(userUserID) != null)
+            Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: defaultPadding),
+                  child: Text(
+                    "account".trans(),
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+                const SizedBox(height: defaultPadding / 2),
+                ProfileMenuListTile(
+                  text: "activity_history".trans(),
+                  svgSrc: "assets/icons/Order.svg",
+                  press: () {
+                    Navigator.pushNamed(context, historyscreen);
+                  },
+                ),
+                ProfileMenuListTile(
+                  text: "address".trans(),
+                  svgSrc: "assets/icons/Address.svg",
+                  press: () {
+                    Navigator.pushNamed(context, addressScreenRoute);
+                  },
+                ),
+                ProfileMenuListTile(
+                  text: "wallet".trans(),
+                  svgSrc: "assets/icons/Wallet.svg",
+                  press: () {
+                    Navigator.pushNamed(context, walletScreen);
+                  },
+                  isShowDivider: false,
+                ),
+                ListTile(
+                  onTap: () {
+                    showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              content: Text(
+                                'delete_account_description'.trans(),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge),
+                                  child: Text("cancel".trans()),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge),
+                                  child: Text("accept".trans()),
+                                  onPressed: () async {
+                                    var rs =
+                                        await AppServices.instance.deleteUser();
+                                    if (rs) {
+                                      SnackbarHelper.showSnackBar(
+                                          "Thao tác thành công",
+                                          ToastificationType.success);
+                                      GetStorage().remove(userUserID);
+                                      Navigator.popAndPushNamed(
+                                          context, logInScreenRoute);
+                                    } else {
+                                      SnackbarHelper.showSnackBar(
+                                          "Thao tác thất bại",
+                                          ToastificationType.error);
+                                    }
+                                  },
+                                ),
+                              ],
+                            ));
+                  },
+                  minLeadingWidth: 24,
+                  leading: SvgPicture.asset(
+                    "assets/icons/Delete.svg",
+                    height: 24,
+                    width: 24,
+                    colorFilter: const ColorFilter.mode(
+                      errorColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  title: Text(
+                    "delete_account".trans(),
+                    style:
+                        TextStyle(color: errorColor, fontSize: 14, height: 1),
+                  ),
+                ),
+                const SizedBox(height: defaultPadding),
+              ],
             ),
-          ),
-          const SizedBox(height: defaultPadding / 2),
-          ProfileMenuListTile(
-            text: "activity_history".trans(),
-            svgSrc: "assets/icons/Order.svg",
-            press: () {
-              Navigator.pushNamed(context, historyscreen);
-            },
-          ),
-          ProfileMenuListTile(
-            text: "address".trans(),
-            svgSrc: "assets/icons/Address.svg",
-            press: () {
-              Navigator.pushNamed(context, addressScreenRoute);
-            },
-          ),
-          ProfileMenuListTile(
-            text: "wallet".trans(),
-            svgSrc: "assets/icons/Wallet.svg",
-            press: () {
-              Navigator.pushNamed(context, walletScreen);
-            },
-            isShowDivider: false,
-          ),
-          ListTile(
-            onTap: () {
-              showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                        content: Text(
-                          'delete_account_description'.trans(),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            style: TextButton.styleFrom(
-                                textStyle:
-                                    Theme.of(context).textTheme.labelLarge),
-                            child: Text("cancel".trans()),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                                textStyle:
-                                    Theme.of(context).textTheme.labelLarge),
-                            child: Text("accept".trans()),
-                            onPressed: () async {
-                              var rs = await AppServices.instance.deleteUser();
-                              if (rs) {
-                                SnackbarHelper.showSnackBar(
-                                    "Thao tác thành công", ToastificationType.success);
-                                GetStorage().remove(userUserID);
-                                Navigator.popAndPushNamed(context, logInScreenRoute);
-                              } else {
-                                SnackbarHelper.showSnackBar(
-                                    "Thao tác thất bại", ToastificationType.error);
-                              }
-                            },
-                          ),
-                        ],
-                      ));
-            },
-            minLeadingWidth: 24,
-            leading: SvgPicture.asset(
-              "assets/icons/Delete.svg",
-              height: 24,
-              width: 24,
-              colorFilter: const ColorFilter.mode(
-                errorColor,
-                BlendMode.srcIn,
-              ),
-            ),
-            title: Text(
-              "delete_account".trans(),
-              style: TextStyle(color: errorColor, fontSize: 14, height: 1),
-            ),
-          ),
-          const SizedBox(height: defaultPadding),
+
           Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPadding, vertical: defaultPadding / 2),
@@ -270,27 +287,27 @@ class ProfileScreen extends StatelessWidget {
                   style: const TextStyle(fontSize: 14, height: 1))),
 
           // Log Out
-
-          ListTile(
-            onTap: () {
-              GetStorage().remove(userUserID);
-              Navigator.popAndPushNamed(context, logInScreenRoute);
-            },
-            minLeadingWidth: 24,
-            leading: SvgPicture.asset(
-              "assets/icons/Logout.svg",
-              height: 24,
-              width: 24,
-              colorFilter: const ColorFilter.mode(
-                errorColor,
-                BlendMode.srcIn,
+          if (GetStorage().read(userUserID) != null)
+            ListTile(
+              onTap: () {
+                GetStorage().remove(userUserID);
+                Navigator.popAndPushNamed(context, logInScreenRoute);
+              },
+              minLeadingWidth: 24,
+              leading: SvgPicture.asset(
+                "assets/icons/Logout.svg",
+                height: 24,
+                width: 24,
+                colorFilter: const ColorFilter.mode(
+                  errorColor,
+                  BlendMode.srcIn,
+                ),
               ),
-            ),
-            title: Text(
-              "logout".trans(),
-              style: TextStyle(color: errorColor, fontSize: 14, height: 1),
-            ),
-          )
+              title: Text(
+                "logout".trans(),
+                style: TextStyle(color: errorColor, fontSize: 14, height: 1),
+              ),
+            )
         ],
       ),
     );

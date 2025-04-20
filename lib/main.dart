@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         themeMode: ThemeMode.light,
         onGenerateRoute: router.generateRoute,
-        initialRoute: GetStorage().read(userUserID) != null
+        initialRoute: GetStorage().read(userUserID) != null ||  (GetStorage().read(isRelease) == null || !GetStorage().read(isRelease))
             ? homeScreenRoute
             : logInScreenRoute,
       ),

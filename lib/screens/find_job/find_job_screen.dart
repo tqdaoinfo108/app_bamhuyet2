@@ -39,7 +39,6 @@ class _FindJobScreenState extends State<FindJobScreen> {
         loadList(dateTime);
       }
     } else {
-
       SnackbarHelper.showSnackBar("faild_contact_admin".trans(), ToastificationType.error);
     }
   }

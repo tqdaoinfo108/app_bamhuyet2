@@ -18,4 +18,5 @@ const String fagScreen = "fagScreen";
 const String walletScreen = "walletScreen";
 const String historydetailscreen = "historydetailscreen";
 const String profileDetailScreen = "profileDetailScreen";
+const String service_branch_detail = "service_branch_detail";
 
