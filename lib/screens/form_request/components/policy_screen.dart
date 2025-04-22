@@ -55,10 +55,12 @@ class _PolicyScreenState extends State<PolicyScreen> {
                 ? Center(
                     child: Text("no_data".trans()),
                   )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: HtmlWidget(news!.description ?? ""),
-                  ),
+                : SingleChildScrollView(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: HtmlWidget(news!.description ?? ""),
+                    ),
+                ),
       ),
     );
   }

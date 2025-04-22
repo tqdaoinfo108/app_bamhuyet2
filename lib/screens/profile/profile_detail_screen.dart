@@ -32,10 +32,10 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
   onInit() async {
     ResponseBase<UserModel>? p = await AppServices.instance.getProfile();
     if (p != null) {
-      nameContactController.text = profile!.fullName;
       setState(() {
         profile = p.data!;
       });
+      nameContactController.text = p.data?.fullName ?? "";
     }
   }
 
@@ -45,7 +45,7 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
     if (onResult) {
       SnackbarHelper.showSnackBar(
           "success".trans(), ToastificationType.success);
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(true);
     } else {
       SnackbarHelper.showSnackBar("error".trans(), ToastificationType.error);
     }

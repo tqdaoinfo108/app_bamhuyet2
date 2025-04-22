@@ -100,12 +100,10 @@ class _EntryPointState extends State<EntryPoint> {
                   : InkWell(
                       onTap: () => GetStorage().read(userUserID) == null
                           ? Navigator.pushNamed(context, logInScreenRoute)
-                          : typeID != 4
-                              ? null
-                              : () {
-                                  customModalBottomSheet(context,
-                                      child: EntryPointPopupWidget());
-                                },
+                          : typeID == 4
+                              ?  customModalBottomSheet(context,
+                          child: EntryPointPopupWidget())
+                              : null,
                       child: SizedBox(
                         height: kToolbarHeight,
                         child: Column(

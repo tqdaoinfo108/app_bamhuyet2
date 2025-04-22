@@ -6,9 +6,11 @@ import 'package:localization_plus/localization_plus.dart';
 import '../../../model/service_model.dart';
 
 class ServiceDetailPopup extends StatefulWidget {
-  const ServiceDetailPopup(this.lstServiceDetails, this.onPressed, {super.key});
+  const ServiceDetailPopup(this.typeID, this.lstServiceDetails, this.onPressed,
+      {super.key});
   final List<LstServiceDetails> lstServiceDetails;
   final Function() onPressed;
+  final int typeID;
   @override
   State<ServiceDetailPopup> createState() => _ServiceDetailPopupState();
 }
@@ -63,11 +65,13 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
           Padding(
             padding: const EdgeInsets.only(bottom: 30),
             child: ElevatedButton(
-              onPressed: widget.onPressed,
+              onPressed:  widget.typeID == 3 ? null :widget.onPressed,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("continue".trans()),
+                  Text(widget.typeID == 3
+                      ? "contact".trans()
+                      : "continue".trans()),
                   if (amount != "") Text("$amount vnd")
                 ],
               ),

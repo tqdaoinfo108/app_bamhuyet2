@@ -135,5 +135,7 @@
   "accept": "Đồng ý",
   "home" : "Trang chủ",
   "password" : "Mật khẩu",
-  "delete_account_description": "Xóa vĩnh viễn tài khoản của bạn cùng toàn bộ dữ liệu liên quan, không thể khôi phục sau khi xác nhận. Bạn có chắc chắn muốn tiếp tục?"
+  "delete_account_description": "Xóa vĩnh viễn tài khoản của bạn cùng toàn bộ dữ liệu liên quan, không thể khôi phục sau khi xác nhận. Bạn có chắc chắn muốn tiếp tục?",
+  "contact" : "Liên hệ",
+  "organization_request" : "Chi nhánh"
 }

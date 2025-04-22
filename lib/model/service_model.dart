@@ -74,6 +74,7 @@ class LstServiceDetails {
   int? serviceId;
   String? minute;
   double? amount;
+  String? imageBranchService;
 
   String get amountFormatString => NumberFormat.decimalPattern('vi').format(amount) + "đ";
 
@@ -85,7 +86,8 @@ class LstServiceDetails {
       this.serviceId,
       this.minute,
       this.amount,
-      this.description});
+      this.description,
+      this.imageBranchService});
 
   LstServiceDetails.fromJson(Map<String, dynamic> json) {
     serviceDetailId = json["ServiceDetailID"];
@@ -93,6 +95,7 @@ class LstServiceDetails {
     minute = json["Minute"];
     amount = json["Amount"];
     description = json["Description"] ?? "";
+    imageBranchService = json["ImageBranchService"] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -102,6 +105,7 @@ class LstServiceDetails {
     _data["Minute"] = minute;
     _data["Amount"] = amount;
     _data["Description"] = description;
+    _data["ImageBranchService"] = imageBranchService;
     return _data;
   }
 }

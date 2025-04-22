@@ -31,6 +31,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
     List<LstServiceDetails> listService = [];
     List<int> listServicePartner = [];
     for (var item in listData.where((e) => e.isExpand)) {
+      item.lstServiceDetails.forEach((z) => z
+          .imageBranchService = item.imagePath);
       listService.addAll(item.lstServiceDetails);
       listServicePartner.add(item.serviceID);
     }

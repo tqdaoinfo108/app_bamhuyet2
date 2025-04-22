@@ -21,9 +21,14 @@ import 'pages/change_language_screen.dart';
 import 'pages/operating_regulations_screen.dart';
 import 'pages/policy_secure_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +41,9 @@ class ProfileScreen extends StatelessWidget {
                   imageSrc: GetStorage().read(userImagePath),
                   // proLableText: "Sliver",
                   // isPro: true, if the user is pro
-                  press: () {
-                    Navigator.pushNamed(context, profileDetailScreen);
+                  press: () async {
+                    await Navigator.pushNamed(context, profileDetailScreen);
+                    setState(() {});
                   },
                 )
               : ProfileLoginCard(),
@@ -109,6 +115,7 @@ class ProfileScreen extends StatelessWidget {
           SizedBox(height: 20),
           if (GetStorage().read(userUserID) != null)
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding:

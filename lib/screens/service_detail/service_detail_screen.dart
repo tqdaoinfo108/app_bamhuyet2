@@ -88,7 +88,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                             ")")
                   ],
                 ),
-              if (!listRating.isEmpty && GetStorage().read(isRelease)) SizedBox(height: 10),
+              if (!listRating.isEmpty && GetStorage().read(isRelease))
+                SizedBox(height: 10),
               if (!listRating.isEmpty && GetStorage().read(isRelease))
                 SizedBox(
                   height: 100,
@@ -102,38 +103,28 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                       scrollDirection: Axis.horizontal),
                 ),
               SizedBox(height: 10),
-              if(GetStorage().read(isRelease))
-              Row(
-                children: [
-                  Text("collaborator_information".trans(),
-                      style: AppTheme.getTextStyle(context,
-                          fontWeight: FontWeight.bold)),
-                  Spacer(),
-                  // Row(
-                  //   children: [
-                  //     Text(
-                  //       "Tất cả",
-                  //     ),
-                  //     Icon(Icons.arrow_forward_ios_outlined,
-                  //         size: 16, color: Colors.grey)
-                  //   ],
-                  // )
-                ],
-              ),
-              if(GetStorage().read(isRelease))
-              SizedBox(height: 10),
-              if(GetStorage().read(isRelease))
-              SizedBox(
-                height: MediaQuery.of(context).size.width * .48,
-                child: ListView.builder(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: defaultPadding),
-                    itemBuilder: (c, x) {
-                      return EmployeeCard(listPartner[x]);
-                    },
-                    itemCount: listPartner.length,
-                    scrollDirection: Axis.horizontal),
-              ),
+              if (GetStorage().read(isRelease) && widget.data.typeID == 1)
+                Row(
+                  children: [
+                    Text("collaborator_information".trans(),
+                        style: AppTheme.getTextStyle(context,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              if (GetStorage().read(isRelease) && widget.data.typeID == 1)
+                SizedBox(height: 10),
+              if (GetStorage().read(isRelease) && widget.data.typeID == 1)
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * .48,
+                  child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPadding),
+                      itemBuilder: (c, x) {
+                        return EmployeeCard(listPartner[x]);
+                      },
+                      itemCount: listPartner.length,
+                      scrollDirection: Axis.horizontal),
+                ),
               SizedBox(height: 10),
               Row(
                 children: [
@@ -146,8 +137,14 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               for (var item in listServiceModel)
                 ServiceCard(item, () async {
                   await customModalBottomSheet(context,
-                      child:
-                          ServiceDetailPopup(item.lstServiceDetails, () async {
+                      child: ServiceDetailPopup(
+                          widget.data.typeID, item.lstServiceDetails, () async {
+                        if (GetStorage().read(userTypeUser) != 4) {
+                          SnackbarHelper.showSnackBar(
+                              "colaborator_cannot_booking".trans(), ToastificationType.warning);
+                          return;
+                        }
+
                         if (!item.lstServiceDetails.any((e) => e.isChoose)) {
                           SnackbarHelper.showSnackBar(
                               "choose_time_to_continue".trans(),

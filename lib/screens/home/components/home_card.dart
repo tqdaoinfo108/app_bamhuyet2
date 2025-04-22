@@ -16,7 +16,7 @@ class HomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, data.typeID == 1 ?
+        Navigator.pushNamed(context, data.typeID == 1 || data.typeID == 3?
             serviceDetailScreenRoute : serviceBranchDetailScreenRoute,
             arguments: data);
       },
