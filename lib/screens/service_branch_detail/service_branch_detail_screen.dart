@@ -29,7 +29,7 @@ class ServiceBranchServiceScreen extends StatelessWidget {
                   children: [
                     Text(data.lstBranchServices[i].description!),
                     Text(
-                    data.lstBranchServices[i].getAmount,
+                    data.lstBranchServices[i].getAmount +"đ",
                     style: AppTheme.getTextStyle(context,
                         fontSize: 16, fontWeight: FontWeight.bold)
                         .copyWith(color: primaryColor)),
