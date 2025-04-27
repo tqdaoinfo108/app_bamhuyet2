@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:localization_plus/localization_plus.dart';
 
 import '../../../model/booking_price_model.dart';
@@ -23,6 +24,7 @@ class _HistoryHotelCardState extends State<HistoryHotelCard> {
     super.initState();
     processApplyJob();
   }
+
   processApplyJob() async {
     setState(() {
       isLoad = true;
@@ -32,8 +34,7 @@ class _HistoryHotelCardState extends State<HistoryHotelCard> {
       setState(() {
         priceBooking = rs;
       });
-    } else {
-    }
+    } else {}
     setState(() {
       isLoad = false;
     });
@@ -71,24 +72,25 @@ class _HistoryHotelCardState extends State<HistoryHotelCard> {
             Text(widget.data.bookingCustomerPhone ?? "",
                 style: TextStyle(fontWeight: FontWeight.bold))
           ]),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,  children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text("address".trans()),
             Flexible(
-              child: Text(widget.data.bookingCustomerAddress ?? "",textAlign:
-              TextAlign.end,
+              child: Text(widget.data.bookingCustomerAddress ?? "",
+                  textAlign: TextAlign.end,
                   style: TextStyle(fontWeight: FontWeight.bold)),
             )
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text("price".trans()),
-            Text(widget.data.getAmount, style: TextStyle(fontWeight: FontWeight.bold))
+            Text(widget.data.getAmount,
+                style: TextStyle(fontWeight: FontWeight.bold))
           ]),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text("amountAfterCommission".trans()),
-            Text(isLoad ? "" : priceBooking!.getAmount, style: TextStyle
-              (fontWeight:
-            FontWeight.bold))
-          ]),
+          if (GetStorage().read(userTypeUser) != 4)
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text("amountAfterCommission".trans()),
+              Text(isLoad ? "" : priceBooking!.getAmount,
+                  style: TextStyle(fontWeight: FontWeight.bold))
+            ]),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text("note".trans()),
             Text(widget.data.description ?? "",

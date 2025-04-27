@@ -8,6 +8,8 @@ class ServiceModel {
   String imagePath = "";
   double amount = 0;
   bool isExpand = false;
+  int? branchID;
+  String? phoneContact;
   // double amountDiscount = 0;
   // bool? isActive;
   // String? shortDescription;
@@ -15,7 +17,7 @@ class ServiceModel {
   List<LstServiceDetails> lstServiceDetails = [];
 
   ServiceModel(this.serviceID, this.serviceName, this.imagePath, this.amount,
-      this.lstServiceDetails
+      this.lstServiceDetails, this.phoneContact, this.branchID
       // this.isActive,
       // this.shortDescription,
       // this.description
@@ -26,6 +28,7 @@ class ServiceModel {
     serviceName = json['ServiceName'];
     imagePath = json['ImagePath'];
     amount = json['Amount'] ?? 0;
+    phoneContact = json['PhoneContact'];
     // isActive = json['IsActive'];
     // shortDescription = json['ShortDescription'];
     // description = json['Description'];
@@ -76,7 +79,8 @@ class LstServiceDetails {
   double? amount;
   String? imageBranchService;
 
-  String get amountFormatString => NumberFormat.decimalPattern('vi').format(amount) + "đ";
+  String get amountFormatString =>
+      NumberFormat.decimalPattern('vi').format(amount) + "đ";
 
   String? description;
   bool isChoose = false;

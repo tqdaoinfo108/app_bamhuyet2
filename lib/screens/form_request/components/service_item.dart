@@ -1,5 +1,4 @@
 import 'package:app_bamnguyet_2/model/service_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hl_image_picker/hl_image_picker.dart';
 import 'package:localization_plus/localization_plus.dart';
@@ -96,13 +95,34 @@ class _ServiceItemState extends State<ServiceItem> {
                             BorderRadius.circular(defaultBorderRadious),
                         border: Border.all(color: Colors.black12)),
                     child: ListTile(
-                      title: Text(
-                        "${z.minute!}".trans(),
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: purpleColor),
-                      ),
+                      title: widget.isPartner.branchID != 0
+                          ? TextField(
+                              controller:
+                                  TextEditingController(text: "${z.minute}"),
+                              onChanged: (value) => z.minute = value,
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                enabled: widget.isPartner.partnerID == 0,
+                                hintStyle: TextStyle(fontSize: 14),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                contentPadding: EdgeInsets.all(4),
+                              ))
+                          : Text(
+                              "${z.minute!}".trans(),
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: purpleColor),
+                            ),
                       trailing: SizedBox(
                         width: 120,
                         child: TextField(

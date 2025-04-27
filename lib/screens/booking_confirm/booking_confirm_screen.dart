@@ -4,7 +4,6 @@ import 'package:app_bamnguyet_2/route/screen_export.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
@@ -42,12 +41,11 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
 
   onCreateBooking() async {
     try {
-      if (GetStorage().read(userTypeUser) != 4) {
-        SnackbarHelper.showSnackBar(
-            "colaborator_cannot_booking".trans(), ToastificationType.warning);
-        return;
-      }
-
+      // if (GetStorage().read(userTypeUser) != 4) {
+      //   SnackbarHelper.showSnackBar(
+      //       "colaborator_cannot_booking".trans(), ToastificationType.warning);
+      //   return;
+      // }
       if (list.isEmpty) {
         SnackbarHelper.showSnackBar(
             "choose_address".trans(), ToastificationType.warning);
@@ -76,6 +74,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
           minute: itemChoose.minute!,
           amount: itemChoose.amount!,
           time: timeOfDay,
+          branchID: widget.data.branchID,
           description: descriptionController.text);
       if (respone != null) {
         SnackbarHelper.showSnackBar(

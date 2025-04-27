@@ -419,14 +419,16 @@ class AppServices {
       required String minute,
       required double amount,
       required TimeOfDay time,
+      int? branchID,
       String? description}) async {
     try {
       var data = {
-        "TypeBookingID": 1,
+        "TypeBookingID": branchID == null ? 1 : 2,
         "UserID_Booking": GetStorage().read(userUserID),
         "UserID_Proccess": 0,
         "UserAddressID": addressID,
         "ServiceID": serviceID,
+        "BranchID_Process": branchID ?? 0,
         "Minute": minute,
         "Amount": amount,
         "AmountDiscount": amount,
