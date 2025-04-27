@@ -68,17 +68,33 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
             padding: const EdgeInsets.only(bottom: 30),
             child: ElevatedButton(
               onPressed: widget.typeID == 3 ? null : widget.onPressed,
+              style: ElevatedButton.styleFrom(
+                  disabledBackgroundColor: Colors.blueAccent),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.typeID == 3
-                      ? "contact".trans()
-                      : "continue".trans()),
+                  Text(
+                    widget.typeID == 3
+                        ? widget.phoneContact ?? ""
+                        : "continue".trans(),
+                    style: widget.typeID == 3
+                        ? Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: Colors.white)
+                        : null,
+                  ),
                   amount != ""
-                      ? Text("$amount vnd")
-                      : widget.typeID == 3
-                          ? Text(widget.phoneContact ?? "")
-                          : SizedBox(),
+                      ? Text(
+                          "$amount vnd",
+                          style: widget.typeID == 3
+                              ? Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: Colors.white)
+                              : null,
+                        )
+                      : SizedBox(),
                 ],
               ),
             ),
