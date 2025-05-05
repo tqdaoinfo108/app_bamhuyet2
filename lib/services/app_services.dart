@@ -413,12 +413,26 @@ class AppServices {
     return null;
   }
 
+    Future<ResponseBase<List<UserModel>>?> getListCustomer({String keySearch = ""}) async {
+    try {
+      // var data = json.encode({"lstServiceID": listPrice});
+      var rawResponse = await _api.get(Uri.parse(
+          "${_baseURL}api/user/get-list-user?key=$keySearch&typeUserID=4&page=1&limit=10000"));
+      if (rawResponse.statusCode == 200) {
+        return UserModel.getFromJsonList(json.decode(rawResponse.body));
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
   Future<ResponseBase<BookingModel>?> createBooking(
       {required int serviceID,
       required int addressID,
       required String minute,
       required double amount,
-      required TimeOfDay time,
+      required DateTime time,
       int? branchID,
       String? description}) async {
     try {
@@ -433,7 +447,7 @@ class AppServices {
         "Amount": amount,
         "AmountDiscount": amount,
         "DateStart":
-            timeOfDayToDateTime(time, DateTime.now()).toIso8601String(),
+            time.toIso8601String(),
         "Description": description ?? ""
       };
       var path = "api/booking/create";

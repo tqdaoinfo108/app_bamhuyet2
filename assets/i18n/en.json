@@ -137,6 +137,9 @@
   "password" : "Password",
   "delete_account_description": "Permanently delete your account and all related data, which cannot be recovered after confirmation. Are you sure you want to proceed?",
   "contact" : "Contact",
-  "organization_request" : "Organization"
+  "organization_request" : "Organization",
+  "unknow": "No Name",
+  "choose_customer" : "Choose customer",
+  "search": "Search"
 
 }

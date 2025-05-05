@@ -2,6 +2,7 @@ import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:localization_plus/localization_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../model/service_model.dart';
 
@@ -67,7 +68,12 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
           Padding(
             padding: const EdgeInsets.only(bottom: 30),
             child: ElevatedButton(
-              onPressed: widget.typeID == 3 ? null : widget.onPressed,
+              onPressed: widget.typeID == 3
+                  ? () async {
+                      await launchUrl(
+                          Uri(scheme: 'tel', path: widget.phoneContact));
+                    }
+                  : widget.onPressed,
               style: ElevatedButton.styleFrom(
                   disabledBackgroundColor: Colors.blueAccent),
               child: Row(

@@ -3,17 +3,20 @@ import 'package:app_bamnguyet_2/components/loading.dart';
 import 'package:app_bamnguyet_2/route/screen_export.dart';
 import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../components/app_snackbar.dart';
+import '../../components/custom_modal_bottom_sheet.dart';
 import '../../components/network_image_with_loader.dart';
 import '../../model/address_model.dart';
 import '../../model/service_model.dart';
 import '../../services/app_services.dart';
 import '../../theme/app_theme.dart';
+import 'booking_confirm_choose_customer.dart';
 
 class BookingConfirmScreen extends StatefulWidget {
   const BookingConfirmScreen(this.data, {super.key});
@@ -26,11 +29,12 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
   List<AddressModel> list = [];
 
   late LstServiceDetails itemChoose;
-  TimeOfDay timeOfDay = TimeOfDay.now();
+  DateTime timeBooking = DateTime.now();
   bool isChangeTime = false;
   String timeOfDayString = "";
   TextEditingController descriptionController = TextEditingController();
   bool isLoading = false;
+  UserModel? userModel = null;
 
   @override
   void initState() {
@@ -53,16 +57,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
       }
 
       if (!isChangeTime) {
-        timeOfDay = TimeOfDay.now();
-      }
-      TimeOfDay now = TimeOfDay.now();
-      if (isChangeTime &&
-          !((timeOfDay.hour >= now.hour ||
-              (timeOfDay.hour == now.hour &&
-                  timeOfDay.minute + 15 >= now.minute)))) {
-        SnackbarHelper.showSnackBar(
-            "time_less_than_current".trans(), ToastificationType.warning);
-        return;
+        timeBooking = DateTime.now();
       }
 
       setState(() {
@@ -73,7 +68,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
           addressID: list.first.userAddressId,
           minute: itemChoose.minute!,
           amount: itemChoose.amount!,
-          time: timeOfDay,
+          time: timeBooking,
           branchID: widget.data.branchID,
           description: descriptionController.text);
       if (respone != null) {
@@ -205,22 +200,41 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                         Spacer(),
                         InkWell(
                             onTap: () async {
-                              var time = await showTimePicker(
-                                  context: context, initialTime: timeOfDay);
-                              if (time != null) {
-                                timeOfDay = time;
-                                isChangeTime = true;
-                                setState(() {
-                                  timeOfDayString = time.format(context);
-                                });
-                              }
+                              DatePicker.showDatePicker(
+                                context,
+                                onMonthChangeStartWithFirstDate: true,
+                                minDateTime: DateTime.now(),
+                                maxDateTime:
+                                    DateTime.now().add(Duration(days: 15)),
+                                initialDateTime: DateTime.now(),
+                                dateFormat: "HH:mm dd/MM/yyyy",
+                                locale: DateTimePickerLocale.vi,
+                                onClose: () => print("----- onClose -----"),
+                                onCancel: () => print('onCancel'),
+                                pickerTheme: DateTimePickerTheme.Default,
+                                onChange: (dateTime, List<int> index) {
+                                  setState(() {
+                                    timeBooking = dateTime;
+                                    timeOfDayString =
+                                        DateFormat("HH:mm dd/MM/yyyy")
+                                            .format(dateTime);
+                                  });
+                                },
+                                onConfirm: (dateTime, List<int> index) {
+                                  setState(() {
+                                    timeBooking = dateTime;
+                                    timeOfDayString =
+                                        DateFormat("HH:mm dd/MM/yyyy")
+                                            .format(dateTime);
+                                  });
+                                },
+                              );
                             },
                             child: timeOfDayString != ""
                                 ? Text(
                                     timeOfDayString +
                                         " " +
-                                        DateFormat('dd-MM-yyyy')
-                                            .format(DateTime.now()),
+                                        DateFormat('').format(DateTime.now()),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold))
                                 : Text("choose_time".trans(),
@@ -241,6 +255,26 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                         Spacer(),
                         InkWell(
                             child: Text("cash".trans(),
+                                style: TextStyle(fontWeight: FontWeight.bold)))
+                      ],
+                    )),
+                SizedBox(height: defaultPadding),
+                Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: defaultPadding),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset("assets/icons/Man.svg"),
+                        SizedBox(width: 4),
+                        Text("Người chỉ định".trans()),
+                        Spacer(),
+                        InkWell(
+                            onTap: () async {
+                              await customModalBottomSheet(context,
+                                  child: BookingConfirmChooseCustomer(),
+                                  isDismissible: false);
+                            },
+                            child: Text(userModel == null ? "Chọn khách" : userModel!.fullName,
                                 style: TextStyle(fontWeight: FontWeight.bold)))
                       ],
                     )),

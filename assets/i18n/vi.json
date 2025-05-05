@@ -137,5 +137,8 @@
   "password" : "Mật khẩu",
   "delete_account_description": "Xóa vĩnh viễn tài khoản của bạn cùng toàn bộ dữ liệu liên quan, không thể khôi phục sau khi xác nhận. Bạn có chắc chắn muốn tiếp tục?",
   "contact" : "Liên hệ",
-  "organization_request" : "Chi nhánh"
+  "organization_request" : "Chi nhánh",
+  "unknow": "Tên không xác định",
+  "choose_customer" : "Chọn khách hàng",
+  "search": "Tìm kiếm"
 }

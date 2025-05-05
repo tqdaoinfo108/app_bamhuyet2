@@ -30,10 +30,22 @@ class UserModel {
   double totalAmount = 0;
   String? description;
 
+  String get getTelephoneMask =>
+      userName.isEmpty ? "" : maskPhoneNumber(userName);
+
+  String maskPhoneNumber(String phoneNumber) {
+    if (phoneNumber.length <= 8) {
+      return phoneNumber; // Không đủ số để mask
+    }
+    String firstFour = phoneNumber.substring(0, 3);
+    String lastFour = phoneNumber.substring(phoneNumber.length - 3);
+    String middleMask = '*' * (phoneNumber.length - 6);
+    return '$firstFour$middleMask$lastFour';
+  }
+
   UserModel();
 
   Map<String, dynamic> toJson(String inputFullName) {
-
     final Map<String, dynamic> _auth = <String, dynamic>{};
     _auth["UserID"] = userID;
     _auth["UUSerID"] = fullName;
@@ -107,7 +119,7 @@ class UserModel {
         data: UserModel.fromJson(json['data']),
       );
     } else {
-      return ResponseBase()..message = json["message"] ;
+      return ResponseBase()..message = json["message"];
     }
   }
 

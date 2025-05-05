@@ -8,7 +8,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart' show ToastificationType;
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../components/app_snackbar.dart';
 import '../../components/custom_modal_bottom_sheet.dart';
