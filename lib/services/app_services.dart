@@ -413,7 +413,8 @@ class AppServices {
     return null;
   }
 
-    Future<ResponseBase<List<UserModel>>?> getListCustomer({String keySearch = ""}) async {
+  Future<ResponseBase<List<UserModel>>?> getListCustomer(
+      {String keySearch = ""}) async {
     try {
       // var data = json.encode({"lstServiceID": listPrice});
       var rawResponse = await _api.get(Uri.parse(
@@ -434,20 +435,24 @@ class AppServices {
       required double amount,
       required DateTime time,
       int? branchID,
+      int? userIDBooking,
       String? description}) async {
     try {
       var data = {
-        "TypeBookingID": branchID == null ? 1 : 2,
-        "UserID_Booking": GetStorage().read(userUserID),
-        "UserID_Proccess": 0,
+        "TypeBookingID": 1,
+        "UserID_Booking": userIDBooking,
+        "UserID_Proccess": GetStorage().read(userTypeUser) == 2
+            ? GetStorage().read(userUserID)
+            : 0,
+        "BranchID_Process": GetStorage().read(userTypeUser) == 3
+            ? GetStorage().read(userUserID)
+            : 0,
         "UserAddressID": addressID,
         "ServiceID": serviceID,
-        "BranchID_Process": branchID ?? 0,
         "Minute": minute,
         "Amount": amount,
         "AmountDiscount": amount,
-        "DateStart":
-            time.toIso8601String(),
+        "DateStart": time.toIso8601String(),
         "Description": description ?? ""
       };
       var path = "api/booking/create";

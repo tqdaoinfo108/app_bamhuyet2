@@ -5,6 +5,7 @@ import 'package:app_bamnguyet_2/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
@@ -45,11 +46,6 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
 
   onCreateBooking() async {
     try {
-      // if (GetStorage().read(userTypeUser) != 4) {
-      //   SnackbarHelper.showSnackBar(
-      //       "colaborator_cannot_booking".trans(), ToastificationType.warning);
-      //   return;
-      // }
       if (list.isEmpty) {
         SnackbarHelper.showSnackBar(
             "choose_address".trans(), ToastificationType.warning);
@@ -69,6 +65,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
           minute: itemChoose.minute!,
           amount: itemChoose.amount!,
           time: timeBooking,
+          userIDBooking: userModel?.userID ?? GetStorage(userUserID) as int,
           branchID: widget.data.branchID,
           description: descriptionController.text);
       if (respone != null) {
@@ -215,6 +212,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                                 onChange: (dateTime, List<int> index) {
                                   setState(() {
                                     timeBooking = dateTime;
+                                    isChangeTime = true;
                                     timeOfDayString =
                                         DateFormat("HH:mm dd/MM/yyyy")
                                             .format(dateTime);
@@ -223,6 +221,7 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                                 onConfirm: (dateTime, List<int> index) {
                                   setState(() {
                                     timeBooking = dateTime;
+                                    isChangeTime = true;
                                     timeOfDayString =
                                         DateFormat("HH:mm dd/MM/yyyy")
                                             .format(dateTime);
@@ -258,26 +257,41 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                                 style: TextStyle(fontWeight: FontWeight.bold)))
                       ],
                     )),
-                SizedBox(height: defaultPadding),
-                Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: defaultPadding),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/Man.svg"),
-                        SizedBox(width: 4),
-                        Text("Người chỉ định".trans()),
-                        Spacer(),
-                        InkWell(
-                            onTap: () async {
-                              await customModalBottomSheet(context,
-                                  child: BookingConfirmChooseCustomer(),
-                                  isDismissible: false);
-                            },
-                            child: Text(userModel == null ? "Chọn khách" : userModel!.fullName,
-                                style: TextStyle(fontWeight: FontWeight.bold)))
-                      ],
-                    )),
+                if (GetStorage().read(userTypeUser) == 2 ||
+                    GetStorage().read(userTypeUser) == 3)
+                  SizedBox(height: defaultPadding),
+                if (GetStorage().read(userTypeUser) == 2 ||
+                    GetStorage().read(userTypeUser) == 3)
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPadding),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/icons/Man.svg"),
+                          SizedBox(width: 4),
+                          Text("Người chỉ định".trans()),
+                          Spacer(),
+                          InkWell(
+                              onTap: () async {
+                                var user = await customModalBottomSheet(context,
+                                    child: BookingConfirmChooseCustomer(),
+                                    isDismissible: false);
+                                if (user != null) {
+                                  setState(() {
+                                    userModel = user;
+                                  });
+                                }
+                              },
+                              child: Text(
+                                  userModel == null
+                                      ? "Chọn khách"
+                                      : userModel!.fullName == ''
+                                          ? userModel!.getTelephoneMask
+                                          : userModel!.fullName,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)))
+                        ],
+                      )),
                 SizedBox(height: defaultPadding),
                 Padding(
                   padding:

@@ -139,12 +139,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   await customModalBottomSheet(context,
                       child: ServiceDetailPopup(
                           widget.data.typeID, item.lstServiceDetails, () async {
-                        // if (GetStorage().read(userTypeUser) != 4) {
-                        //   SnackbarHelper.showSnackBar(
-                        //       "colaborator_cannot_booking".trans(), ToastificationType.warning);
-                        //   return;
-                        // }
-
                         if (!item.lstServiceDetails.any((e) => e.isChoose)) {
                           SnackbarHelper.showSnackBar(
                               "choose_time_to_continue".trans(),

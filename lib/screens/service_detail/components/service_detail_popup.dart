@@ -67,42 +67,84 @@ class _ServiceDetailPopupState extends State<ServiceDetailPopup> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 30),
-            child: ElevatedButton(
-              onPressed: widget.typeID == 3
-                  ? () async {
-                      await launchUrl(
-                          Uri(scheme: 'tel', path: widget.phoneContact));
-                    }
-                  : widget.onPressed,
-              style: ElevatedButton.styleFrom(
-                  disabledBackgroundColor: Colors.blueAccent),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.typeID == 3
-                        ? widget.phoneContact ?? ""
-                        : "continue".trans(),
-                    style: widget.typeID == 3
-                        ? Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: Colors.white)
-                        : null,
-                  ),
-                  amount != ""
-                      ? Text(
-                          "$amount vnd",
+            child: Row(
+              spacing: 10,
+              children: [
+                if (widget.phoneContact != '')
+                  Flexible(
+                      child: InkWell(
+                        onTap: () async {
+                          await launchUrl(
+                              Uri(scheme: 'tel', path: widget.phoneContact));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 7.0, horizontal: 24.0),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(defaultBorderRadious)),
+                            color: Colors.lightBlue,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.phone,
+                                size: 18,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                "call".trans(),
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      flex: 2),
+                Flexible(
+                  flex: 7,
+                  child: ElevatedButton(
+                    onPressed: widget.typeID == 3
+                        ? () async {
+                            await launchUrl(
+                                Uri(scheme: 'tel', path: widget.phoneContact));
+                          }
+                        : widget.onPressed,
+                    style: ElevatedButton.styleFrom(
+                        disabledBackgroundColor: Colors.blueAccent),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          widget.typeID == 3
+                              ? widget.phoneContact ?? ""
+                              : "continue".trans(),
                           style: widget.typeID == 3
                               ? Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(color: Colors.white)
                               : null,
-                        )
-                      : SizedBox(),
-                ],
-              ),
+                        ),
+                        amount != ""
+                            ? Text(
+                                "$amount vnd",
+                                style: widget.typeID == 3
+                                    ? Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: Colors.white)
+                                    : null,
+                              )
+                            : SizedBox(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
