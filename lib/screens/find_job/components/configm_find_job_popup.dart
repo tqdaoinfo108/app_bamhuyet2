@@ -3,7 +3,6 @@ import 'package:app_bamnguyet_2/components/loading.dart';
 import 'package:app_bamnguyet_2/model/booking_price_model.dart';
 import 'package:app_bamnguyet_2/services/app_services.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
 

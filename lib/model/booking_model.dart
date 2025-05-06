@@ -21,7 +21,13 @@ class BookingModel {
   String? serviceName;
   String? bookingCustomerAddress;
 
+  String? branchName;
+  String? branchAddress;
+  String? branchPhone;
+
   BookingModel();
+
+  // bool get isAvaialbe => 
 
   String get getAmount =>
       NumberFormat.decimalPattern('vi').format(amount) + "đ";
@@ -35,8 +41,8 @@ class BookingModel {
 
   bool isValidDuration(DateTime now) {
     Duration difference = now.difference(dateStart!);
-    if (difference.inMinutes <= 0) {
-      return true;
+    if (difference.inMinutes <= 0 && statusId == 0) {
+      return true; 
     }
     return false;
   }
@@ -59,6 +65,9 @@ class BookingModel {
     datePayment = json["DatePayment"];
     serviceName = json["ServiceName"];
     bookingCustomerAddress = json["BookingCustomerAddress"];
+    branchName = json['BranchName'];
+    branchAddress = json['BranchAddress'];
+    branchPhone = json['BranchPhone'];
   }
 
   static ResponseBase<List<BookingModel>>? getFromJsonList(

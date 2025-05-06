@@ -140,6 +140,7 @@
   "organization_request" : "Organization",
   "unknow": "No Name",
   "choose_customer" : "Choose customer",
-  "search": "Search"
+  "search": "Search",
+  "branch": "Branch "
 
 }

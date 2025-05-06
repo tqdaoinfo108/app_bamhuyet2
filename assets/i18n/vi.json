@@ -140,5 +140,6 @@
   "organization_request" : "Chi nhánh",
   "unknow": "Tên không xác định",
   "choose_customer" : "Chọn khách hàng",
-  "search": "Tìm kiếm"
+  "search": "Tìm kiếm",
+  "branch": "Cơ sở "
 }

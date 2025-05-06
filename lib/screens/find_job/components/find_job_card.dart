@@ -11,12 +11,12 @@ import '../../../components/app_snackbar.dart';
 import '../../../model/booking_model.dart';
 
 class FindJobCard extends StatelessWidget {
-  const FindJobCard(this.data, this.dateTime, this.onBooking, {super.key});
+  const FindJobCard(this.data, this.onBooking, {super.key});
   final BookingModel data;
-  final DateTime dateTime;
   final Function() onBooking;
   @override
   Widget build(BuildContext context) {
+    var dateTime = DateTime.now();
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: defaultPadding, vertical: defaultPadding / 2),
@@ -61,11 +61,13 @@ class FindJobCard extends StatelessWidget {
                       style: AppTheme.getTextStyle(context, fontSize: 14),
                     ),
                     SizedBox(width: 5),
-                    data.isValidDuration(dateTime)
-                        ? SlideCountdownSeparated(
+                    data.statusId! == 2 ? Text("in_progress".trans() ):
+                     data.isValidDuration(dateTime)
+                        ? SlideCountdown(
                             duration: data.getDurationDown(dateTime),
-                            shouldShowDays: (duration) => duration.inDays == 0,
-                            padding: const EdgeInsets.all(3),
+                            shouldShowDays: (duration) => duration.inDays != 0,
+                            shouldShowHours: (duration) => duration.inHours != 0,
+                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 4),
                           )
                         : Text("expired".trans())
                   ],
@@ -107,6 +109,19 @@ class FindJobCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     data.bookingCustomerAddress ?? "",
+                    style: AppTheme.getTextStyle(context, fontSize: 14),
+                  ),
+                )
+              ],
+            ),
+            if(data.branchName != '')
+            Row(
+              children: [
+                SvgPicture.asset("assets/icons/Location.svg",
+                    height: 20, color: Colors.black),
+                SizedBox(width: 4),
+                Flexible(
+                  child: Text("${'branch'.trans()} ${data.branchName}",
                     style: AppTheme.getTextStyle(context, fontSize: 14),
                   ),
                 )

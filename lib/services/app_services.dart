@@ -436,17 +436,14 @@ class AppServices {
       required DateTime time,
       int? branchID,
       int? userIDBooking,
+      int? userIDProcess,
       String? description}) async {
     try {
       var data = {
         "TypeBookingID": 1,
         "UserID_Booking": userIDBooking,
-        "UserID_Proccess": GetStorage().read(userTypeUser) == 2
-            ? GetStorage().read(userUserID)
-            : 0,
-        "BranchID_Process": GetStorage().read(userTypeUser) == 3
-            ? GetStorage().read(userUserID)
-            : 0,
+        "UserID_Proccess": userIDProcess,
+        "BranchID_Process": branchID,
         "UserAddressID": addressID,
         "ServiceID": serviceID,
         "Minute": minute,

@@ -9,7 +9,7 @@ class HistoryModel {
   int? userIDBooking;
   int? userAddressID;
   int? userIDProccess;
-  Null? branchIDProccess;
+  int? branchIDProccess;
   int? serviceID;
   String? minute;
   double? amount;

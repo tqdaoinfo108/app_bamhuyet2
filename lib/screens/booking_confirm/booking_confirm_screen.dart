@@ -46,6 +46,8 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
 
   onCreateBooking() async {
     try {
+
+
       if (list.isEmpty) {
         SnackbarHelper.showSnackBar(
             "choose_address".trans(), ToastificationType.warning);
@@ -65,8 +67,9 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
           minute: itemChoose.minute!,
           amount: itemChoose.amount!,
           time: timeBooking,
-          userIDBooking: userModel?.userID ?? GetStorage(userUserID) as int,
-          branchID: widget.data.branchID,
+          userIDBooking: userModel == null ? GetStorage().read(userUserID): userModel!.userID,
+          branchID: (userModel == null ||  widget.data.branchID == null) ? 0 : widget.data.branchID ?? 0,
+          userIDProcess:  (userModel == null ||  widget.data.branchID != null || GetStorage().read(userTypeUser) == 3) ? 0 : GetStorage().read(userUserID),
           description: descriptionController.text);
       if (respone != null) {
         SnackbarHelper.showSnackBar(

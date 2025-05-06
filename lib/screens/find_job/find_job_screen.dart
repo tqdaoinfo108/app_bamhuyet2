@@ -19,10 +19,9 @@ class FindJobScreen extends StatefulWidget {
 }
 
 class _FindJobScreenState extends State<FindJobScreen> {
-  DateTime dateTime = DateTime.now();
   List<BookingModel> list = [];
   bool isLoading = false;
-
+  var dateTime = DateTime.now();
   onBooking(int bookingID) async {
     var response = await AppServices.instance
         .postPartnerReciveBooking(bookingID: bookingID);
@@ -91,7 +90,7 @@ class _FindJobScreenState extends State<FindJobScreen> {
                       )
                     : ListView.builder(
                         itemBuilder: (context, index) {
-                          return FindJobCard(list[index], dateTime, () async {
+                          return FindJobCard(list[index], () async {
                             // var rs =  await onBooking(list[index].bookingId!);
                             showDialog<String>(
                               context: context,
