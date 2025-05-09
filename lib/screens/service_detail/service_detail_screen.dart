@@ -149,7 +149,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                         Navigator.pushNamed(context, bookingconfirmscreen,
                             arguments: item);
                       }, item.phoneContact),
-                      height: MediaQuery.of(context).size.height / 2.6);
+                      height: 460);
                 }),
               SizedBox(height: 40)
             ],

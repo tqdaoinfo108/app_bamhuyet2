@@ -9,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:localization_plus/localization_plus.dart';
 import 'package:toastification/toastification.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../components/app_snackbar.dart';
 import '../../components/custom_modal_bottom_sheet.dart';
@@ -46,8 +47,6 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
 
   onCreateBooking() async {
     try {
-
-
       if (list.isEmpty) {
         SnackbarHelper.showSnackBar(
             "choose_address".trans(), ToastificationType.warning);
@@ -67,9 +66,17 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
           minute: itemChoose.minute!,
           amount: itemChoose.amount!,
           time: timeBooking,
-          userIDBooking: userModel == null ? GetStorage().read(userUserID): userModel!.userID,
-          branchID: (userModel == null ||  widget.data.branchID == null) ? 0 : widget.data.branchID ?? 0,
-          userIDProcess:  (userModel == null ||  widget.data.branchID != null || GetStorage().read(userTypeUser) == 3) ? 0 : GetStorage().read(userUserID),
+          userIDBooking: userModel == null
+              ? GetStorage().read(userUserID)
+              : userModel!.userID,
+          branchID: (userModel == null || widget.data.branchID == null)
+              ? 0
+              : widget.data.branchID ?? 0,
+          userIDProcess: (userModel == null ||
+                  widget.data.branchID != null ||
+                  GetStorage().read(userTypeUser) == 3)
+              ? 0
+              : GetStorage().read(userUserID),
           description: descriptionController.text);
       if (respone != null) {
         SnackbarHelper.showSnackBar(
@@ -328,6 +335,32 @@ class _BookingConfirmScreenState extends State<BookingConfirmScreen> {
                     ),
                   ),
                 ),
+                SizedBox(height: defaultPadding),
+                if (widget.data.phoneContact != '')
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ElevatedButton(
+                      style:
+                          Theme.of(context).elevatedButtonTheme.style?.copyWith(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.blue),
+                                // other properties
+                              ),
+                      onPressed: () async {
+                        await launchUrl(
+                            Uri(scheme: 'tel', path: widget.data.phoneContact));
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('support'.trans() +
+                              ": " +
+                              widget.data.phoneContact!)
+                        ],
+                      ),
+                    ),
+                  ),
               ],
             ),
     );

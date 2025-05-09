@@ -26,7 +26,7 @@ class ServiceBranchServiceScreen extends StatelessWidget {
                         data.lstBranchServices[i].imageBranchService!,
                         data.lstBranchServices[i].amount!,
                         [data.lstBranchServices[i]..isChoose = true],
-                        "",
+                        data.phone!,
                         data.branchId));
               },
               child: Padding(
